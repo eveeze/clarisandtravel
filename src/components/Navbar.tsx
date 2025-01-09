@@ -9,7 +9,7 @@ const navLinks = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
   { href: "/private-tour", label: "Private Tour" },
-  { href: "/group-tour", label: "Group Tour" },
+  { href: "/tourist-destination", label: "Tourist Destination" },
   { href: "/blogs", label: "Blogs" },
   { href: "/gallery", label: "Gallery" },
 ];

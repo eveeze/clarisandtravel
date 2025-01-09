@@ -6,6 +6,7 @@ import Link from "next/link";
 import ReasonScreen from "./reason_screen";
 import ArmadaScreen from "./armada_screen";
 import HeroScreen from "./hero_screen";
+import PickupScreen from "./pickup_screen";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 60 },
@@ -43,6 +44,7 @@ export default function HomeScreen() {
   return (
     <main className="min-h-screen">
       <HeroScreen />
+      <PickupScreen />
       <ArmadaScreen />
       <ReasonScreen />
     </main>

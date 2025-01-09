@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Poppins } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -11,7 +11,7 @@ const poppins = Poppins({
   display: "swap",
 });
 export const metadata: Metadata = {
-  title: "Tour and Travel Jogja",
+  title: "Claris and City Tour Jogja",
   description: "Website Tour and Travel Jogja",
 };
 

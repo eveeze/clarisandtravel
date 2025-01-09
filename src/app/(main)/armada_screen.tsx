@@ -4,7 +4,16 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Icon } from "@iconify/react";
 import Image from "next/image";
-const vehicles = [
+
+type Vehicle = {
+  name: string;
+  image: string;
+  capacity: string;
+  features: { icon: string; text: string }[];
+  description: string;
+  price: string;
+};
+const vehicles: Vehicle[] = [
   {
     name: "Toyota Calya",
     image: "/calya.png",
@@ -101,11 +110,11 @@ const itemVariants = {
 };
 
 export default function ArmadaScreen() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [direction, setDirection] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [direction, setDirection] = useState<number>(0);
 
   const slideVariants = {
-    enter: (direction) => ({
+    enter: (direction: number) => ({
       x: direction > 0 ? 1000 : -1000,
       opacity: 0,
       scale: 0.8,
@@ -116,7 +125,7 @@ export default function ArmadaScreen() {
       opacity: 1,
       scale: 1,
     },
-    exit: (direction) => ({
+    exit: (direction: number) => ({
       zIndex: 0,
       x: direction < 0 ? 1000 : -1000,
       opacity: 0,
@@ -125,11 +134,12 @@ export default function ArmadaScreen() {
   };
 
   const swipeConfidenceThreshold = 10000;
-  const swipePower = (offset, velocity) => {
+
+  const swipePower = (offset: number, velocity: number): number => {
     return Math.abs(offset) * velocity;
   };
 
-  const paginate = (newDirection) => {
+  const paginate = (newDirection: number): void => {
     setDirection(newDirection);
     setCurrentIndex(
       (prev) => (prev + newDirection + vehicles.length) % vehicles.length,
@@ -137,7 +147,7 @@ export default function ArmadaScreen() {
   };
 
   return (
-    <section className="flex items-center py-40 px-6 min-h-screen bg-gradient-to-b from-primary-900 to-primary-800">
+    <section className="flex items-center py-40 px-6 min-h-screen bg-gradient-to-b from-primary-700 to-primary-800">
       <motion.div
         initial="hidden"
         whileInView="visible"
@@ -192,14 +202,13 @@ export default function ArmadaScreen() {
                     fill
                     alt={vehicles[currentIndex].name}
                     className="object-contain w-full h-full transition-transform duration-500 group-hover:scale-105"
-                    priority
                   />
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-t to-transparent from-primary-900/90" />
               </motion.div>
             </AnimatePresence>
 
-            {/* Navigation controls - Adjusted positioning */}
+            {/* Navigation controls */}
             <div className="flex absolute inset-x-0 bottom-6 z-20 justify-center p-4 space-x-3">
               {vehicles.map((_, index) => (
                 <motion.button
@@ -236,7 +245,8 @@ export default function ArmadaScreen() {
             >
               <Icon icon="mdi:chevron-right" width="32" />
             </motion.button>
-          </motion.div>{" "}
+          </motion.div>
+
           {/* Details Section */}
           <AnimatePresence mode="wait">
             <motion.div
@@ -292,32 +302,16 @@ export default function ArmadaScreen() {
                 initial="hidden"
                 animate="visible"
               >
-                {vehicles[currentIndex].features.map((feature, index) => (
+                {vehicles[currentIndex].features.map((feature, i) => (
                   <motion.div
-                    key={feature.text}
-                    variants={itemVariants}
-                    className="flex items-center p-4 space-x-3 rounded-xl border transition-colors duration-300 bg-primary-800/50 border-accent-400/20 hover:border-accent-400/40"
+                    key={i}
+                    className="flex items-center space-x-3 text-xl text-secondary-100"
                   >
-                    <Icon
-                      icon={feature.icon}
-                      className="text-accent-400"
-                      width="32"
-                    />
-                    <span className="text-secondary-100">{feature.text}</span>
+                    <Icon icon={feature.icon} width="28" />
+                    <span>{feature.text}</span>
                   </motion.div>
                 ))}
               </motion.div>
-
-              <motion.button
-                whileHover={{
-                  scale: 1.05,
-                  boxShadow: "0 10px 20px rgba(251, 146, 60, 0.2)",
-                }}
-                whileTap={{ scale: 0.95 }}
-                className="py-5 px-8 mt-6 text-xl font-medium rounded-xl transition-all bg-accent-400 text-secondary-900 hover:bg-accent-500"
-              >
-                Book This Vehicle
-              </motion.button>
             </motion.div>
           </AnimatePresence>
         </div>

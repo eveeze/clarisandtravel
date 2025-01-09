@@ -28,7 +28,7 @@ export default function HeroScreen() {
       {/* Hero Section */}
       <section className="grid relative items-center min-h-screen bg-gradient-to-t md:grid-cols-2 from-primary-900 to-primary-800">
         <motion.div
-          className="flex relative flex-col justify-center py-20 px-6 md:py-0 md:pl-12 lg:pl-20"
+          className="flex relative flex-col justify-center py-20 px-6 mx-auto md:py-0 md:pl-12 lg:pl-20"
           variants={stagger}
           initial="initial"
           animate="animate"
@@ -65,28 +65,14 @@ export default function HeroScreen() {
                 className="py-4 px-8 text-lg font-medium rounded-lg transition-all bg-accent-400 text-secondary-900 hover:bg-accent-500"
                 aria-label="Book Private Tour"
               >
-                Book Private Tour
-              </motion.button>
-            </Link>
-
-            <Link href="/group-tour" passHref>
-              <motion.button
-                whileHover={{
-                  scale: 1.05,
-                  boxShadow: "0 10px 20px rgba(251, 146, 60, 0.1)",
-                }}
-                whileTap={{ scale: 0.95 }}
-                className="py-4 px-8 text-lg font-medium rounded-lg border-2 transition-all border-accent-400 text-accent-400 hover:bg-accent-400/10"
-                aria-label="Join Group Tour"
-              >
-                Join Group Tour
+                Book Private Tour Now!!!
               </motion.button>
             </Link>
           </motion.div>
         </motion.div>
 
         <motion.div
-          className="overflow-hidden relative h-full md:min-h-screen min-h-[400px]"
+          className="overflow-hidden relative md:min-h-screen min-h-[400px]"
           variants={heroImageAnimation}
           initial="initial"
           animate="animate"
