@@ -8,7 +8,7 @@ import Image from "next/image";
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
-  { href: "/private-tour", label: "Private Tour" },
+  { href: "/tours-pricing", label: "Tours Pricing" },
   { href: "/tourist-destination", label: "Tourist Destination" },
   { href: "/blogs", label: "Blogs" },
   { href: "/gallery", label: "Gallery" },
@@ -93,9 +93,8 @@ export default function Navbar() {
             <Image
               src="/logo.png"
               alt="Tour Logo"
-              layout="fill"
-              objectFit="cover"
-              className="transition-transform duration-300 group-hover:scale-110"
+              fill
+              className="object-cover transition-transform duration-300 group-hover:scale-110"
             />
           </motion.div>
           <div className="flex flex-col">
