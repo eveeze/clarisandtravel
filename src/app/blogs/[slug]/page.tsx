@@ -5,21 +5,24 @@ import { blogPosts } from "@/lib/types/blog_data";
 import BlogContent from "@/components/blog/BlogContent";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
-type Props = {
-  params: { slug: string };
-};
+// Definisikan interface yang benar untuk params
+interface PageProps {
+  params: {
+    slug: string;
+  };
+  searchParams?: { [key: string]: string | string[] | undefined };
+}
 
-// generateStaticParams tetap sama
 export async function generateStaticParams() {
   return blogPosts.map((post) => ({
     slug: post.slug,
   }));
 }
 
-// Gunakan type Metadata untuk generateMetadata
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = params;
-  const post = blogPosts.find((post) => post.slug === slug);
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const post = blogPosts.find((post) => post.slug === params.slug);
 
   if (!post) {
     return {
@@ -33,10 +36,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-// Perbaiki tipe untuk BlogPost component
-export default function BlogPost({ params }: Props) {
-  const { slug } = params;
-  const post = blogPosts.find((post) => post.slug === slug);
+// Gunakan PageProps untuk component
+export default function BlogPost({ params }: PageProps) {
+  const post = blogPosts.find((post) => post.slug === params.slug);
 
   if (!post) {
     notFound();
