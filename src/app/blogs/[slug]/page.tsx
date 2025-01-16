@@ -1,21 +1,23 @@
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { format } from "date-fns";
 import { blogPosts } from "@/lib/types/blog_data";
 import BlogContent from "@/components/blog/BlogContent";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
-// generateStaticParams untuk menentukan slug dari setiap post
+type Props = {
+  params: { slug: string };
+};
+
+// generateStaticParams tetap sama
 export async function generateStaticParams() {
   return blogPosts.map((post) => ({
     slug: post.slug,
   }));
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string };
-}) {
+// Gunakan type Metadata untuk generateMetadata
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = params;
   const post = blogPosts.find((post) => post.slug === slug);
 
@@ -31,13 +33,13 @@ export async function generateMetadata({
   };
 }
 
-// BlogPost Component
-export default function BlogPost({ params }: { params: { slug: string } }) {
-  const { slug } = params; // Tidak perlu await di sini
+// Perbaiki tipe untuk BlogPost component
+export default function BlogPost({ params }: Props) {
+  const { slug } = params;
   const post = blogPosts.find((post) => post.slug === slug);
 
   if (!post) {
-    notFound(); // Menghentikan eksekusi dan mengarahkan ke halaman 404
+    notFound();
   }
 
   return (
