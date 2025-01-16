@@ -1,16 +1,8 @@
-import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { format } from "date-fns";
 import { blogPosts } from "@/lib/types/blog_data";
 import BlogContent from "@/components/blog/BlogContent";
 import { Icon } from "@iconify/react/dist/iconify.js";
-
-// Definisikan interface yang benar untuk params
-type Props = {
-  params: {
-    slug: string;
-  };
-};
 
 export async function generateStaticParams() {
   return blogPosts.map((post) => ({
@@ -18,8 +10,8 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata(props: Props): Promise<Metadata> {
-  const post = blogPosts.find((post) => post.slug === props.params.slug);
+export async function generateMetadata({ params }: any) {
+  const post = blogPosts.find((post) => post.slug === params.slug);
 
   if (!post) {
     return {
@@ -32,13 +24,14 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     description: post.excerpt,
   };
 }
-// Gunakan PageProps untuk component
-export default async function BlogPost(props: Props) {
-  const post = blogPosts.find((post) => post.slug === props.params.slug);
+
+export default async function BlogPost({ params }: any) {
+  const post = blogPosts.find((post) => post.slug === params.slug);
 
   if (!post) {
     notFound();
   }
+
   return (
     <article className="min-h-screen bg-gradient-to-b from-primary-900 via-primary-800 to-primary-700">
       <div
@@ -61,7 +54,6 @@ export default async function BlogPost(props: Props) {
           </div>
         </div>
       </div>
-
       <div className="container relative py-24 px-6 mx-auto -mt-20 max-w-4xl">
         <div className="bg-white rounded-2xl shadow-2xl">
           <BlogContent content={post.content} />
