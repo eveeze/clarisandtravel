@@ -4,21 +4,36 @@ import { blogPosts } from "@/lib/types/blog_data";
 import BlogContent from "@/components/blog/BlogContent";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
-// Generate static params jika diperlukan
+// Fungsi untuk generateStaticParams
 export async function generateStaticParams() {
   return blogPosts.map((post) => ({
     slug: post.slug,
   }));
 }
 
-// Menghapus deklarasi Params dan menggunakan Next.js secara langsung
-export default async function BlogPost({
+// Fungsi untuk generateMetadata
+export async function generateMetadata({
   params,
 }: {
   params: { slug: string };
 }) {
-  const { slug } = params;
-  const post = blogPosts.find((post) => post.slug === slug);
+  const post = blogPosts.find((post) => post.slug === params.slug);
+
+  if (!post) {
+    return {
+      title: "Blog Post Not Found",
+    };
+  }
+
+  return {
+    title: `${post.title} - Claris and City Tour Jogja`,
+    description: post.excerpt,
+  };
+}
+
+// Komponen BlogPost
+export default function BlogPost({ params }: { params: { slug: string } }) {
+  const post = blogPosts.find((post) => post.slug === params.slug);
 
   if (!post) {
     notFound();
