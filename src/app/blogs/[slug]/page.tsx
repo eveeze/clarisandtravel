@@ -3,6 +3,7 @@ import { format } from "date-fns";
 import { blogPosts } from "@/lib/types/blog_data";
 import BlogContent from "@/components/blog/BlogContent";
 import { Icon } from "@iconify/react/dist/iconify.js";
+
 // generateStaticParams untuk menentukan slug dari setiap post
 export async function generateStaticParams() {
   return blogPosts.map((post) => ({
@@ -15,7 +16,7 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }) {
-  const { slug } = await params;
+  const { slug } = params; // Tidak perlu await di sini
 
   const post = blogPosts.find((post) => post.slug === slug);
 
@@ -37,7 +38,7 @@ export default async function BlogPost({
 }: {
   params: { slug: string };
 }) {
-  const { slug } = await params;
+  const { slug } = params; // Tidak perlu await di sini
   const post = blogPosts.find((post) => post.slug === slug);
 
   if (!post) {
@@ -48,7 +49,7 @@ export default async function BlogPost({
   return (
     <article className="min-h-screen bg-gradient-to-b from-primary-900 via-primary-800 to-primary-700">
       <div
-        className="relative bg-center bg-cover bg-fixed h-[70vh] transition-all duration-500 ease-in-out"
+        className="relative bg-fixed bg-center bg-cover transition-all duration-500 ease-in-out h-[70vh]"
         style={{ backgroundImage: `url(${post.coverImage})` }}
       >
         <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
@@ -61,14 +62,14 @@ export default async function BlogPost({
             <h1 className="mb-6 text-5xl font-bold text-white md:text-7xl font-display">
               {post.title}
             </h1>
-            <p className="text-2xl font-light text-primary-100 leading-relaxed">
+            <p className="text-2xl font-light leading-relaxed text-primary-100">
               {post.excerpt}
             </p>
           </div>
         </div>
       </div>
 
-      <div className="container relative py-24 px-6 mx-auto max-w-4xl -mt-20">
+      <div className="container relative py-24 px-6 mx-auto -mt-20 max-w-4xl">
         <div className="bg-white rounded-2xl shadow-2xl">
           <BlogContent content={post.content} />
         </div>
