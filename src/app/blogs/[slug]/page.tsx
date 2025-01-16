@@ -4,24 +4,24 @@ import { blogPosts } from "@/lib/types/blog_data";
 import BlogContent from "@/components/blog/BlogContent";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
-// Mendapatkan slug dari params untuk parameter dinamis
-type Params = {
-  slug: string;
-};
-
-// Menggunakan `generateStaticParams` di App Router jika dibutuhkan untuk prerendering
+// Generate static params jika diperlukan
 export async function generateStaticParams() {
   return blogPosts.map((post) => ({
     slug: post.slug,
   }));
 }
 
-export default async function BlogPost({ params }: { params: Params }) {
-  const { slug } = params; // Mengakses slug dari params
+// Menghapus deklarasi Params dan menggunakan Next.js secara langsung
+export default async function BlogPost({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  const { slug } = params;
   const post = blogPosts.find((post) => post.slug === slug);
 
   if (!post) {
-    notFound(); // Mengarahkan ke halaman 404 jika post tidak ditemukan
+    notFound();
   }
 
   return (
