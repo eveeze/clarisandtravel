@@ -4,6 +4,10 @@ import { blogPosts } from "@/lib/types/blog_data";
 import BlogContent from "@/components/blog/BlogContent";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
+// Type untuk params dan searchParams
+type Params = Promise<{ slug: string }>;
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
+
 // Fungsi untuk generateStaticParams
 export async function generateStaticParams() {
   return blogPosts.map((post) => ({
@@ -12,12 +16,14 @@ export async function generateStaticParams() {
 }
 
 // Fungsi untuk generateMetadata
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string };
+export async function generateMetadata(props: {
+  params: Params;
+  searchParams: SearchParams;
 }) {
-  const post = blogPosts.find((post) => post.slug === params.slug);
+  const params = await props.params;
+  const { slug } = params;
+
+  const post = blogPosts.find((post) => post.slug === slug);
 
   if (!post) {
     return {
@@ -31,18 +37,19 @@ export async function generateMetadata({
   };
 }
 
-// Komponen BlogPost (using Next.js 15 Promise-based params)
-export default async function BlogPost({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
+// Komponen BlogPost
+export default async function BlogPost(props: {
+  params: Params;
+  searchParams: SearchParams;
 }) {
-  // Await the params object
-  const { slug } = await params;
+  // Await params untuk mendapatkan slug
+  const params = await props.params;
+  const { slug } = params;
 
-  // Find the blog post
+  // Cari post berdasarkan slug
   const post = blogPosts.find((post) => post.slug === slug);
 
+  // Jika post tidak ditemukan, tampilkan 404
   if (!post) {
     notFound();
   }
