@@ -31,9 +31,17 @@ export async function generateMetadata({
   };
 }
 
-// Komponen BlogPost
-export default function BlogPost({ params }: { params: { slug: string } }) {
-  const post = blogPosts.find((post) => post.slug === params.slug);
+// Komponen BlogPost (using Next.js 15 Promise-based params)
+export default async function BlogPost({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  // Await the params object
+  const { slug } = await params;
+
+  // Find the blog post
+  const post = blogPosts.find((post) => post.slug === slug);
 
   if (!post) {
     notFound();
