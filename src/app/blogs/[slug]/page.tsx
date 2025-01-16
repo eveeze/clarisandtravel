@@ -16,8 +16,7 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }) {
-  const { slug } = params; // Tidak perlu await di sini
-
+  const { slug } = params;
   const post = blogPosts.find((post) => post.slug === slug);
 
   if (!post) {
@@ -33,17 +32,12 @@ export async function generateMetadata({
 }
 
 // BlogPost Component
-export default async function BlogPost({
-  params,
-}: {
-  params: { slug: string };
-}) {
+export default function BlogPost({ params }: { params: { slug: string } }) {
   const { slug } = params; // Tidak perlu await di sini
   const post = blogPosts.find((post) => post.slug === slug);
 
   if (!post) {
-    notFound();
-    return null;
+    notFound(); // Menghentikan eksekusi dan mengarahkan ke halaman 404
   }
 
   return (
