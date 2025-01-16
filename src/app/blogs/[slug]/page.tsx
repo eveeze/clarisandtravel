@@ -4,13 +4,20 @@ import { blogPosts } from "@/lib/types/blog_data";
 import BlogContent from "@/components/blog/BlogContent";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
+// Definisikan tipe untuk params
+interface Params {
+  params: {
+    slug: string;
+  };
+}
+
 export async function generateStaticParams() {
   return blogPosts.map((post) => ({
     slug: post.slug,
   }));
 }
 
-export async function generateMetadata({ params }: any) {
+export async function generateMetadata({ params }: Params) {
   const post = blogPosts.find((post) => post.slug === params.slug);
 
   if (!post) {
@@ -25,7 +32,7 @@ export async function generateMetadata({ params }: any) {
   };
 }
 
-export default async function BlogPost({ params }: any) {
+export default async function BlogPost({ params }: Params) {
   const post = blogPosts.find((post) => post.slug === params.slug);
 
   if (!post) {
