@@ -188,10 +188,16 @@ export default function ArmadaScreen() {
                 dragElastic={1}
                 onDragEnd={(e, { offset, velocity }) => {
                   const swipe = swipePower(offset.x, velocity.x);
+
+                  // Tambahkan efek visual berdasarkan event drag
                   if (swipe < -swipeConfidenceThreshold) {
                     paginate(1);
+                    console.log("Swiped left with event:", e); // Log event untuk debugging
                   } else if (swipe > swipeConfidenceThreshold) {
                     paginate(-1);
+                    console.log("Swiped right with event:", e); // Log event untuk debugging
+                  } else {
+                    console.log("Drag ended without swipe:", e); // Log event untuk debugging
                   }
                 }}
                 className="absolute inset-0 w-full h-full"
@@ -207,7 +213,6 @@ export default function ArmadaScreen() {
                 <div className="absolute inset-0 bg-gradient-to-t to-transparent from-primary-900/90" />
               </motion.div>
             </AnimatePresence>
-
             {/* Navigation controls */}
             <div className="flex absolute inset-x-0 bottom-6 z-20 justify-center p-4 space-x-3">
               {vehicles.map((_, index) => (

@@ -1,6 +1,6 @@
 // tourist_destination_screen.tsx
 "use client";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { TouristSpotScreen } from "@/components/TouristSpotScreen";
 
 const touristSpots = [

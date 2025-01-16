@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Icon } from "@iconify/react";
 import { TouristSpot } from "@/lib/types/touris_spot_types";
+
 interface TouristSpotScreenProps {
   spot: TouristSpot;
   index: number;
@@ -18,6 +19,7 @@ export const TouristSpotScreen: React.FC<TouristSpotScreenProps> = ({
       transition: {
         duration: 0.8,
         ease: "easeOut",
+        delay: index * 0.1, // Menambahkan delay berdasarkan index
       },
     },
   };
@@ -111,7 +113,7 @@ export const TouristSpotScreen: React.FC<TouristSpotScreenProps> = ({
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.8 }}
+        transition={{ duration: 0.6, delay: 0.8 + index * 0.1 }} // Menambahkan delay berdasarkan index
         className="absolute bottom-8 left-1/2 text-white transform -translate-x-1/2"
       >
         <motion.div

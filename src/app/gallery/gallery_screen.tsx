@@ -72,11 +72,18 @@ const ImageCard = ({
   const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.8, 1, 0.8]);
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
 
+  // Mengatur posisi awal berdasarkan index
+  const initialX = index % 2 === 0 ? -50 : 50;
+
   return (
     <motion.div
       ref={cardRef}
       style={{ y, scale, opacity }}
       className="relative group"
+      initial={{ opacity: 0, x: initialX }} // Posisi awal berdasarkan index
+      whileInView={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.5, delay: index * 0.2 }}
+      viewport={{ once: true }}
     >
       <div className="overflow-hidden relative rounded-2xl">
         <div className="absolute inset-0 z-10 opacity-0 transition-opacity duration-300 group-hover:opacity-100 bg-primary-900/20 backdrop-blur-[2px]" />
@@ -125,7 +132,6 @@ const ImageCard = ({
     </motion.div>
   );
 };
-
 export default function GalleryScreen() {
   const containerRef = useRef(null);
   const [activeCategory, setActiveCategory] = useState("All");

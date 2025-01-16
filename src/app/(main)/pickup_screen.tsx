@@ -6,9 +6,7 @@ import { Icon } from "@iconify/react";
 import { useState } from "react";
 
 export default function PickupScreen() {
-  const [isHovered, setIsHovered] = useState(false);
-  const [hoveredFeature, setHoveredFeature] = useState(null);
-
+  const [hoveredFeature, setHoveredFeature] = useState<number | null>(null);
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -198,8 +196,6 @@ export default function PickupScreen() {
             <motion.div
               variants={itemVariants}
               className="overflow-hidden relative rounded-2xl h-[500px] group"
-              onHoverStart={() => setIsHovered(true)}
-              onHoverEnd={() => setIsHovered(false)}
             >
               <Image
                 src="/bandara.jpg"
@@ -276,12 +272,11 @@ export default function PickupScreen() {
                 </motion.div>
 
                 <motion.div
-                  className="absolute -right-4 -bottom-4 w-24 h-24 bg-gradient-to-r rounded-full from-accent-400/20 to-accent-300/20 blur-md"
+                  className="absolute -right-4 -bottom-4 w-24 h-24 bg-gradient-to-r rounded-full from-accent-400/40 to-primary-800/10 blur-3xl"
                   animate={{
-                    scale: hoveredFeature === index ? 1.5 : 1,
-                    opacity: hoveredFeature === index ? 1 : 0,
+                    scale: hoveredFeature === index ? 1.4 : 0,
+                    opacity: hoveredFeature === index ? 0.6 : 0,
                   }}
-                  transition={{ duration: 0.4 }}
                 />
               </motion.div>
             ))}
