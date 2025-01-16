@@ -6,12 +6,11 @@ import BlogContent from "@/components/blog/BlogContent";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
 // Definisikan interface yang benar untuk params
-interface PageProps {
+type Props = {
   params: {
     slug: string;
   };
-  searchParams?: { [key: string]: string | string[] | undefined };
-}
+};
 
 export async function generateStaticParams() {
   return blogPosts.map((post) => ({
@@ -19,10 +18,8 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({
-  params,
-}: PageProps): Promise<Metadata> {
-  const post = blogPosts.find((post) => post.slug === params.slug);
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const post = blogPosts.find((post) => post.slug === props.params.slug);
 
   if (!post) {
     return {
@@ -35,15 +32,13 @@ export async function generateMetadata({
     description: post.excerpt,
   };
 }
-
 // Gunakan PageProps untuk component
-export default function BlogPost({ params }: PageProps) {
-  const post = blogPosts.find((post) => post.slug === params.slug);
+export default async function BlogPost(props: Props) {
+  const post = blogPosts.find((post) => post.slug === props.params.slug);
 
   if (!post) {
     notFound();
   }
-
   return (
     <article className="min-h-screen bg-gradient-to-b from-primary-900 via-primary-800 to-primary-700">
       <div
