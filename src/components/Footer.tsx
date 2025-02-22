@@ -6,8 +6,8 @@ import { Icon } from "@iconify/react";
 
 export default function Footer() {
   const quickLinks = [
-    { title: "Private Tour", href: "/private-tour" },
-    { title: "Group Tour", href: "/group-tour" },
+    { title: "Tours Pricing", href: "/tours-pricing" },
+    { title: "Tourist Destination", href: "/tourist-destination" },
     { title: "Blogs", href: "/blogs" },
     { title: "Gallery", href: "/gallery" },
   ];
@@ -40,11 +40,7 @@ export default function Footer() {
                 Claris and City Tour Jogja
               </h2>
             </div>
-            <p className="text-sm leading-relaxed text-secondary-300">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure
-              exercitationem quibusdam deserunt atque dolor quasi libero dolore
-              error labore consequuntur.
-            </p>
+
             <div className="flex gap-4 pt-4">
               <Link
                 href="https://www.facebook.com/alexa.deby.5/"

@@ -7,7 +7,7 @@ import Image from "next/image";
 
 const navLinks = [
   { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
+  { href: "/profile", label: "Profile" },
   { href: "/tours-pricing", label: "Tours Pricing" },
   { href: "/tourist-destination", label: "Tourist Destination" },
   { href: "/blogs", label: "Blogs" },
@@ -17,13 +17,13 @@ const navLinks = [
 const menuVariants = {
   open: {
     transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2,
+      staggerChildren: 0.07,
+      delayChildren: 0.1,
     },
   },
   closed: {
     transition: {
-      staggerChildren: 0.05,
+      staggerChildren: 0.03,
       staggerDirection: -1,
     },
   },
@@ -33,19 +33,15 @@ const itemVariants = {
   open: {
     y: 0,
     opacity: 1,
-    scale: 1,
     transition: {
       y: { stiffness: 1000, velocity: -100 },
-      scale: { duration: 0.2 },
     },
   },
   closed: {
-    y: 50,
+    y: 20,
     opacity: 0,
-    scale: 0.8,
     transition: {
       y: { stiffness: 1000 },
-      scale: { duration: 0.2 },
     },
   },
 };
@@ -54,6 +50,31 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeLink, setActiveLink] = useState("/");
+
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = "hidden";
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty("--vh", `${vh}px`);
+    } else {
+      document.body.style.overflow = "unset";
+      document.documentElement.style.removeProperty("--vh");
+    }
+
+    const handleResize = () => {
+      if (isMenuOpen) {
+        const vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty("--vh", `${vh}px`);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      document.body.style.overflow = "unset";
+      document.documentElement.style.removeProperty("--vh");
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [isMenuOpen]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -76,19 +97,24 @@ export default function Navbar() {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ type: "spring", stiffness: 100, damping: 20 }}
-      className={`fixed top-0 left-0 z-50 w-full font-poppins transition-all duration-500 ${
-        scrolled
+      className={`fixed top-0 left-0 z-50 w-full font-poppins transition-all duration-300 ${
+        scrolled && !isMenuOpen
           ? "bg-primary-900/95 backdrop-blur-md shadow-lg py-2"
-          : "bg-gradient-to-r from-primary-900 to-primary-800 py-4"
+          : isMenuOpen
+            ? "bg-primary-900 py-2" // Solid background when menu is open
+            : "bg-gradient-to-r from-primary-900 to-primary-800 py-3"
       }`}
     >
-      <div className="container flex justify-between items-center px-6 mx-auto">
+      <div className="container flex justify-between items-center px-4 mx-auto sm:px-6">
         {/* Logo Section */}
-        <Link href="/" className="flex items-center space-x-3 group">
+        <Link
+          href="/"
+          className="flex items-center space-x-2 sm:space-x-3 group"
+        >
           <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="overflow-hidden relative w-12 h-12 rounded-full border-2 border-accent-400/50"
+            className="overflow-hidden relative w-10 h-10 rounded-full border-2 sm:w-12 sm:h-12 border-accent-400/50"
           >
             <Image
               src="/logo.png"
@@ -99,13 +125,13 @@ export default function Navbar() {
           </motion.div>
           <div className="flex flex-col">
             <motion.span
-              className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-accent-300 to-accent-400"
+              className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r sm:text-xl from-accent-300 to-accent-400"
               whileHover={{ scale: 1.02 }}
             >
               Claris and City
             </motion.span>
             <motion.span
-              className="text-sm font-medium text-secondary-200"
+              className="text-xs font-medium sm:text-sm text-secondary-200"
               whileHover={{ scale: 1.02 }}
             >
               Tour Jogja
@@ -124,7 +150,7 @@ export default function Navbar() {
             >
               <Link
                 href={link.href}
-                className={`relative py-2 px-4 font-medium rounded-lg transition-all duration-300 
+                className={`relative py-2 px-3 lg:px-4 font-medium rounded-lg transition-all duration-300 
                   ${
                     activeLink === link.href
                       ? "text-accent-300 bg-primary-700/50"
@@ -149,33 +175,32 @@ export default function Navbar() {
         {/* Mobile Menu Button */}
         <motion.button
           onClick={toggleMenu}
-          className="flex z-50 justify-center items-center p-2 rounded-lg transition-all duration-300 md:hidden focus:ring-2 focus:outline-none hover:bg-primary-700/50 focus:ring-accent-400/50"
+          className="flex justify-center items-center p-3 -mr-3 rounded-lg transition-all duration-300 md:hidden focus:ring-2 focus:outline-none z-[60] hover:bg-primary-700/50 focus:ring-accent-400/50"
           whileTap={{ scale: 0.9 }}
+          aria-label="Toggle menu"
         >
           <motion.div
             animate={isMenuOpen ? "open" : "closed"}
             className="flex relative justify-center items-center w-6 h-6"
           >
             <motion.span
-              className="absolute w-6 h-0.5 text-center transition-all duration-300 transform bg-secondary-100"
-              style={{ top: isMenuOpen ? "50%" : "25%" }}
+              className="absolute w-6 h-0.5 bg-secondary-100"
               animate={{
                 rotate: isMenuOpen ? 45 : 0,
-                translateY: isMenuOpen ? 0 : 0,
+                y: isMenuOpen ? 0 : -8,
               }}
             />
             <motion.span
-              className="absolute top-1/2 w-6 h-0.5 transition-all duration-300 transform bg-secondary-100"
+              className="absolute w-6 h-0.5 bg-secondary-100"
               animate={{
                 opacity: isMenuOpen ? 0 : 1,
               }}
             />
             <motion.span
-              className="absolute w-6 h-0.5 transition-all duration-300 transform bg-secondary-100"
-              style={{ bottom: isMenuOpen ? "50%" : "25%" }}
+              className="absolute w-6 h-0.5 bg-secondary-100"
               animate={{
                 rotate: isMenuOpen ? -45 : 0,
-                translateY: isMenuOpen ? 0 : 0,
+                y: isMenuOpen ? 0 : 8,
               }}
             />
           </motion.div>
@@ -188,28 +213,30 @@ export default function Navbar() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-40 bg-gradient-to-b md:hidden from-primary-900/98 to-primary-800/98 backdrop-blur-xl"
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 pt-16 md:hidden z-[55] bg-primary-900"
+              style={{ height: "calc(var(--vh, 1vh) * 100)" }}
             >
               <motion.div
                 variants={menuVariants}
                 initial="closed"
                 animate="open"
                 exit="closed"
-                className="flex flex-col justify-center items-center px-6 space-y-8 h-full"
+                className="flex flex-col justify-center items-center px-4 space-y-6 h-full"
               >
                 {navLinks.map((link) => (
                   <motion.div
                     key={link.href}
                     variants={itemVariants}
-                    className="w-full max-w-md"
+                    className="w-full max-w-sm"
                   >
                     <Link
                       href={link.href}
                       onClick={() => {
                         setActiveLink(link.href);
-                        toggleMenu();
+                        setIsMenuOpen(false);
                       }}
-                      className={`block py-4 text-2xl font-bold text-center rounded-lg transition-all duration-300
+                      className={`block py-3 text-xl font-bold text-center rounded-lg transition-all duration-300
                         ${
                           activeLink === link.href
                             ? "text-accent-300 bg-primary-700/50"
@@ -219,7 +246,7 @@ export default function Navbar() {
                       {link.label}
                       {activeLink === link.href && (
                         <motion.div
-                          className="mt-2 h-0.5 bg-accent-400"
+                          className="mt-1 h-0.5 bg-accent-400"
                           layoutId="activeTabMobile"
                         />
                       )}
