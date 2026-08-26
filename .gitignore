@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# prisma agent skills (auto-synced by `prisma skills sync` on install)
+.agents/
+.devin/
+.cursor/skills/
+.claude/skills/

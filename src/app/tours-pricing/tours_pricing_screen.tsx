@@ -4,10 +4,14 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Icon } from "@iconify/react";
 import { useRouter } from "next/navigation";
-import { tourPackages } from "@/lib/types/tour_package";
+import type { TourPackage } from "@/lib/types/tour_package";
 import Image from "next/image";
 
-export default function ToursPricingScreen() {
+export default function ToursPricingScreen({
+  packages,
+}: {
+  packages: TourPackage[];
+}) {
   const router = useRouter();
   const [activeTourist, setActiveTourist] = useState<"local" | "international">(
     "local",
@@ -17,7 +21,7 @@ export default function ToursPricingScreen() {
     router.push(`/tours-pricing/${slug}`);
   };
 
-  const renderTourPackage = (pkg: (typeof tourPackages)[0]) => (
+  const renderTourPackage = (pkg: TourPackage) => (
     <motion.div
       key={pkg.id}
       initial={{ opacity: 0, scale: 0.9 }}
@@ -194,7 +198,7 @@ export default function ToursPricingScreen() {
           transition={{ delay: 0.4 }}
           className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
         >
-          {tourPackages
+          {packages
             .filter((pkg) => pkg.touristType === activeTourist)
             .map(renderTourPackage)}
         </motion.div>

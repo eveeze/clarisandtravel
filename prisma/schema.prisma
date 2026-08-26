@@ -1,0 +1,100 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  directUrl  = env("DIRECT_URL")
+}
+
+model TourPackage {
+  id          Int      @id @default(autoincrement())
+  slug        String   @unique
+  name        String
+  description String
+  basePrice   Int
+  duration    String
+  touristType String
+  isPopular   Boolean  @default(false)
+  thumbnail   String
+  features    String[]
+  images      String[]
+  vehicles    Vehicle[]   @relation("PackageVehicles")
+  itinerary   Itinerary[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Vehicle {
+  id             Int           @id @default(autoincrement())
+  name           String
+  capacity       String
+  priceIncrement Int           @default(0)
+  image          String
+  packages       TourPackage[] @relation("PackageVehicles")
+}
+
+model Itinerary {
+  id           Int                     @id @default(autoincrement())
+  packageId    Int
+  package      TourPackage             @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  day          Int
+  title        String
+  destinations ItineraryDestination[]
+}
+
+model ItineraryDestination {
+  id           Int       @id @default(autoincrement())
+  itineraryId  Int
+  itinerary    Itinerary @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
+  name         String
+  description  String
+  time         String
+}
+
+model BlogPost {
+  id         Int      @id @default(autoincrement())
+  slug       String   @unique
+  title      String
+  excerpt    String
+  contentMd  String
+  coverImage String
+  date       DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model TouristSpot {
+  id          Int     @id @default(autoincrement())
+  slug        String  @unique
+  name        String
+  description String
+  history     String?
+  category    String?
+  imageUrl    String
+  location    String?
+}
+
+model Booking {
+  id          Int      @id @default(autoincrement())
+  name        String
+  phone       String
+  email       String?
+  packageSlug String?
+  vehicleName String?
+  tourDate    String?
+  pax         Int      @default(1)
+  message     String?
+  status      String   @default("baru")
+  createdAt   DateTime @default(now())
+}
+
+model AdminUser {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

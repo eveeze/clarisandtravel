@@ -3,9 +3,19 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 
 import { Icon } from "@iconify/react/dist/iconify.js";
+
+const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "6285779536859";
+
 export default function FloatingWhatsappButton() {
   return (
-    <Link href="#" target="_blank" rel="noreferrer noopener">
+    <Link
+      href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+        "Halo Claris & Travel, saya ingin bertanya tentang paket tour.",
+      )}`}
+      target="_blank"
+      rel="noreferrer noopener"
+      aria-label="Chat WhatsApp Claris & Travel"
+    >
       {/* Contact Float */}
       <motion.div
         initial={{ y: 100, opacity: 0 }}
