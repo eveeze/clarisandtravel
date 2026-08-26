@@ -1,9 +1,23 @@
 import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
+import { Fraunces, Sora, Poppins } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FloatingWhatsappButton from "@/components/FloatingWhatsapp";
+
+const fraunces = Fraunces({
+  variable: "--font-display",
+  subsets: ["latin"],
+  weight: ["400", "600", "700", "900"],
+  display: "swap",
+});
+
+const sora = Sora({
+  variable: "--font-body",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
+});
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -73,7 +87,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id">
-      <body className={`${poppins.variable} antialiased`}>
+      <body
+        className={`${fraunces.variable} ${sora.variable} ${poppins.variable} font-body antialiased`}
+      >
         <Navbar />
         {children}
         <FloatingWhatsappButton />

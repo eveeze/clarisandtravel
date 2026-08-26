@@ -65,29 +65,29 @@ export default async function BlogPost(props: { params: Params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <article className="min-h-screen bg-gradient-to-b from-primary-900 via-primary-800 to-primary-700">
+      <article className="min-h-screen bg-ivory">
         <div
-          className="relative bg-fixed bg-center bg-cover transition-all duration-500 ease-in-out h-[70vh]"
+          className="relative bg-fixed bg-center bg-cover h-[70vh]"
           style={{ backgroundImage: `url(${post.coverImage})` }}
         >
-          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
-          <div className="container flex relative z-10 items-center px-6 mx-auto max-w-5xl h-full">
+          <div className="absolute inset-0 bg-gradient-to-t from-forest-950 via-forest-950/40 to-forest-950/30" />
+          <div className="container flex relative z-10 items-end px-6 mx-auto max-w-5xl h-full pb-14">
             <div className="max-w-3xl animate-fade-in">
-              <div className="flex gap-2 items-center mb-6 text-sm font-medium text-primary-100">
+              <div className="flex gap-2 items-center mb-4 text-sm font-medium text-sand-200">
                 <Icon icon="mdi:calendar" className="w-5 h-5" />
                 {format(new Date(post.date), "MMMM d, yyyy")}
               </div>
-              <h1 className="mb-6 text-5xl font-bold text-white md:text-7xl font-display">
+              <h1 className="mb-4 font-display text-4xl font-bold text-ivory md:text-5xl">
                 {post.title}
               </h1>
-              <p className="text-2xl font-light leading-relaxed text-primary-100">
+              <p className="text-xl font-light leading-relaxed text-sand-200">
                 {post.excerpt}
               </p>
             </div>
           </div>
         </div>
-        <div className="container relative py-24 px-6 mx-auto -mt-20 max-w-4xl">
-          <div className="bg-white rounded-2xl shadow-2xl">
+        <div className="container relative px-6 py-16 mx-auto max-w-4xl">
+          <div className="bg-ivory">
             <BlogContent content={post.content} />
           </div>
         </div>

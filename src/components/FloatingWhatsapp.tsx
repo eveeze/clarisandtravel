@@ -15,21 +15,17 @@ export default function FloatingWhatsappButton() {
       target="_blank"
       rel="noreferrer noopener"
       aria-label="Chat WhatsApp Claris & Travel"
+      className="fixed right-6 bottom-6 z-40"
     >
-      {/* Contact Float */}
       <motion.div
-        initial={{ y: 100, opacity: 0 }}
+        initial={{ y: 40, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 1, duration: 0.6 }}
-        className="fixed right-8 bottom-8 p-4 rounded-full border bg-white/10 backdrop-blur-md border-white/20"
+        transition={{ delay: 0.8, duration: 0.5 }}
+        whileHover={{ scale: 1.08 }}
+        whileTap={{ scale: 0.95 }}
+        className="flex justify-center items-center w-14 h-14 bg-[#25D366] text-white rounded-full shadow-cardHover"
       >
-        <motion.div
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          className="flex justify-center items-center w-12 h-12 bg-green-500 rounded-full cursor-pointer"
-        >
-          <Icon icon="solar:phone-bold" className="w-6 h-6 text-white" />
-        </motion.div>
+        <Icon icon="mdi:whatsapp" className="w-7 h-7" />
       </motion.div>
     </Link>
   );

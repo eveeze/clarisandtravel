@@ -31,6 +31,9 @@ export async function getTourPackages(): Promise<TourPackage[]> {
         capacity: v.capacity,
         priceIncrement: v.priceIncrement,
         image: v.image,
+        description: v.description ?? undefined,
+        features: v.features ?? [],
+        priceLabel: v.priceLabel ?? undefined,
       })),
       itinerary: r.itinerary.map((d) => ({
         day: d.day,
@@ -89,5 +92,85 @@ export async function getTouristSpots(): Promise<TouristSpot[]> {
     }));
   } catch {
     return hardcodedSpots;
+  }
+}
+
+export type GalleryItem = {
+  id: number;
+  title: string;
+  category: string;
+  image: string;
+  location: string;
+  description: string;
+};
+
+export async function getGalleryItems(): Promise<GalleryItem[]> {
+  try {
+    const rows = await prisma.galleryItem.findMany({
+      orderBy: { sortOrder: "asc" },
+    });
+    return rows.map((r) => ({
+      id: r.id,
+      title: r.title,
+      category: r.category,
+      image: r.image,
+      location: r.location ?? "",
+      description: r.description ?? "",
+    }));
+  } catch {
+    return [];
+  }
+}
+
+export type SiteContentKey = "hero" | "reason" | "pickup" | "promo" | "footer";
+
+export async function getSiteContent<T = unknown>(
+  key: SiteContentKey,
+): Promise<T | null> {
+  try {
+    const row = await prisma.siteContent.findUnique({ where: { key } });
+    return row ? (row.content as T) : null;
+  } catch {
+    return null;
+  }
+}
+
+export async function getSiteContents() {
+  try {
+    const rows = await prisma.siteContent.findMany();
+    return rows;
+  } catch {
+    return [];
+  }
+}
+
+export type VehicleMarketing = {
+  id: number;
+  name: string;
+  capacity: string;
+  image: string;
+  description: string;
+  features: string[];
+  priceLabel: string;
+  sortOrder: number;
+};
+
+export async function getVehiclesMarketing(): Promise<VehicleMarketing[]> {
+  try {
+    const rows = await prisma.vehicle.findMany({
+      orderBy: { sortOrder: "asc" },
+    });
+    return rows.map((v) => ({
+      id: v.id,
+      name: v.name,
+      capacity: v.capacity,
+      image: v.image,
+      description: v.description ?? "",
+      features: v.features ?? [],
+      priceLabel: v.priceLabel ?? "",
+      sortOrder: v.sortOrder,
+    }));
+  } catch {
+    return [];
   }
 }

@@ -4,6 +4,9 @@ export type VehicleType = {
   capacity: string;
   priceIncrement: number;
   image: string;
+  description?: string;
+  features?: string[];
+  priceLabel?: string;
 };
 
 export type DailyItinerary = {

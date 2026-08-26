@@ -1,9 +1,125 @@
-export default function ProfileScreen() {
+import Image from "next/image";
+import Link from "next/link";
+import { Icon } from "@iconify/react";
+import { getTourPackages } from "@/lib/data";
+
+type FooterContent = {
+  address?: string;
+  phone?: string;
+  email?: string;
+  whatsapp?: string;
+  instagram?: string;
+  facebook?: string;
+  youtube?: string;
+};
+
+const values = [
+  { icon: "mdi:shield-check", title: "Terpercaya", desc: "Berlisensi, kendaraan berasuransi, sopir profesional." },
+  { icon: "mdi:map-marker-radius", title: "Ahli Lokal", desc: "Pemandu asli Jogja yang tahu jalan pintas & spot terbaik." },
+  { icon: "mdi:heart", title: "Personal", desc: "Itinerary custom sesuai keinginan dan kebutuhan Anda." },
+  { icon: "mdi:star", title: "Harga Jujur", desc: "Tanpa biaya tersembunyi, harga transparan sejak awal." },
+];
+
+export default async function ProfileScreen({ footer }: { footer: FooterContent }) {
+  const packages = await getTourPackages();
+
   return (
-    <>
-      <section className="min-h-screen">
-        <h1>hello world</h1>
-      </section>
-    </>
+    <main className="bg-ivory pt-24 pb-20">
+      <div className="container px-4 mx-auto sm:px-6">
+        <div className="mb-16 text-center max-w-2xl mx-auto">
+          <p className="mb-2 text-sm font-semibold uppercase tracking-[0.2em] text-teak-500">
+            Tentang Kami
+          </p>
+          <h1 className="font-display text-4xl font-bold text-ink-900 md:text-5xl">
+            Claris & City Tour Jogja
+          </h1>
+          <p className="mt-4 text-lg leading-relaxed text-ink-500">
+            Kami adalah tim tour & travel lokal di Yogyakarta yang percaya bahwa
+            perjalanan terbaik adalah yang terasa personal. Dari city tour,
+            candi megah, sampai hidden gems — semua kami rancang agar Anda pulang
+            dengan cerita.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-2 gap-6 mb-16 md:grid-cols-4">
+          {[
+            { value: `${packages.length}+`, label: "Paket Tour" },
+            { value: "5+", label: "Armada" },
+            { value: "23+", label: "Destinasi" },
+            { value: "1000+", label: "Wisatawan" },
+          ].map((stat) => (
+            <div key={stat.label} className="p-6 text-center rounded-2xl bg-sand-50 border border-sand-200">
+              <p className="font-display text-4xl font-bold text-teak-600">{stat.value}</p>
+              <p className="mt-1 text-sm text-ink-500">{stat.label}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mb-16">
+          <h2 className="mb-8 text-center font-display text-3xl font-bold text-ink-900">
+            Nilai Kami
+          </h2>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {values.map((v) => (
+              <div key={v.title} className="p-6 rounded-2xl bg-sand-50 border border-sand-200">
+                <div className="mb-4 flex justify-center items-center w-12 h-12 rounded-xl bg-forest-50">
+                  <Icon icon={v.icon} className="w-6 h-6 text-teak-600" />
+                </div>
+                <h3 className="mb-1 font-display text-lg font-semibold text-ink-900">{v.title}</h3>
+                <p className="text-sm text-ink-500">{v.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="overflow-hidden rounded-3xl bg-forest-950">
+          <div className="grid grid-cols-1 md:grid-cols-2">
+            <div className="relative min-h-[280px]">
+              <Image
+                src="/images/borobudur.jpg"
+                alt="Borobudur, Yogyakarta"
+                fill
+                className="object-cover"
+              />
+            </div>
+            <div className="p-10 md:p-14">
+              <h2 className="mb-6 font-display text-2xl font-bold text-ivory">
+                Hubungi Kami
+              </h2>
+              <ul className="space-y-4 text-sand-200">
+                {footer.address && (
+                  <li className="flex gap-3 items-start">
+                    <Icon icon="mdi:map-marker" className="mt-0.5 text-teak-400" />
+                    {footer.address}
+                  </li>
+                )}
+                {footer.phone && (
+                  <li className="flex gap-3 items-center">
+                    <Icon icon="mdi:phone" className="text-teak-400" />
+                    <a href={`tel:${footer.phone.replace(/\D/g, "")}`} className="hover:text-ivory">
+                      {footer.phone}
+                    </a>
+                  </li>
+                )}
+                {footer.email && (
+                  <li className="flex gap-3 items-center">
+                    <Icon icon="mdi:email" className="text-teak-400" />
+                    <a href={`mailto:${footer.email}`} className="hover:text-ivory">
+                      {footer.email}
+                    </a>
+                  </li>
+                )}
+              </ul>
+              <Link
+                href="/tours-pricing"
+                className="mt-8 inline-block px-7 py-3.5 font-semibold rounded-xl bg-teak-500 text-ivory hover:bg-teak-600 transition-colors"
+              >
+                Lihat Paket Tour
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
   );
 }

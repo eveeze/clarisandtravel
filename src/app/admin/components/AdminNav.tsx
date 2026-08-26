@@ -10,6 +10,9 @@ const links = [
   { href: "/admin/packages", label: "Paket Tour", icon: "solar:map-bold" },
   { href: "/admin/blogs", label: "Blog", icon: "solar:notebook-bold" },
   { href: "/admin/spots", label: "Spot Wisata", icon: "solar:star-bold" },
+  { href: "/admin/gallery", label: "Galeri", icon: "solar:gallery-bold" },
+  { href: "/admin/vehicles", label: "Armada", icon: "solar:car-bold" },
+  { href: "/admin/content", label: "Konten Web", icon: "solar:widget-bold" },
   { href: "/admin/bookings", label: "Booking", icon: "solar:chat-round-dots-bold" },
 ];
 

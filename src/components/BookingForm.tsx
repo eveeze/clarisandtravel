@@ -69,13 +69,13 @@ export default function BookingForm({
   };
 
   const inputClass =
-    "w-full px-4 py-2.5 rounded-lg bg-white/10 border border-white/20 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500";
+    "w-full px-4 py-2.5 rounded-lg bg-forest-800/70 border border-sand-200/20 text-ivory placeholder-sand-400/60 focus:outline-none focus:ring-2 focus:ring-teak-500";
 
   return (
     <form onSubmit={onSubmit} className="space-y-4">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
-          <label className="block mb-1 text-sm font-medium text-primary-200">
+          <label className="block mb-1 text-sm font-medium text-sand-200">
             Nama Lengkap *
           </label>
           <input
@@ -87,7 +87,7 @@ export default function BookingForm({
           />
         </div>
         <div>
-          <label className="block mb-1 text-sm font-medium text-primary-200">
+          <label className="block mb-1 text-sm font-medium text-sand-200">
             No. WhatsApp *
           </label>
           <input
@@ -103,7 +103,7 @@ export default function BookingForm({
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
-          <label className="block mb-1 text-sm font-medium text-primary-200">
+          <label className="block mb-1 text-sm font-medium text-sand-200">
             Email (opsional)
           </label>
           <input
@@ -115,7 +115,7 @@ export default function BookingForm({
           />
         </div>
         <div>
-          <label className="block mb-1 text-sm font-medium text-primary-200">
+          <label className="block mb-1 text-sm font-medium text-sand-200">
             Armada
           </label>
           <select
@@ -135,7 +135,7 @@ export default function BookingForm({
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
-          <label className="block mb-1 text-sm font-medium text-primary-200">
+          <label className="block mb-1 text-sm font-medium text-sand-200">
             Tanggal Tour
           </label>
           <input
@@ -146,7 +146,7 @@ export default function BookingForm({
           />
         </div>
         <div>
-          <label className="block mb-1 text-sm font-medium text-primary-200">
+          <label className="block mb-1 text-sm font-medium text-sand-200">
             Jumlah Orang
           </label>
           <input
@@ -160,7 +160,7 @@ export default function BookingForm({
       </div>
 
       <div>
-        <label className="block mb-1 text-sm font-medium text-primary-200">
+        <label className="block mb-1 text-sm font-medium text-sand-200">
           Pesan (opsional)
         </label>
         <textarea

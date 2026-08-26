@@ -14,11 +14,9 @@ export default function BlogContent({ content }: { content: string }) {
       initial="hidden"
       animate="show"
       transition={{ duration: 0.5 }}
-      className="max-w-none prose prose-lg prose-headings:text-gray-900 prose-p:text-gray-700 prose-a:text-primary prose-strong:text-gray-900"
+      className="prose-blog max-w-none"
     >
-      <div className="p-5 card">
-        <ReactMarkdown>{content}</ReactMarkdown>
-      </div>{" "}
+      <ReactMarkdown>{content}</ReactMarkdown>
     </motion.div>
   );
 }
