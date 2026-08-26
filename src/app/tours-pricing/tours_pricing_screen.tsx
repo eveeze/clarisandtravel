@@ -1,169 +1,156 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Icon } from "@iconify/react";
 import { useRouter } from "next/navigation";
 import type { TourPackage } from "@/lib/types/tour_package";
 import Image from "next/image";
 
-export default function ToursPricingScreen({
-  packages,
-}: {
-  packages: TourPackage[];
-}) {
+export default function ToursPricingScreen({ packages }: { packages: TourPackage[] }) {
   const router = useRouter();
-  const [activeTourist, setActiveTourist] = useState<"local" | "international">("local");
+  const [type, setType] = useState<"local" | "international">("local");
   const [query, setQuery] = useState("");
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     return packages
-      .filter((pkg) => pkg.touristType === activeTourist)
-      .filter((pkg) =>
-        q ? pkg.name.toLowerCase().includes(q) || pkg.description.toLowerCase().includes(q) : true,
-      );
-  }, [packages, activeTourist, query]);
+      .filter((p) => p.touristType === type)
+      .filter((p) => (q ? p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q) : true));
+  }, [packages, type, query]);
+
+  const featured = filtered.find((p) => p.isPopular) ?? filtered[0];
+  const rest = featured ? filtered.filter((p) => p.id !== featured.id) : filtered;
+
+  const go = (slug: string) => router.push(`/tours-pricing/${slug}`);
 
   return (
-    <section className="min-h-screen bg-ivory pt-28 pb-20">
-      <div className="container px-4 mx-auto sm:px-6">
-        <div className="mb-10 text-center max-w-2xl mx-auto">
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="mb-2 text-sm font-semibold uppercase tracking-[0.2em] text-teak-500"
-          >
-            Paket Tour
-          </motion.p>
-          <motion.h1
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mb-3 font-display text-4xl font-bold text-ink-900 md:text-5xl"
-          >
-            Pilih Pengalaman Jogja Anda
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-lg text-ink-500"
-          >
-            Harga transparan, armada bisa dipilih, itinerary custom.
-          </motion.p>
+    <section className="min-h-screen bg-volcanic-900 pt-28 pb-28">
+      <div className="px-6 mx-auto max-w-7xl lg:px-8">
+        {/* Header */}
+        <div className="mb-12 grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-end">
+          <div>
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-gold-400">Paket Tour</p>
+            <h1 className="font-display text-5xl font-normal tracking-tight text-stone-50 md:text-7xl">
+              Pilih
+              <span className="block italic text-gold-300">Petualanganmu</span>
+            </h1>
+          </div>
+          <p className="lg:text-right text-stone-400 max-w-sm lg:ml-auto">
+            Harga transparan, armada bisa dipilih, itinerary custom sesuai ritme liburanmu.
+          </p>
         </div>
 
-        <div className="flex flex-col items-center gap-4 mb-10">
-          <div className="inline-flex p-1 rounded-full bg-sand-100 border border-sand-200">
-            {(["local", "international"] as const).map((type) => (
+        {/* Filters */}
+        <div className="mb-16 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="inline-flex p-1 rounded-full bg-volcanic-800 border border-stone-800/60">
+            {(["local", "international"] as const).map((t) => (
               <button
-                key={type}
-                onClick={() => setActiveTourist(type)}
+                key={t}
+                onClick={() => setType(t)}
                 className={`px-5 py-2 text-sm font-medium rounded-full transition-colors ${
-                  activeTourist === type
-                    ? "bg-forest-800 text-ivory"
-                    : "text-ink-500 hover:text-ink-900"
+                  type === t ? "bg-gold-500 text-volcanic-900" : "text-stone-400 hover:text-stone-200"
                 }`}
               >
-                {type === "local" ? "Wisatawan Lokal" : "Wisatawan Asing"}
+                {t === "local" ? "Wisatawan Lokal" : "Wisatawan Asing"}
               </button>
             ))}
           </div>
-
-          <div className="relative w-full max-w-md">
+          <div className="relative w-full sm:w-72">
             <input
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Cari paket tour..."
-              className="w-full px-4 py-3 pl-11 rounded-xl bg-sand-50 border border-sand-200 text-ink-900 placeholder-ink-400 focus:outline-none focus:ring-2 focus:ring-teak-500"
+              placeholder="Cari paket..."
+              className="w-full px-4 py-3 pl-11 rounded-full bg-volcanic-800 border border-stone-800/60 text-stone-200 placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-gold-400/50"
             />
-            <Icon
-              icon="mdi:magnify"
-              className="absolute left-4 top-1/2 -translate-y-1/2 text-ink-400"
-            />
+            <Icon icon="mdi:magnify" className="absolute left-4 top-1/2 -translate-y-1/2 text-stone-500" />
           </div>
         </div>
 
         {filtered.length === 0 ? (
-          <p className="py-16 text-center text-ink-500">
-            Tidak ada paket yang cocok dengan pencarian.
-          </p>
+          <p className="py-20 text-center text-stone-500">Tidak ada paket yang cocok.</p>
         ) : (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
-          >
-            {filtered.map((pkg) => (
-              <motion.div
-                key={pkg.id}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                whileHover={{ y: -4 }}
-                onClick={() => router.push(`/tours-pricing/${pkg.slug}`)}
-                className={`group cursor-pointer overflow-hidden rounded-2xl bg-sand-50 border border-sand-200 shadow-card hover:shadow-cardHover transition-shadow ${
-                  pkg.isPopular ? "ring-2 ring-teak-500/40" : ""
-                }`}
-              >
-                <div className="overflow-hidden relative h-52">
-                  <Image
-                    src={pkg.thumbnail}
-                    alt={pkg.name}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  {pkg.isPopular && (
-                    <span className="absolute top-4 right-4 px-3 py-1 text-xs font-semibold rounded-full bg-teak-500 text-ivory">
-                      Populer
+          <AnimatePresence mode="wait">
+            <motion.div key={type + query} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}>
+              {/* Featured package */}
+              {featured && (
+                <button
+                  onClick={() => go(featured.slug)}
+                  className="group mb-20 grid grid-cols-1 overflow-hidden rounded-3xl border border-stone-800/60 text-left lg:grid-cols-2"
+                >
+                  <div className="relative h-72 lg:h-full min-h-[20rem] overflow-hidden">
+                    <Image
+                      src={featured.thumbnail}
+                      alt={featured.name}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <span className="absolute top-5 left-5 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-wider rounded-full bg-gold-500 text-volcanic-900">
+                      Pilihan Populer
                     </span>
-                  )}
-                </div>
-
-                <div className="p-6">
-                  <h3 className="mb-1 font-display text-xl font-semibold text-ink-900">
-                    {pkg.name}
-                  </h3>
-                  <p className="mb-4 text-sm text-ink-500 line-clamp-2">
-                    {pkg.description}
-                  </p>
-
-                  <div className="mb-4">
-                    <span className="font-display text-2xl font-bold text-teak-600">
-                      Rp {pkg.basePrice.toLocaleString("id-ID")}
-                    </span>
-                    <span className="ml-1 text-sm text-ink-400">/{pkg.duration}</span>
                   </div>
-
-                  <ul className="mb-5 space-y-1.5">
-                    {pkg.features.slice(0, 3).map((feature, i) => (
-                      <li key={i} className="flex items-center gap-2 text-sm text-ink-500">
-                        <Icon icon="mdi:check-circle" className="w-4 h-4 text-teak-500" />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-
-                  <div className="flex items-center justify-between">
-                    <div className="flex -space-x-1">
-                      {pkg.vehicles.slice(0, 3).map((v) => (
-                        <span
-                          key={v.id}
-                          title={v.name}
-                          className="flex justify-center items-center w-7 h-7 rounded-full bg-sand-100 border border-sand-200"
-                        >
-                          <Icon icon="mdi:car" className="w-3.5 h-3.5 text-teak-600" />
-                        </span>
-                      ))}
+                  <div className="flex flex-col justify-between p-8 bg-volcanic-800 lg:p-12">
+                    <div>
+                      <h2 className="mb-4 font-display text-3xl text-stone-50 md:text-5xl">{featured.name}</h2>
+                      <p className="mb-6 text-stone-400">{featured.description}</p>
+                      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
+                        {featured.features.slice(0, 4).map((f) => (
+                          <li key={f} className="flex items-center gap-2 text-sm text-stone-300">
+                            <Icon icon="mdi:check-circle" className="w-5 h-5 text-gold-400" />
+                            {f}
+                          </li>
+                        ))}
+                      </ul>
                     </div>
-                    <span className="text-sm font-semibold text-teak-500 group-hover:underline">
-                      Lihat Detail →
-                    </span>
+                    <div className="flex items-end justify-between">
+                      <div>
+                        <p className="text-xs uppercase tracking-widest text-stone-500">Mulai dari</p>
+                        <p className="font-display text-4xl text-gold-400 md:text-5xl">
+                          Rp {featured.basePrice.toLocaleString("id-ID")}
+                          <span className="ml-2 text-lg font-body text-stone-500">/{featured.duration}</span>
+                        </p>
+                      </div>
+                      <span className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold rounded-full bg-gold-500 text-volcanic-900 group-hover:bg-gold-400 transition-colors">
+                        Lihat Detail
+                        <Icon icon="mdi:arrow-right" className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
+                </button>
+              )}
+
+              {/* Editorial list */}
+              <div className="divide-y divide-stone-800/60 border-y border-stone-800/60">
+                {rest.map((pkg, i) => (
+                  <button
+                    key={pkg.id}
+                    onClick={() => go(pkg.slug)}
+                    className="group grid grid-cols-1 gap-2 py-8 text-left sm:grid-cols-12 sm:items-center sm:gap-6 transition-colors hover:bg-volcanic-800/40 px-2 -mx-2 rounded-xl"
+                  >
+                    <span className="font-display text-3xl text-stone-700 transition-colors group-hover:text-gold-400 sm:col-span-1">
+                      {String(i + 2).padStart(2, "0")}
+                    </span>
+                    <h3 className="font-display text-2xl text-stone-50 transition-colors group-hover:text-gold-300 sm:col-span-6 md:text-3xl">
+                      {pkg.name}
+                    </h3>
+                    <div className="flex items-center gap-3 sm:col-span-3 sm:justify-end">
+                      <span className="text-sm text-stone-500">{pkg.duration}</span>
+                      <span className="font-display text-2xl text-gold-400">
+                        Rp {pkg.basePrice.toLocaleString("id-ID")}
+                      </span>
+                    </div>
+                    <div className="sm:col-span-2 sm:flex sm:justify-end">
+                      <Icon
+                        icon="mdi:arrow-right"
+                        className="w-6 h-6 text-stone-600 transition-all duration-300 group-hover:text-gold-400 group-hover:translate-x-2"
+                      />
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </motion.div>
+          </AnimatePresence>
         )}
       </div>
     </section>

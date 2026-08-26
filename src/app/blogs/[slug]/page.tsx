@@ -65,31 +65,29 @@ export default async function BlogPost(props: { params: Params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <article className="min-h-screen bg-ivory">
+      <article className="min-h-screen bg-volcanic-900">
         <div
           className="relative bg-fixed bg-center bg-cover h-[70vh]"
           style={{ backgroundImage: `url(${post.coverImage})` }}
         >
-          <div className="absolute inset-0 bg-gradient-to-t from-forest-950 via-forest-950/40 to-forest-950/30" />
+          <div className="absolute inset-0 bg-gradient-to-t from-volcanic-950 via-volcanic-950/40 to-volcanic-950/20" />
           <div className="container flex relative z-10 items-end px-6 mx-auto max-w-5xl h-full pb-14">
-            <div className="max-w-3xl animate-fade-in">
-              <div className="flex gap-2 items-center mb-4 text-sm font-medium text-sand-200">
+            <div className="max-w-3xl animate-fadeIn">
+              <div className="flex gap-2 items-center mb-4 text-sm font-medium text-stone-400">
                 <Icon icon="mdi:calendar" className="w-5 h-5" />
                 {format(new Date(post.date), "MMMM d, yyyy")}
               </div>
-              <h1 className="mb-4 font-display text-4xl font-bold text-ivory md:text-5xl">
+              <h1 className="mb-4 font-display text-4xl font-normal tracking-tight text-stone-50 md:text-6xl">
                 {post.title}
               </h1>
-              <p className="text-xl font-light leading-relaxed text-sand-200">
+              <p className="text-xl font-light leading-relaxed text-stone-300">
                 {post.excerpt}
               </p>
             </div>
           </div>
         </div>
         <div className="container relative px-6 py-16 mx-auto max-w-4xl">
-          <div className="bg-ivory">
-            <BlogContent content={post.content} />
-          </div>
+          <BlogContent content={post.content} />
         </div>
       </article>
     </>

@@ -15,136 +15,96 @@ const navLinks = [
 ];
 
 export default function Navbar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [activeLink, setActiveLink] = useState("/");
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 10);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 60);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
-    setActiveLink(window.location.pathname);
-  }, []);
-
-  useEffect(() => {
-    document.body.style.overflow = isMenuOpen ? "hidden" : "unset";
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  }, [isMenuOpen]);
+    document.body.style.overflow = isOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [isOpen]);
 
   return (
     <header
-      className={`fixed top-0 left-0 z-50 w-full bg-ivory/95 backdrop-blur-md border-b border-sand-200 transition-all duration-300 ${
-        scrolled ? "shadow-card" : ""
+      className={`fixed top-0 left-0 z-50 w-full transition-all duration-500 ${
+        scrolled ? "bg-volcanic-900/90 backdrop-blur-lg shadow-lg" : "bg-transparent"
       }`}
     >
-      <nav className="container flex items-center justify-between px-4 py-3 mx-auto sm:px-6">
+      <nav className="flex items-center justify-between px-6 py-4 mx-auto max-w-7xl lg:px-8">
         <Link href="/" className="flex items-center gap-3 group">
-          <div className="overflow-hidden relative w-10 h-10 rounded-full border border-sand-200">
-            <Image
-              src="/logo.png"
-              alt="Claris and City Tour Jogja"
-              fill
-              className="object-cover transition-transform duration-300 group-hover:scale-105"
-            />
+          <div className="relative w-10 h-10 overflow-hidden border rounded-full border-gold-400/30">
+            <Image src="/logo.png" alt="Claris & City" fill className="object-cover" />
           </div>
           <div className="flex flex-col leading-tight">
-            <span className="font-display text-lg font-bold text-forest-900">
+            <span className="font-display text-lg font-semibold tracking-tight text-stone-100">
               Claris & City
             </span>
-            <span className="text-[11px] font-medium uppercase tracking-widest text-teak-600">
+            <span className="text-[10px] font-medium uppercase tracking-[0.3em] text-gold-400">
               Tour Jogja
             </span>
           </div>
         </Link>
 
-        <div className="hidden items-center gap-1 lg:flex">
+        <div className="items-center hidden gap-8 lg:flex">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              onClick={() => setActiveLink(link.href)}
-              className={`px-3 py-2 text-sm font-medium rounded-xl transition-colors ${
-                activeLink === link.href
-                  ? "text-teak-600"
-                  : "text-ink-500 hover:text-forest-800"
-              }`}
+              className="text-sm font-medium tracking-wide transition-colors text-stone-300 hover:text-gold-400"
             >
               {link.label}
             </Link>
           ))}
-        </div>
-
-        <div className="flex items-center gap-3">
           <Link
             href="/tours-pricing"
-            className="hidden px-5 py-2.5 text-sm font-semibold rounded-xl bg-teak-500 text-ivory hover:bg-teak-600 transition-colors sm:inline-block"
+            className="px-6 py-2.5 text-sm font-semibold rounded-full bg-gold-500 text-volcanic-900 hover:bg-gold-400 transition-colors"
           >
             Booking
           </Link>
-
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="flex flex-col justify-center items-center gap-1.5 p-2 lg:hidden"
-            aria-label="Toggle menu"
-            aria-expanded={isMenuOpen}
-          >
-            <span
-              className={`block w-6 h-0.5 bg-forest-900 transition-transform ${
-                isMenuOpen ? "rotate-45 translate-y-1" : ""
-              }`}
-            />
-            <span
-              className={`block w-6 h-0.5 bg-forest-900 transition-opacity ${
-                isMenuOpen ? "opacity-0" : ""
-              }`}
-            />
-            <span
-              className={`block w-6 h-0.5 bg-forest-900 transition-transform ${
-                isMenuOpen ? "-rotate-45 -translate-y-1" : ""
-              }`}
-            />
-          </button>
         </div>
+
+        {/* Mobile toggle */}
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="relative flex flex-col items-center justify-center w-8 h-8 lg:hidden"
+          aria-label="Toggle menu"
+        >
+          <span className={`block w-6 h-[1.5px] bg-stone-100 transition-all duration-300 ${isOpen ? "rotate-45 translate-y-[4px]" : ""}`} />
+          <span className={`block w-6 h-[1.5px] bg-stone-100 mt-[6px] transition-all duration-300 ${isOpen ? "opacity-0" : ""}`} />
+          <span className={`block w-6 h-[1.5px] bg-stone-100 mt-[6px] transition-all duration-300 ${isOpen ? "-rotate-45 -translate-y-[4px]" : ""}`} />
+        </button>
       </nav>
 
       <AnimatePresence>
-        {isMenuOpen && (
+        {isOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.25 }}
-            className="overflow-hidden border-t border-sand-200 bg-ivory lg:hidden"
+            className="overflow-hidden bg-volcanic-900 border-t border-stone-800/50 lg:hidden"
           >
-            <div className="px-4 py-4 space-y-1">
-              {navLinks.map((link) => (
+            <div className="px-6 py-6 space-y-1">
+              {navLinks.map((l) => (
                 <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => {
-                    setActiveLink(link.href);
-                    setIsMenuOpen(false);
-                  }}
-                  className={`block px-4 py-3 rounded-xl font-medium transition-colors ${
-                    activeLink === link.href
-                      ? "bg-sand-100 text-teak-600"
-                      : "text-ink-500 hover:bg-sand-50"
-                  }`}
+                  key={l.href}
+                  href={l.href}
+                  onClick={() => setIsOpen(false)}
+                  className="block px-4 py-3 text-sm font-medium rounded-xl text-stone-300 hover:bg-stone-800/50"
                 >
-                  {link.label}
+                  {l.label}
                 </Link>
               ))}
               <Link
                 href="/tours-pricing"
-                onClick={() => setIsMenuOpen(false)}
-                className="block px-4 py-3 mt-2 font-semibold text-center rounded-xl bg-teak-500 text-ivory hover:bg-teak-600"
+                onClick={() => setIsOpen(false)}
+                className="block px-4 py-3 mt-4 text-sm font-semibold text-center rounded-xl bg-gold-500 text-volcanic-900"
               >
-                Booking Sekarang
+                Booking
               </Link>
             </div>
           </motion.div>

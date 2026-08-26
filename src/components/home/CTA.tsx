@@ -1,31 +1,25 @@
-import Link from "next/link";
-import Reveal from "./Reveal";
+import Button from "@/components/Button";
+import Reveal from "@/components/Reveal";
 
 export default function CTA() {
   return (
-    <section className="py-24 bg-teak-500">
-      <div className="container px-4 mx-auto text-center sm:px-6">
+    <section className="relative py-32 bg-volcanic-950 sm:py-40">
+      <div className="px-6 mx-auto text-center max-w-3xl">
         <Reveal>
-          <h2 className="mb-4 font-display text-3xl font-bold text-ivory md:text-5xl">
-            Siap Menjelajah Jogja?
+          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.3em] text-gold-400">
+            Siap Berangkat?
+          </p>
+          <h2 className="mb-8 font-display text-5xl font-normal tracking-tight text-stone-50 md:text-7xl">
+            Mulai Petualanganmu
+            <span className="block italic text-gold-300">di Yogyakarta</span>
           </h2>
-          <p className="mx-auto mb-8 max-w-xl text-lg text-ivory/90">
-            Pesan paket tour Anda sekarang — gratis konsultasi & itinerary custom
-            sesuai keinginan.
+          <p className="mx-auto mb-12 max-w-xl text-lg text-stone-400">
+            Konsultasi gratis, itinerary custom, dan pemandu lokal yang siap
+            nemenin perjalananmu.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Link
-              href="/tours-pricing"
-              className="px-8 py-4 font-semibold rounded-xl bg-forest-950 text-ivory hover:bg-forest-800 transition-colors"
-            >
-              Lihat Paket Tour
-            </Link>
-            <Link
-              href="/profile"
-              className="px-8 py-4 font-semibold rounded-xl border border-ivory/50 text-ivory hover:bg-ivory/10 transition-colors"
-            >
-              Hubungi Kami
-            </Link>
+            <Button href="/tours-pricing">Lihat Paket Tour</Button>
+            <Button href="/profile" variant="ghost">Hubungi Kami</Button>
           </div>
         </Reveal>
       </div>

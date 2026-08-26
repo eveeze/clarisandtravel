@@ -1,6 +1,5 @@
-import { Icon } from "@iconify/react";
 import { getSiteContent } from "@/lib/data";
-import Reveal from "./Reveal";
+import Reveal from "@/components/Reveal";
 
 type ReasonContent = {
   title: string;
@@ -8,48 +7,43 @@ type ReasonContent = {
   items: { title: string; description: string }[];
 };
 
-const icons = ["mdi:map-marker-radius", "mdi:heart", "mdi:shield-check", "mdi:star"];
-
 export default async function Reasons() {
-  const reason = (await getSiteContent<ReasonContent>("reason")) ?? {
-    title: "Kenapa Claris & Travel?",
-    subtitle: "Kami buat pengalaman Jogja Anda tak terlupakan",
-    items: [],
-  };
+  const reason = (await getSiteContent<ReasonContent>("reason")) ?? { title: "", subtitle: "", items: [] };
 
   if (reason.items.length === 0) return null;
 
   return (
-    <section className="py-20 bg-sand-50 sm:py-28">
-      <div className="container px-4 mx-auto sm:px-6">
-        <Reveal>
-          <div className="mb-14 text-center max-w-2xl mx-auto">
-            <p className="mb-2 text-sm font-semibold uppercase tracking-[0.2em] text-teak-500">
-              Keunggulan Kami
-            </p>
-            <h2 className="font-display text-3xl font-bold text-ink-900 md:text-4xl">
+    <section className="py-24 bg-volcanic-950 sm:py-32">
+      <div className="px-6 mx-auto max-w-7xl lg:px-8">
+        <div className="mb-16 grid grid-cols-1 gap-8 lg:grid-cols-2 lg:items-end">
+          <Reveal>
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-gold-400">Keunggulan</p>
+            <h2 className="font-display text-4xl font-normal tracking-tight text-stone-50 md:text-6xl">
               {reason.title}
             </h2>
+          </Reveal>
+          <Reveal delay={120}>
             {reason.subtitle && (
-              <p className="mt-3 text-lg text-ink-500">{reason.subtitle}</p>
+              <p className="lg:max-w-sm lg:ml-auto text-lg text-stone-400 lg:text-right">
+                {reason.subtitle}
+              </p>
             )}
-          </div>
-        </Reveal>
+          </Reveal>
+        </div>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="divide-y divide-stone-800/60 border-y border-stone-800/60">
           {reason.items.map((item, i) => (
-            <Reveal key={item.title} delay={i * 0.08}>
-              <div className="h-full p-6 rounded-2xl bg-ivory border border-sand-200 shadow-card">
-                <div className="mb-4 flex justify-center items-center w-12 h-12 rounded-xl bg-forest-50">
-                  <Icon
-                    icon={icons[i % icons.length]}
-                    className="w-6 h-6 text-teak-600"
-                  />
+            <Reveal key={item.title} delay={i * 80}>
+              <div className="group grid grid-cols-1 gap-4 py-8 lg:grid-cols-12 lg:items-center lg:py-10">
+                <div className="lg:col-span-1">
+                  <span className="font-display text-4xl text-stone-700 transition-colors duration-300 group-hover:text-gold-400">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
                 </div>
-                <h3 className="mb-2 font-display text-lg font-semibold text-ink-900">
+                <h3 className="font-display text-2xl text-stone-100 transition-transform duration-300 group-hover:translate-x-2 lg:col-span-4 lg:text-3xl">
                   {item.title}
                 </h3>
-                <p className="text-sm leading-relaxed text-ink-500">
+                <p className="text-stone-400 leading-relaxed lg:col-span-7">
                   {item.description}
                 </p>
               </div>

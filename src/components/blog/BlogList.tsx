@@ -9,60 +9,46 @@ import Image from "next/image";
 
 const container = {
   hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2,
-    },
-  },
+  show: { opacity: 1, transition: { staggerChildren: 0.12 } },
 };
 
 const item = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0 },
+  hidden: { opacity: 0, y: 24 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
 };
 
-// BlogList Component
 export default function BlogList({ posts }: { posts: BlogPost[] }) {
   return (
     <motion.div
       variants={container}
       initial="hidden"
       animate="show"
-      className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3"
+      className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
     >
       {posts.map((post) => (
-        <motion.div
-          key={post.slug}
-          variants={item}
-          className="flex flex-col h-full"
-        >
+        <motion.div key={post.slug} variants={item} className="flex flex-col h-full">
           <Link
             href={`/blogs/${post.slug}`}
-            className="block overflow-hidden bg-sand-50 border border-sand-200 rounded-2xl shadow-card transition-all duration-300 hover:shadow-cardHover hover:-translate-y-1 group h-full"
+            className="group block h-full overflow-hidden rounded-2xl bg-volcanic-800 border border-stone-800/60 hover:border-gold-400/30 transition-all"
           >
-            <div className="overflow-hidden aspect-[16/9]">
-              <motion.div className="relative w-full h-full">
-                <Image
-                  src={post.coverImage}
-                  alt={post.title}
-                  fill
-                  className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
-              </motion.div>
+            <div className="relative aspect-[16/10] overflow-hidden">
+              <Image
+                src={post.coverImage}
+                alt={post.title}
+                fill
+                className="object-cover transition-transform duration-700 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-volcanic-900 via-transparent to-transparent" />
             </div>
-            <div className="p-7 flex flex-col flex-grow">
-              <div className="flex gap-2 items-center mb-3 text-sm font-medium text-ink-400">
-                <Icon icon="mdi:calendar" className="w-5 h-5" />
+            <div className="p-6">
+              <div className="flex gap-2 items-center mb-3 text-xs font-medium text-stone-500">
+                <Icon icon="mdi:calendar" className="w-4 h-4" />
                 {format(new Date(post.date), "dd MMM yyyy")}
               </div>
-              <h2 className="mb-3 font-display text-xl font-bold text-ink-900 transition-colors duration-300 group-hover:text-teak-600">
+              <h2 className="mb-3 font-display text-2xl text-stone-50 group-hover:text-gold-300 transition-colors">
                 {post.title}
               </h2>
-              <p className="text-base text-ink-500 leading-relaxed flex-grow line-clamp-3">
-                {post.excerpt}
-              </p>
+              <p className="text-sm text-stone-400 leading-relaxed line-clamp-3">{post.excerpt}</p>
             </div>
           </Link>
         </motion.div>

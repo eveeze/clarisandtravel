@@ -1,31 +1,27 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getGalleryItems } from "@/lib/data";
-import Reveal from "./Reveal";
+import Reveal from "@/components/Reveal";
 
 export default async function GalleryPreview() {
   const items = await getGalleryItems();
   const preview = items.slice(0, 6);
-
   if (preview.length === 0) return null;
 
   return (
-    <section className="py-20 bg-ivory sm:py-28">
-      <div className="container px-4 mx-auto sm:px-6">
+    <section className="py-24 bg-volcanic-950 sm:py-32">
+      <div className="px-6 mx-auto max-w-7xl lg:px-8">
         <Reveal>
-          <div className="mb-12 flex flex-wrap items-end justify-between gap-4">
+          <div className="flex flex-wrap items-end justify-between gap-4 mb-16">
             <div>
-              <p className="mb-2 text-sm font-semibold uppercase tracking-[0.2em] text-teak-500">
+              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-gold-400">
                 Galeri
               </p>
-              <h2 className="font-display text-3xl font-bold text-ink-900 md:text-4xl">
-                Momen Bersama Kami
+              <h2 className="font-display text-4xl font-normal tracking-tight text-stone-50 md:text-6xl">
+                Momen di Jogja
               </h2>
             </div>
-            <Link
-              href="/gallery"
-              className="text-sm font-semibold text-teak-500 hover:underline"
-            >
+            <Link href="/gallery" className="text-sm font-semibold text-gold-400 hover:underline">
               Lihat Semua →
             </Link>
           </div>
@@ -33,16 +29,16 @@ export default async function GalleryPreview() {
 
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
           {preview.map((item, i) => (
-            <Reveal key={item.id} delay={i * 0.05}>
+            <Reveal key={item.id} delay={i * 60}>
               <div className="group relative overflow-hidden rounded-2xl aspect-square">
                 <Image
                   src={item.image}
                   alt={item.title}
                   fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="object-cover transition-transform duration-700 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-forest-950/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                <p className="absolute bottom-3 left-4 right-4 font-medium text-ivory opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="absolute inset-0 bg-volcanic-950/0 group-hover:bg-volcanic-950/60 transition-all duration-500" />
+                <p className="absolute bottom-4 left-5 font-display text-lg text-stone-50 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
                   {item.title}
                 </p>
               </div>
