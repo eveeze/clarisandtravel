@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { Icon } from "@iconify/react";
 
 type ButtonProps = {
@@ -16,32 +19,63 @@ export default function Button({
   arrow = true,
   className = "",
 }: ButtonProps) {
-  const base =
-    "group relative inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full text-sm font-semibold tracking-wide overflow-hidden transition-all duration-300";
+  const isPrimary = variant === "primary";
 
-  const styles =
-    variant === "primary"
-      ? "bg-gold-500 text-volcanic-900 hover:shadow-[0_8px_30px_rgba(232,179,75,0.28)]"
-      : "border border-stone-700 text-stone-200 hover:border-gold-400 hover:text-gold-400 hover:bg-gold-400/5";
+  const base =
+    "relative inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full text-sm font-semibold overflow-hidden select-none";
+
+  const styles = isPrimary
+    ? "bg-gold-500 text-volcanic-900"
+    : "border border-stone-700 text-stone-200";
 
   return (
-    <Link href={href} className={`${base} ${styles} ${className}`}>
-      {/* sheen sweep for primary */}
-      {variant === "primary" && (
-        <span
-          aria-hidden
-          className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
+    <motion.div
+      whileHover="hover"
+      whileTap="tap"
+      initial="initial"
+      className={`inline-block ${className}`}
+    >
+      <Link
+        href={href}
+        className={`${base} ${styles}`}
+        style={{ WebkitTapHighlightColor: "transparent" }}
+      >
+        {/* invert fill (rise from bottom) */}
+        <motion.span
+          variants={{
+            initial: { scaleY: 0 },
+            hover: { scaleY: 1, transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } },
+            tap: { scaleY: 1, transition: { duration: 0.15 } },
+          }}
+          className={`absolute inset-0 origin-bottom ${isPrimary ? "bg-volcanic-900" : "bg-gold-500"}`}
         />
-      )}
-      <span className="relative z-10 transition-[letter-spacing] duration-300 group-hover:tracking-widest">
-        {children}
-      </span>
-      {arrow && (
-        <Icon
-          icon="mdi:arrow-right"
-          className="relative z-10 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1.5"
-        />
-      )}
-    </Link>
+
+        {/* label */}
+        <motion.span
+          variants={{
+            initial: { color: isPrimary ? "#0F1D1A" : "#C5BFB0" },
+            hover: { color: isPrimary ? "#E8B34B" : "#0F1D1A", transition: { duration: 0.25 } },
+            tap: { color: isPrimary ? "#E8B34B" : "#0F1D1A" },
+          }}
+          className="relative z-10"
+        >
+          {children}
+        </motion.span>
+
+        {/* arrow */}
+        {arrow && (
+          <motion.span
+            variants={{
+              initial: { x: 0 },
+              hover: { x: 6, transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] } },
+              tap: { x: 8 },
+            }}
+            className="relative z-10"
+          >
+            <Icon icon="mdi:arrow-right" className="w-5 h-5" />
+          </motion.span>
+        )}
+      </Link>
+    </motion.div>
   );
 }
