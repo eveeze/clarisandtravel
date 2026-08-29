@@ -42,10 +42,11 @@ function LoginForm() {
 
         <form onSubmit={onSubmit} className="space-y-4">
           <div>
-            <label className="block mb-1 text-sm font-medium text-slate-300">
+            <label htmlFor="email" className="block mb-1 text-sm font-medium text-slate-300">
               Email
             </label>
             <input
+              id="email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -56,10 +57,11 @@ function LoginForm() {
           </div>
 
           <div>
-            <label className="block mb-1 text-sm font-medium text-slate-300">
+            <label htmlFor="password" className="block mb-1 text-sm font-medium text-slate-300">
               Password
             </label>
             <input
+              id="password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -70,9 +72,7 @@ function LoginForm() {
           </div>
 
           {error && (
-            <p className="px-3 py-2 text-sm rounded-lg bg-red-500/10 border border-red-500/30 text-red-400">
-              {error}
-            </p>
+            <p className="px-3 py-2 text-sm rounded-lg bg-red-500/10 border border-red-500/30 text-red-400">{error}</p>
           )}
 
           <button
@@ -84,10 +84,7 @@ function LoginForm() {
           </button>
         </form>
 
-        <Link
-          href="/"
-          className="block mt-6 text-center text-sm text-slate-400 hover:text-slate-200"
-        >
+        <Link href="/" className="block mt-6 text-center text-sm text-slate-400 hover:text-slate-200">
           ← Kembali ke website
         </Link>
       </div>
