@@ -1,16 +1,12 @@
 import type { MetadataRoute } from "next";
-import { prisma } from "@/lib/prisma";
+import { getTourPackages, getBlogPosts } from "@/lib/data";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://clarisandtravel.vercel.app";
 
   const [packages, blogs] = await Promise.all([
-    prisma.tourPackage.findMany({
-      select: { slug: true, updatedAt: true },
-    }),
-    prisma.blogPost.findMany({
-      select: { slug: true, date: true },
-    }),
+    getTourPackages(),
+    getBlogPosts(),
   ]);
 
   const staticRoutes: MetadataRoute.Sitemap = [
@@ -24,14 +20,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const packageRoutes: MetadataRoute.Sitemap = packages.map((p) => ({
     url: `${baseUrl}/tours-pricing/${p.slug}`,
-    lastModified: p.updatedAt,
+    lastModified: new Date(),
     changeFrequency: "weekly",
     priority: 0.9,
   }));
 
   const blogRoutes: MetadataRoute.Sitemap = blogs.map((b) => ({
     url: `${baseUrl}/blogs/${b.slug}`,
-    lastModified: b.date,
+    lastModified: new Date(b.date),
     changeFrequency: "monthly",
     priority: 0.7,
   }));

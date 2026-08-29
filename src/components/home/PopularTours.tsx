@@ -1,15 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
-import { prisma } from "@/lib/prisma";
+import { getTourPackages } from "@/lib/data";
 import Reveal from "@/components/Reveal";
 
 export default async function PopularTours() {
-  const packages = await prisma.tourPackage.findMany({
-    where: { isPopular: true },
-    include: { vehicles: true },
-    orderBy: { basePrice: "asc" },
-    take: 3,
-  });
+  const all = await getTourPackages();
+  const packages = all
+    .filter((p) => p.isPopular)
+    .sort((a, b) => a.basePrice - b.basePrice)
+    .slice(0, 3);
 
   if (packages.length === 0) return null;
 
