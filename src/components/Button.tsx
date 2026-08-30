@@ -21,10 +21,10 @@ export default function Button({ href, children, variant = "primary", arrow = tr
 
   // Dark text on gold (kontras ~7:1), putih di volcanic (dark variant)
   const styles = isPrimary
-    ? "bg-gold-500 text-ink-900"
+    ? "bg-gold-500 text-volcanic-900"
     : isDark
       ? "bg-volcanic-900 text-sand-100"
-      : "border border-ink-900/20 text-ink-900";
+      : "border border-volcanic-900/20 text-volcanic-900";
 
   return (
     <motion.div whileHover="hover" whileTap="tap" initial="initial" className={`inline-block ${className}`}>
@@ -37,19 +37,19 @@ export default function Button({ href, children, variant = "primary", arrow = tr
             tap: { scaleY: 1, transition: { duration: 0.15 } },
           }}
           className={`absolute inset-0 origin-bottom ${
-            isPrimary ? "bg-volcanic-900" : isDark ? "bg-gold-500" : "bg-ink-900"
+            isPrimary ? "bg-volcanic-900" : isDark ? "bg-gold-500" : "bg-volcanic-900"
           }`}
         />
 
         {/* label */}
         <motion.span
           variants={{
-            initial: { color: isPrimary ? "#14191A" : isDark ? "#F4F3EE" : "#14191A" },
+            initial: { color: isPrimary ? "#0F1D1A" : isDark ? "#F4F3EE" : "#0F1D1A" },
             hover: {
-              color: isPrimary ? "#F4F3EE" : isDark ? "#14191A" : "#F4F3EE",
+              color: isPrimary ? "#F4F3EE" : isDark ? "#0F1D1A" : "#F4F3EE",
               transition: { duration: 0.25 },
             },
-            tap: { color: isPrimary ? "#F4F3EE" : isDark ? "#14191A" : "#F4F3EE" },
+            tap: { color: isPrimary ? "#F4F3EE" : isDark ? "#0F1D1A" : "#F4F3EE" },
           }}
           className="relative z-10"
         >

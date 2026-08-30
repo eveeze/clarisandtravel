@@ -49,7 +49,7 @@ export default function ToursPricingScreen({ packages }: { packages: TourPackage
                 key={t}
                 onClick={() => setType(t)}
                 className={`px-5 py-2 text-sm font-medium rounded-full transition-colors ${
-                  type === t ? "bg-gold-500 text-ink-900" : "text-ink-500 hover:text-ink-700"
+                  type === t ? "bg-gold-500 text-volcanic-900" : "text-ink-500 hover:text-ink-700"
                 }`}
               >
                 {t === "local" ? "Wisatawan Lokal" : "Wisatawan Asing"}
@@ -92,7 +92,7 @@ export default function ToursPricingScreen({ packages }: { packages: TourPackage
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
                     />
-                    <span className="absolute top-5 left-5 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-wider rounded-full bg-gold-500 text-ink-900">
+                    <span className="absolute top-5 left-5 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-wider rounded-full bg-gold-500 text-volcanic-900">
                       Pilihan Populer
                     </span>
                   </div>
@@ -117,7 +117,7 @@ export default function ToursPricingScreen({ packages }: { packages: TourPackage
                           <span className="ml-2 text-lg font-body text-ink-400">/{featured.duration}</span>
                         </p>
                       </div>
-                      <span className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold rounded-full bg-gold-500 text-ink-900 group-hover:bg-gold-400 transition-colors">
+                      <span className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold rounded-full bg-gold-500 text-volcanic-900 group-hover:bg-gold-400 transition-colors">
                         Lihat Detail
                         <Icon
                           icon="mdi:arrow-right"

@@ -57,7 +57,7 @@ export default function TouristDestinations({ spots }: { spots: TouristSpot[] })
                   className="object-cover transition-transform duration-700 group-hover:scale-110"
                 />
                 {spot.category && (
-                  <span className="absolute top-4 left-4 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider rounded-full bg-ink-900/80 text-paper">
+                  <span className="absolute top-4 left-4 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider rounded-full bg-volcanic-900/80 text-sand-50">
                     {spot.category}
                   </span>
                 )}

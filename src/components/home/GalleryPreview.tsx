@@ -35,7 +35,7 @@ export default async function GalleryPreview() {
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-ink-900/0 group-hover:bg-ink-900/40 transition-all duration-500" />
+                <div className="absolute inset-0 bg-volcanic-900/0 group-hover:bg-volcanic-900/40 transition-all duration-500" />
                 <p className="absolute bottom-4 left-5 font-display text-lg text-ink-900 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
                   {item.title}
                 </p>

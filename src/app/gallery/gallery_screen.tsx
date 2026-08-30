@@ -56,7 +56,7 @@ export default function GalleryScreen({ items }: { items: GalleryItem[] }) {
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-ink-900/0 group-hover:bg-ink-900/40 transition-all duration-500" />
+                <div className="absolute inset-0 bg-volcanic-900/0 group-hover:bg-volcanic-900/40 transition-all duration-500" />
                 <div className="absolute bottom-0 left-0 right-0 p-5 text-left opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                   <p className="font-display text-xl text-ink-900">{item.title}</p>
                   <p className="text-xs text-ink-500">

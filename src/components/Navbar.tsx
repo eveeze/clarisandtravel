@@ -64,19 +64,19 @@ export default function Navbar() {
             {/* Book CTA — satu style dengan Button primary */}
             <Link
               href="/tours-pricing"
-              className="hidden lg:inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold rounded-full bg-gold-500 text-ink-900 hover:bg-gold-400 transition-colors duration-300"
+              className="hidden lg:inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold rounded-full bg-gold-500 text-volcanic-900 hover:bg-gold-400 transition-colors duration-300"
             >
               Book
               <Icon icon="mdi:arrow-right" className="w-4 h-4" />
             </Link>
 
-            {/* Menu toggle — outline, not solid black */}
+            {/* Menu toggle — hijau (volcanic), bukan hitam */}
             <button
               onClick={() => setIsOpen(!isOpen)}
               className={`flex items-center gap-2.5 px-5 py-3 rounded-full border transition-colors duration-300 ${
                 isOpen
-                  ? "border-ink-900 bg-ink-900 text-white"
-                  : "border-ink-900/20 text-ink-900 hover:border-ink-900 hover:bg-ink-900 hover:text-white"
+                  ? "border-volcanic-900 bg-volcanic-900 text-white"
+                  : "border-volcanic-900/20 text-volcanic-900 hover:border-volcanic-900 hover:bg-volcanic-900 hover:text-white"
               }`}
               aria-label={isOpen ? "Tutup menu" : "Buka menu"}
             >
@@ -148,7 +148,7 @@ export default function Navbar() {
                 <Link
                   href="/tours-pricing"
                   onClick={() => setIsOpen(false)}
-                  className="inline-flex items-center gap-2 px-6 py-3.5 text-sm font-semibold rounded-full bg-gold-500 text-ink-900 hover:bg-gold-400 transition-colors duration-300"
+                  className="inline-flex items-center gap-2 px-6 py-3.5 text-sm font-semibold rounded-full bg-gold-500 text-volcanic-900 hover:bg-gold-400 transition-colors duration-300"
                 >
                   Booking Sekarang
                   <Icon icon="mdi:arrow-right" className="w-4 h-4" />

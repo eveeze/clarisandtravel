@@ -28,6 +28,7 @@ export default {
           400: "#8A9394",
         },
         sand: {
+          50: "#F7F6F1",
           DEFAULT: "#EFEEE8",
           100: "#F4F3EE",
           200: "#E7E5DD",
