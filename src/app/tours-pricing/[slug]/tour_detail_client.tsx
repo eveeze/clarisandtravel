@@ -41,7 +41,7 @@ export default function TourDetailClient({ tour }: { tour: TourPackage }) {
                 onClick={() => setSelectedVehicle(vehicle)}
                 className={`text-left p-4 rounded-2xl border transition-colors ${
                   selectedVehicle?.id === vehicle.id
-                    ? "bg-gold-500 border-gold-500 text-ink-900"
+                    ? "bg-gold-500 border-gold-500 text-volcanic-900"
                     : "bg-white border-sand-200 hover:border-gold-400/40"
                 }`}
               >

@@ -4,17 +4,16 @@ import { Icon } from "@iconify/react";
 type ButtonProps = {
   href: string;
   children: React.ReactNode;
-  variant?: "primary" | "ghost" | "dark" | "onDark";
+  variant?: "primary" | "ghost" | "dark" | "onDark" | "onDarkGhost";
   arrow?: boolean;
   className?: string;
 };
 
 /**
- * Button dengan invert-fill animasi via CSS group-hover.
- * - Hover area PENUH tombol → fill naik dari bawah (scaleY)
- * - Scale + arrow slide via transition
- * - 100% CSS, gak ada masalah propagasi framer-motion
- * - Warna token-driven (tailwind.config.ts)
+ * Button — SATU style untuk seluruh website (match Hero).
+ * - Fill animasi naik dari bawah via CSS group-hover (area penuh tombol)
+ * - Warna token-driven (tailwind.config.ts), gampang diubah per tema
+ * - variant onDark* khusus section gelap (gak blend sama bg volcanic)
  */
 export default function Button({ href, children, variant = "primary", arrow = true, className = "" }: ButtonProps) {
   const base =
@@ -25,23 +24,25 @@ export default function Button({ href, children, variant = "primary", arrow = tr
     dark: "bg-volcanic-900 text-sand-100",
     ghost: "border border-sand-300 text-ink-700",
     onDark: "bg-gold-500 text-volcanic-900",
+    onDarkGhost: "border border-sand-200/40 text-sand-100",
   };
 
-  // fill yang naik dari bawah saat hover — SELALU hijau volcanic, jangan volcanic-900 (keliatan hitam)
+  // fill yang naik dari bawah saat hover — SELALU hijau volcanic, jangan volcanic-900
   const fill: Record<string, string> = {
     primary: "bg-volcanic-600",
     dark: "bg-gold-500",
     ghost: "bg-volcanic-600",
     onDark: "bg-gold-400",
+    onDarkGhost: "bg-sand-100",
   };
 
-  // warna label saat fill muncul — pakai hover: (di elemen Link sendiri),
-  // bukan group-hover: (yang butuh elemen jadi anak .group)
+  // warna label saat fill muncul
   const labelHover: Record<string, string> = {
     primary: "hover:text-sand-100",
     dark: "hover:text-volcanic-900",
     ghost: "hover:text-sand-100",
     onDark: "hover:text-volcanic-900",
+    onDarkGhost: "hover:text-volcanic-900",
   };
 
   return (

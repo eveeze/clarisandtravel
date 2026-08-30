@@ -1,4 +1,3 @@
-import Link from "next/link";
 import Button from "@/components/Button";
 import Reveal from "@/components/Reveal";
 
@@ -19,12 +18,9 @@ export default function CTA() {
             <Button href="/tours-pricing" variant="onDark">
               Lihat Paket Tour
             </Button>
-            <Link
-              href="/profile"
-              className="inline-flex items-center px-8 py-4 text-sm font-semibold rounded-full border border-sand-200/40 text-sand-100 hover:bg-sand-100/10 hover:border-sand-200 transition-colors duration-300"
-            >
+            <Button href="/profile" variant="onDarkGhost" arrow={false}>
               Hubungi Kami
-            </Link>
+            </Button>
           </div>
         </Reveal>
       </div>

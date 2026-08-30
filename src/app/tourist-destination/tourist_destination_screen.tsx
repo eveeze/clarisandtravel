@@ -30,7 +30,7 @@ export default function TouristDestinations({ spots }: { spots: TouristSpot[] })
               onClick={() => setActive(cat)}
               className={`px-4 py-2 text-sm font-medium rounded-full border transition-colors ${
                 active === cat
-                  ? "bg-gold-500 border-gold-500 text-ink-900"
+                  ? "bg-gold-500 border-gold-500 text-volcanic-900"
                   : "bg-white border-sand-200 text-ink-500 hover:border-gold-400/40"
               }`}
             >
