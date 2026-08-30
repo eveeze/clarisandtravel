@@ -76,7 +76,7 @@ export default function Showroom({ vehicles }: { vehicles: Vehicle[] }) {
               <div className="flex flex-col flex-grow p-6">
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="font-display text-2xl text-ink-900">{v.name}</h3>
-                  <span className="text-sm text-ink-9000">{v.capacity}</span>
+                  <span className="text-sm text-ink-400">{v.capacity}</span>
                 </div>
                 {v.priceLabel && <p className="mb-3 text-sm font-semibold text-gold-600">{v.priceLabel}</p>}
                 {v.description && <p className="mb-5 text-sm leading-relaxed text-ink-500">{v.description}</p>}

@@ -64,12 +64,12 @@ export default function ToursPricingScreen({ packages }: { packages: TourPackage
               placeholder="Cari paket..."
               className="w-full px-4 py-3 pl-11 rounded-full bg-white border border-sand-200 text-ink-700 placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-gold-400/50"
             />
-            <Icon icon="mdi:magnify" className="absolute left-4 top-1/2 -translate-y-1/2 text-ink-9000" />
+            <Icon icon="mdi:magnify" className="absolute left-4 top-1/2 -translate-y-1/2 text-ink-400" />
           </div>
         </div>
 
         {filtered.length === 0 ? (
-          <p className="py-20 text-center text-ink-9000">Tidak ada paket yang cocok.</p>
+          <p className="py-20 text-center text-ink-400">Tidak ada paket yang cocok.</p>
         ) : (
           <AnimatePresence mode="wait">
             <motion.div
@@ -111,10 +111,10 @@ export default function ToursPricingScreen({ packages }: { packages: TourPackage
                     </div>
                     <div className="flex items-end justify-between">
                       <div>
-                        <p className="text-xs uppercase tracking-widest text-ink-9000">Mulai dari</p>
+                        <p className="text-xs uppercase tracking-widest text-ink-400">Mulai dari</p>
                         <p className="font-display text-4xl text-gold-600 md:text-5xl">
                           Rp {featured.basePrice.toLocaleString("id-ID")}
-                          <span className="ml-2 text-lg font-body text-ink-9000">/{featured.duration}</span>
+                          <span className="ml-2 text-lg font-body text-ink-400">/{featured.duration}</span>
                         </p>
                       </div>
                       <span className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold rounded-full bg-gold-500 text-volcanic-900 group-hover:bg-gold-400 transition-colors">
@@ -144,7 +144,7 @@ export default function ToursPricingScreen({ packages }: { packages: TourPackage
                       {pkg.name}
                     </h3>
                     <div className="flex items-center gap-3 sm:col-span-3 sm:justify-end">
-                      <span className="text-sm text-ink-9000">{pkg.duration}</span>
+                      <span className="text-sm text-ink-400">{pkg.duration}</span>
                       <span className="font-display text-2xl text-gold-600">
                         Rp {pkg.basePrice.toLocaleString("id-ID")}
                       </span>

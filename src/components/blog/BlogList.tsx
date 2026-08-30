@@ -41,7 +41,7 @@ export default function BlogList({ posts }: { posts: BlogPost[] }) {
               <div className="absolute inset-0 bg-gradient-to-t from-volcanic-900 via-transparent to-transparent" />
             </div>
             <div className="p-6">
-              <div className="flex gap-2 items-center mb-3 text-xs font-medium text-ink-9000">
+              <div className="flex gap-2 items-center mb-3 text-xs font-medium text-ink-400">
                 <Icon icon="mdi:calendar" className="w-4 h-4" />
                 {format(new Date(post.date), "dd MMM yyyy")}
               </div>

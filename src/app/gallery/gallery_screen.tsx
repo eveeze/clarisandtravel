@@ -38,7 +38,7 @@ export default function GalleryScreen({ items }: { items: GalleryItem[] }) {
         </div>
 
         {filtered.length === 0 ? (
-          <p className="py-16 text-center text-ink-9000">Belum ada foto.</p>
+          <p className="py-16 text-center text-ink-400">Belum ada foto.</p>
         ) : (
           <motion.div layout className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {filtered.map((item) => (

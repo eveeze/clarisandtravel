@@ -7,38 +7,49 @@ import { Icon } from "@iconify/react";
 type ButtonProps = {
   href: string;
   children: React.ReactNode;
-  variant?: "primary" | "ghost";
+  variant?: "primary" | "ghost" | "dark";
   arrow?: boolean;
   className?: string;
 };
 
 export default function Button({ href, children, variant = "primary", arrow = true, className = "" }: ButtonProps) {
   const isPrimary = variant === "primary";
+  const isDark = variant === "dark";
 
   const base =
     "relative inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full text-sm font-semibold overflow-hidden select-none";
 
-  const styles = isPrimary ? "bg-gold-500 text-white" : "border border-sand-300 text-ink-700";
+  // Dark text on gold (kontras ~7:1), putih di volcanic (dark variant)
+  const styles = isPrimary
+    ? "bg-gold-500 text-ink-900"
+    : isDark
+      ? "bg-volcanic-900 text-sand-100"
+      : "border border-ink-900/20 text-ink-900";
 
   return (
     <motion.div whileHover="hover" whileTap="tap" initial="initial" className={`inline-block ${className}`}>
       <Link href={href} className={`${base} ${styles}`} style={{ WebkitTapHighlightColor: "transparent" }}>
-        {/* invert fill (rise from bottom) */}
+        {/* invert fill */}
         <motion.span
           variants={{
             initial: { scaleY: 0 },
             hover: { scaleY: 1, transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } },
             tap: { scaleY: 1, transition: { duration: 0.15 } },
           }}
-          className={`absolute inset-0 origin-bottom ${isPrimary ? "bg-volcanic-900" : "bg-gold-500"}`}
+          className={`absolute inset-0 origin-bottom ${
+            isPrimary ? "bg-volcanic-900" : isDark ? "bg-gold-500" : "bg-ink-900"
+          }`}
         />
 
         {/* label */}
         <motion.span
           variants={{
-            initial: { color: isPrimary ? "#FFFFFF" : "#3D4648" },
-            hover: { color: isPrimary ? "#D5A93F" : "#FFFFFF", transition: { duration: 0.25 } },
-            tap: { color: isPrimary ? "#D5A93F" : "#FFFFFF" },
+            initial: { color: isPrimary ? "#14191A" : isDark ? "#F4F3EE" : "#14191A" },
+            hover: {
+              color: isPrimary ? "#F4F3EE" : isDark ? "#14191A" : "#F4F3EE",
+              transition: { duration: 0.25 },
+            },
+            tap: { color: isPrimary ? "#F4F3EE" : isDark ? "#14191A" : "#F4F3EE" },
           }}
           className="relative z-10"
         >
