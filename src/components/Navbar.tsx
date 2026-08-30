@@ -61,27 +61,30 @@ export default function Navbar() {
           </Link>
 
           <div className="flex items-center gap-3">
-            {/* Book CTA — satu style dengan Button primary */}
+            {/* Book CTA — pake Button component biar 1 style */}
             <Link
               href="/tours-pricing"
-              className="hidden lg:inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold rounded-full bg-gold-500 text-volcanic-900 hover:bg-gold-400 transition-colors duration-300"
+              className="group relative hidden lg:inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold rounded-full overflow-hidden select-none bg-gold-500 text-volcanic-900 hover:text-sand-100 transition-colors duration-300"
             >
-              Book
-              <Icon icon="mdi:arrow-right" className="w-4 h-4" />
+              <span className="absolute inset-0 origin-bottom scale-y-0 group-hover:scale-y-100 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] bg-volcanic-600" />
+              <span className="relative z-10">Book</span>
+              <Icon
+                icon="mdi:arrow-right"
+                className="relative z-10 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+              />
             </Link>
 
-            {/* Menu toggle — hijau (volcanic), bukan hitam */}
+            {/* Menu toggle — sama invert-fill kayak Button */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className={`flex items-center gap-2.5 px-5 py-3 rounded-full border transition-colors duration-300 ${
-                isOpen
-                  ? "border-volcanic-900 bg-volcanic-900 text-white"
-                  : "border-volcanic-900/20 text-volcanic-900 hover:border-volcanic-900 hover:bg-volcanic-900 hover:text-white"
+              className={`group relative flex items-center gap-2.5 px-5 py-3 rounded-full overflow-hidden select-none transition-colors duration-300 ${
+                isOpen ? "bg-volcanic-900 text-white" : "bg-volcanic-900/10 text-volcanic-900 hover:text-white"
               }`}
               aria-label={isOpen ? "Tutup menu" : "Buka menu"}
             >
-              <span className="text-sm font-medium tracking-wide">{isOpen ? "Tutup" : "Menu"}</span>
-              <span className="flex flex-col gap-[5px]">
+              <span className="absolute inset-0 origin-bottom scale-y-0 group-hover:scale-y-100 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] bg-volcanic-600" />
+              <span className="relative z-10 text-sm font-medium tracking-wide">{isOpen ? "Tutup" : "Menu"}</span>
+              <span className="relative z-10 flex flex-col gap-[5px] py-0.5">
                 <span
                   className={`block w-5 h-[1.5px] bg-current transition-transform duration-300 ${isOpen ? "rotate-45 translate-y-[6.5px]" : ""}`}
                 />
