@@ -46,6 +46,13 @@ Next.js 15 (Vercel)
 
 Semua akses data lewat `src/lib/data.ts` — baca dari DB, **fallback ke hardcoded** kalau DB kosong/error. Jangan akses Prisma langsung dari komponen client.
 
+## 📋 Dokumen Bisnis (baca sebelum ubah fitur bisnis)
+
+- `BUSINESS_MODEL.md` — business model canvas, alur lengkap (customer/internal/payment), data model, revenue, KPI, risiko.
+- `BUSINESS_PLAN.md` — scaling roadmap 3 fase, monetization, analisa platform besar (Traveloka/Klook/GetYourGuide/Viator), keputusan terbuka.
+
+> Fitur baru yang berkaitan booking/payment/review/driver → baca dulu kedua dokumen ini biar selaras dengan model bisnis.
+
 ## Prinsip
 
 - Server Component sebisa mungkin (data fetching langsung di server)
