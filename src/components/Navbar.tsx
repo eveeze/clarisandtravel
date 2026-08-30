@@ -61,10 +61,10 @@ export default function Navbar() {
           </Link>
 
           <div className="flex items-center gap-3">
-            {/* Book CTA — gold (echoes logo ring/tagline) */}
+            {/* Book CTA — satu style dengan Button primary */}
             <Link
               href="/tours-pricing"
-              className="hidden lg:inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-white rounded-full bg-gold-600 hover:bg-gold-500 transition-colors duration-300"
+              className="hidden lg:inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold rounded-full bg-gold-500 text-ink-900 hover:bg-gold-400 transition-colors duration-300"
             >
               Book
               <Icon icon="mdi:arrow-right" className="w-4 h-4" />
@@ -148,7 +148,7 @@ export default function Navbar() {
                 <Link
                   href="/tours-pricing"
                   onClick={() => setIsOpen(false)}
-                  className="inline-flex items-center gap-2 px-6 py-3.5 text-sm font-medium text-ink-900 rounded-full border border-ink-900/15 hover:bg-ink-900 hover:text-white transition-colors duration-300"
+                  className="inline-flex items-center gap-2 px-6 py-3.5 text-sm font-semibold rounded-full bg-gold-500 text-ink-900 hover:bg-gold-400 transition-colors duration-300"
                 >
                   Booking Sekarang
                   <Icon icon="mdi:arrow-right" className="w-4 h-4" />
