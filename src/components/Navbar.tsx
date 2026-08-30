@@ -74,24 +74,18 @@ export default function Navbar() {
               />
             </Link>
 
-            {/* Menu toggle — sama invert-fill kayak Button */}
+            {/* Menu toggle — pakai ikon mdi:menu/mdi:close biar simetris & sejajar */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className={`group relative flex items-center gap-2.5 px-5 py-3 rounded-full overflow-hidden select-none transition-colors duration-300 ${
-                isOpen ? "bg-volcanic-900 text-white" : "bg-volcanic-900/10 text-volcanic-900 hover:text-white"
+              className={`group relative flex items-center gap-2 px-5 py-3 rounded-full overflow-hidden select-none transition-colors duration-300 ${
+                isOpen ? "bg-volcanic-900 text-white" : "bg-transparent text-volcanic-900 hover:text-white"
               }`}
               aria-label={isOpen ? "Tutup menu" : "Buka menu"}
+              aria-expanded={isOpen}
             >
               <span className="absolute inset-0 origin-bottom scale-y-0 group-hover:scale-y-100 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] bg-volcanic-600" />
               <span className="relative z-10 text-sm font-medium tracking-wide">{isOpen ? "Tutup" : "Menu"}</span>
-              <span className="relative z-10 flex flex-col gap-[5px] py-0.5">
-                <span
-                  className={`block w-5 h-[1.5px] bg-current transition-transform duration-300 ${isOpen ? "rotate-45 translate-y-[6.5px]" : ""}`}
-                />
-                <span
-                  className={`block w-5 h-[1.5px] bg-current transition-transform duration-300 ${isOpen ? "-rotate-45" : ""}`}
-                />
-              </span>
+              <Icon icon={isOpen ? "mdi:close" : "mdi:menu"} className="relative z-10 w-5 h-5" />
             </button>
           </div>
         </nav>
