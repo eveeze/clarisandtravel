@@ -23,9 +23,7 @@ export default function BookingForm({
   const [tourDate, setTourDate] = useState("");
   const [pax, setPax] = useState(1);
   const [message, setMessage] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "done" | "error">(
-    "idle",
-  );
+  const [status, setStatus] = useState<"idle" | "loading" | "done" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
   const onSubmit = async (e: React.FormEvent) => {
@@ -69,15 +67,13 @@ export default function BookingForm({
   };
 
   const inputClass =
-    "w-full px-4 py-2.5 rounded-xl bg-volcanic-800/80 border border-stone-700/60 text-stone-100 placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-gold-400/50";
+    "w-full px-4 py-2.5 rounded-xl bg-white/80 border border-sand-300 text-ink-900 placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-gold-400/50";
 
   return (
     <form onSubmit={onSubmit} className="space-y-4">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
-          <label className="block mb-1 text-sm font-medium text-stone-300">
-            Nama Lengkap *
-          </label>
+          <label className="block mb-1 text-sm font-medium text-ink-600">Nama Lengkap *</label>
           <input
             className={inputClass}
             value={name}
@@ -87,9 +83,7 @@ export default function BookingForm({
           />
         </div>
         <div>
-          <label className="block mb-1 text-sm font-medium text-stone-300">
-            No. WhatsApp *
-          </label>
+          <label className="block mb-1 text-sm font-medium text-ink-600">No. WhatsApp *</label>
           <input
             className={inputClass}
             type="tel"
@@ -103,9 +97,7 @@ export default function BookingForm({
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
-          <label className="block mb-1 text-sm font-medium text-stone-300">
-            Email (opsional)
-          </label>
+          <label className="block mb-1 text-sm font-medium text-ink-600">Email (opsional)</label>
           <input
             className={inputClass}
             type="email"
@@ -115,14 +107,8 @@ export default function BookingForm({
           />
         </div>
         <div>
-          <label className="block mb-1 text-sm font-medium text-stone-300">
-            Armada
-          </label>
-          <select
-            className={inputClass}
-            value={vehicle}
-            onChange={(e) => setVehicle(e.target.value)}
-          >
+          <label className="block mb-1 text-sm font-medium text-ink-600">Armada</label>
+          <select className={inputClass} value={vehicle} onChange={(e) => setVehicle(e.target.value)}>
             <option value="">Pilih armada...</option>
             {vehicleOptions.map((v) => (
               <option key={v.name} value={v.name}>
@@ -135,20 +121,11 @@ export default function BookingForm({
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
-          <label className="block mb-1 text-sm font-medium text-stone-300">
-            Tanggal Tour
-          </label>
-          <input
-            className={inputClass}
-            type="date"
-            value={tourDate}
-            onChange={(e) => setTourDate(e.target.value)}
-          />
+          <label className="block mb-1 text-sm font-medium text-ink-600">Tanggal Tour</label>
+          <input className={inputClass} type="date" value={tourDate} onChange={(e) => setTourDate(e.target.value)} />
         </div>
         <div>
-          <label className="block mb-1 text-sm font-medium text-stone-300">
-            Jumlah Orang
-          </label>
+          <label className="block mb-1 text-sm font-medium text-ink-600">Jumlah Orang</label>
           <input
             className={inputClass}
             type="number"
@@ -160,9 +137,7 @@ export default function BookingForm({
       </div>
 
       <div>
-        <label className="block mb-1 text-sm font-medium text-stone-300">
-          Pesan (opsional)
-        </label>
+        <label className="block mb-1 text-sm font-medium text-ink-600">Pesan (opsional)</label>
         <textarea
           className={inputClass}
           rows={3}
@@ -173,9 +148,7 @@ export default function BookingForm({
       </div>
 
       {status === "error" && (
-        <p className="px-3 py-2 text-sm rounded-lg bg-red-500/10 border border-red-500/30 text-red-400">
-          {errorMsg}
-        </p>
+        <p className="px-3 py-2 text-sm rounded-lg bg-red-500/10 border border-red-500/30 text-red-400">{errorMsg}</p>
       )}
 
       {status === "done" ? (

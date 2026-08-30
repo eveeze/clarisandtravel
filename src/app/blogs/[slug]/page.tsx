@@ -12,9 +12,7 @@ export async function generateStaticParams() {
   return posts.map((post) => ({ slug: post.slug }));
 }
 
-export async function generateMetadata(props: {
-  params: Params;
-}): Promise<Metadata> {
+export async function generateMetadata(props: { params: Params }): Promise<Metadata> {
   const { slug } = await props.params;
   const post = await getBlogPostBySlug(slug);
   if (!post) return { title: "Blog Post Not Found" };
@@ -61,11 +59,8 @@ export default async function BlogPost(props: { params: Params }) {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
-      <article className="min-h-screen bg-volcanic-900">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <article className="min-h-screen bg-paper">
         <div
           className="relative bg-fixed bg-center bg-cover h-[70vh]"
           style={{ backgroundImage: `url(${post.coverImage})` }}
@@ -73,16 +68,14 @@ export default async function BlogPost(props: { params: Params }) {
           <div className="absolute inset-0 bg-gradient-to-t from-volcanic-950 via-volcanic-950/40 to-volcanic-950/20" />
           <div className="container flex relative z-10 items-end px-6 mx-auto max-w-5xl h-full pb-14">
             <div className="max-w-3xl animate-fadeIn">
-              <div className="flex gap-2 items-center mb-4 text-sm font-medium text-stone-400">
+              <div className="flex gap-2 items-center mb-4 text-sm font-medium text-ink-500">
                 <Icon icon="mdi:calendar" className="w-5 h-5" />
                 {format(new Date(post.date), "MMMM d, yyyy")}
               </div>
-              <h1 className="mb-4 font-display text-4xl font-normal tracking-tight text-stone-50 md:text-6xl">
+              <h1 className="mb-4 font-display text-4xl font-normal tracking-tight text-ink-900 md:text-6xl">
                 {post.title}
               </h1>
-              <p className="text-xl font-light leading-relaxed text-stone-300">
-                {post.excerpt}
-              </p>
+              <p className="text-xl font-light leading-relaxed text-ink-600">{post.excerpt}</p>
             </div>
           </div>
         </div>

@@ -102,21 +102,11 @@ export const tourPackages: TourPackage[] = [
     name: "Jogja City Explore",
     basePrice: 250000,
     duration: "1 Day",
-    features: [
-      "Visit 3 Historical Sites",
-      "Local Transportation",
-      "Lunch Included",
-      "English Speaking Guide",
-    ],
+    features: ["Visit 3 Historical Sites", "Local Transportation", "Lunch Included", "English Speaking Guide"],
     isPopular: true,
-    description:
-      "Experience the rich cultural heritage of Yogyakarta in this comprehensive city tour...",
+    description: "Experience the rich cultural heritage of Yogyakarta in this comprehensive city tour...",
     thumbnail: "/images/tugu.jpg",
-    images: [
-      "/images/borobudur.jpg",
-      "/images/bumi-merapi.jpg",
-      "/images/goa-pindul.jpeg",
-    ],
+    images: ["/images/borobudur.jpg", "/images/bumi-merapi.jpg", "/images/goa-pindul.jpeg"],
     itinerary: [
       {
         day: 1,
@@ -124,14 +114,12 @@ export const tourPackages: TourPackage[] = [
         destinations: [
           {
             name: "Kraton Yogyakarta",
-            description:
-              "Visit the Sultan's Palace and learn about Javanese culture",
+            description: "Visit the Sultan's Palace and learn about Javanese culture",
             time: "09:00 - 11:00",
           },
           {
             name: "Taman Sari Water Castle",
-            description:
-              "Explore the historic royal garden and bathing complex",
+            description: "Explore the historic royal garden and bathing complex",
             time: "11:30 - 13:00",
           },
           {
@@ -159,14 +147,9 @@ export const tourPackages: TourPackage[] = [
       "Meals & Accommodation",
     ],
     isPopular: true,
-    description:
-      "An immersive two-day journey through Yogyakarta's most iconic locations...",
-    thumbnail: "/images/tours/comprehensive-jogja.jpg",
-    images: [
-      "/images/tours/comprehensive-1.jpg",
-      "/images/tours/comprehensive-2.jpg",
-      "/images/tours/comprehensive-3.jpg",
-    ],
+    description: "An immersive two-day journey through Yogyakarta's most iconic locations...",
+    thumbnail: "/images/borobudur.jpg",
+    images: ["/images/prambanan.jpg", "/images/malioboro.jpg", "/images/tugu.jpg"],
     itinerary: [
       {
         day: 1,
@@ -223,8 +206,7 @@ export const tourPackages: TourPackage[] = [
     basePrice: 550000,
     duration: "12 jam",
     features: ["transportasi pribadi", "panduan profesional"],
-    description:
-      "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
+    description: "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
     thumbnail: "/images/tour-lokal-a.jpg",
     images: [],
     itinerary: [
@@ -248,8 +230,7 @@ export const tourPackages: TourPackage[] = [
     basePrice: 550000,
     duration: "12 jam",
     features: ["transportasi pribadi", "panduan profesional"],
-    description:
-      "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
+    description: "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
     thumbnail: "/images/tour-lokal-b.jpg",
     images: [],
     itinerary: [
@@ -275,8 +256,7 @@ export const tourPackages: TourPackage[] = [
     basePrice: 550000,
     duration: "12 jam",
     features: ["transportasi pribadi", "panduan profesional"],
-    description:
-      "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
+    description: "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
     thumbnail: "/images/tour-lokal-c.jpg",
     images: [],
     itinerary: [
@@ -302,8 +282,7 @@ export const tourPackages: TourPackage[] = [
     basePrice: 550000,
     duration: "12 jam",
     features: ["transportasi pribadi", "panduan profesional"],
-    description:
-      "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
+    description: "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
     thumbnail: "/images/tour-lokal-d.jpg",
     images: [],
     itinerary: [
@@ -330,8 +309,7 @@ export const tourPackages: TourPackage[] = [
     basePrice: 550000,
     duration: "12 jam",
     features: ["transportasi pribadi", "panduan profesional"],
-    description:
-      "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
+    description: "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
     thumbnail: "/images/tour-lokal-e.jpg",
     images: [],
     itinerary: [
@@ -356,8 +334,7 @@ export const tourPackages: TourPackage[] = [
     basePrice: 550000,
     duration: "12 jam",
     features: ["transportasi pribadi", "panduan profesional"],
-    description:
-      "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
+    description: "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
     thumbnail: "/images/tour-lokal-f.jpg",
     images: [],
     itinerary: [
@@ -385,8 +362,7 @@ export const tourPackages: TourPackage[] = [
     basePrice: 650000,
     duration: "12 jam",
     features: ["transportasi pribadi", "panduan profesional"],
-    description:
-      "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
+    description: "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
     thumbnail: "/images/tour-medium-a.jpg",
     images: [],
     itinerary: [
@@ -412,8 +388,7 @@ export const tourPackages: TourPackage[] = [
     basePrice: 650000,
     duration: "12 jam",
     features: ["transportasi pribadi", "panduan profesional"],
-    description:
-      "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
+    description: "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
     thumbnail: "/images/tour-medium-b.jpg",
     images: [],
     itinerary: [
@@ -439,8 +414,7 @@ export const tourPackages: TourPackage[] = [
     basePrice: 650000,
     duration: "12 jam",
     features: ["transportasi pribadi", "panduan profesional"],
-    description:
-      "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
+    description: "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
     thumbnail: "/images/tour-medium-c.jpg",
     images: [],
     itinerary: [
@@ -466,8 +440,7 @@ export const tourPackages: TourPackage[] = [
     basePrice: 650000,
     duration: "12 jam",
     features: ["transportasi pribadi", "panduan profesional"],
-    description:
-      "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
+    description: "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
     thumbnail: "/images/tour-medium-d.jpg",
     images: [],
     itinerary: [
@@ -493,8 +466,7 @@ export const tourPackages: TourPackage[] = [
     basePrice: 650000,
     duration: "12 jam",
     features: ["transportasi pribadi", "panduan profesional"],
-    description:
-      "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
+    description: "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
     thumbnail: "/images/tour-medium-e.jpg",
     images: [],
     itinerary: [
@@ -520,8 +492,7 @@ export const tourPackages: TourPackage[] = [
     basePrice: 650000,
     duration: "12 jam",
     features: ["transportasi pribadi", "panduan profesional"],
-    description:
-      "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
+    description: "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
     thumbnail: "/images/tour-medium-f.jpg",
     images: [],
     itinerary: [
@@ -547,8 +518,7 @@ export const tourPackages: TourPackage[] = [
     basePrice: 650000,
     duration: "12 jam",
     features: ["transportasi pribadi", "panduan profesional"],
-    description:
-      "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
+    description: "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
     thumbnail: "/images/tour-medium-g.jpg",
     images: [],
     itinerary: [
@@ -574,8 +544,7 @@ export const tourPackages: TourPackage[] = [
     basePrice: 650000,
     duration: "12 jam",
     features: ["transportasi pribadi", "panduan profesional"],
-    description:
-      "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
+    description: "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
     thumbnail: "/images/tour-medium-h.jpg",
     images: [],
     itinerary: [
@@ -601,8 +570,7 @@ export const tourPackages: TourPackage[] = [
     basePrice: 650000,
     duration: "12 jam",
     features: ["transportasi pribadi", "panduan profesional"],
-    description:
-      "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
+    description: "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
     thumbnail: "/images/tour-medium-i.jpg",
     images: [],
     itinerary: [
@@ -628,8 +596,7 @@ export const tourPackages: TourPackage[] = [
     basePrice: 650000,
     duration: "12 jam",
     features: ["transportasi pribadi", "panduan profesional"],
-    description:
-      "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
+    description: "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
     thumbnail: "/images/tour-medium-j.jpg",
     images: [],
     itinerary: [
@@ -657,8 +624,7 @@ export const tourPackages: TourPackage[] = [
     basePrice: 750000,
     duration: "12 jam",
     features: ["transportasi pribadi", "panduan profesional"],
-    description:
-      "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
+    description: "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
     thumbnail: "/images/tour-long-a.jpg",
     images: [],
     itinerary: [
@@ -684,8 +650,7 @@ export const tourPackages: TourPackage[] = [
     basePrice: 750000,
     duration: "12 jam",
     features: ["transportasi pribadi", "panduan profesional"],
-    description:
-      "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
+    description: "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
     thumbnail: "/images/tour-long-b.jpg",
     images: [],
     itinerary: [
@@ -711,8 +676,7 @@ export const tourPackages: TourPackage[] = [
     basePrice: 750000,
     duration: "12 jam",
     features: ["transportasi pribadi", "panduan profesional"],
-    description:
-      "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
+    description: "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
     thumbnail: "/images/tour-long-c.jpg",
     images: [],
     itinerary: [
@@ -738,8 +702,7 @@ export const tourPackages: TourPackage[] = [
     basePrice: 750000,
     duration: "12 jam",
     features: ["transportasi pribadi", "panduan profesional"],
-    description:
-      "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
+    description: "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
     thumbnail: "/images/tour-long-d.jpg",
     images: [],
     itinerary: [
@@ -765,8 +728,7 @@ export const tourPackages: TourPackage[] = [
     basePrice: 850000,
     duration: "12 jam",
     features: ["transportasi pribadi", "panduan profesional"],
-    description:
-      "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
+    description: "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
     thumbnail: "/images/tour-long-e.jpg",
     images: [],
     itinerary: [
@@ -792,8 +754,7 @@ export const tourPackages: TourPackage[] = [
     basePrice: 850000,
     duration: "12 jam",
     features: ["transportasi pribadi", "panduan profesional"],
-    description:
-      "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
+    description: "nikmati petualangan tak terlupakan di jogja dengan mengunjungi tempat tempat wisata blablabla",
     thumbnail: "/images/tour-long-f.jpg",
     images: [],
     itinerary: [

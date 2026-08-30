@@ -12,34 +12,17 @@ type ButtonProps = {
   className?: string;
 };
 
-export default function Button({
-  href,
-  children,
-  variant = "primary",
-  arrow = true,
-  className = "",
-}: ButtonProps) {
+export default function Button({ href, children, variant = "primary", arrow = true, className = "" }: ButtonProps) {
   const isPrimary = variant === "primary";
 
   const base =
     "relative inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full text-sm font-semibold overflow-hidden select-none";
 
-  const styles = isPrimary
-    ? "bg-gold-500 text-volcanic-900"
-    : "border border-stone-700 text-stone-200";
+  const styles = isPrimary ? "bg-gold-500 text-white" : "border border-sand-300 text-ink-700";
 
   return (
-    <motion.div
-      whileHover="hover"
-      whileTap="tap"
-      initial="initial"
-      className={`inline-block ${className}`}
-    >
-      <Link
-        href={href}
-        className={`${base} ${styles}`}
-        style={{ WebkitTapHighlightColor: "transparent" }}
-      >
+    <motion.div whileHover="hover" whileTap="tap" initial="initial" className={`inline-block ${className}`}>
+      <Link href={href} className={`${base} ${styles}`} style={{ WebkitTapHighlightColor: "transparent" }}>
         {/* invert fill (rise from bottom) */}
         <motion.span
           variants={{
@@ -53,9 +36,9 @@ export default function Button({
         {/* label */}
         <motion.span
           variants={{
-            initial: { color: isPrimary ? "#0F1D1A" : "#C5BFB0" },
-            hover: { color: isPrimary ? "#E8B34B" : "#0F1D1A", transition: { duration: 0.25 } },
-            tap: { color: isPrimary ? "#E8B34B" : "#0F1D1A" },
+            initial: { color: isPrimary ? "#FFFFFF" : "#3D4648" },
+            hover: { color: isPrimary ? "#D5A93F" : "#FFFFFF", transition: { duration: 0.25 } },
+            tap: { color: isPrimary ? "#D5A93F" : "#FFFFFF" },
           }}
           className="relative z-10"
         >

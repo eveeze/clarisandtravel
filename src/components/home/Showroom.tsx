@@ -68,23 +68,26 @@ export default function Showroom({ vehicles }: { vehicles: Vehicle[] }) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -24 }}
               transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-              className="flex flex-col h-full overflow-hidden rounded-2xl bg-volcanic-800 border border-stone-800/60 hover:border-gold-400/30 transition-colors"
+              className="flex flex-col h-full overflow-hidden rounded-2xl bg-white border border-sand-200 hover:border-gold-400/30 transition-colors"
             >
-              <div className="relative h-60 bg-volcanic-900/60 flex items-center justify-center p-8">
+              <div className="relative h-60 bg-sand-100 flex items-center justify-center p-8">
                 <Image src={v.image} alt={v.name} width={280} height={160} className="object-contain h-40 w-auto" />
               </div>
               <div className="flex flex-col flex-grow p-6">
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-display text-2xl text-stone-50">{v.name}</h3>
-                  <span className="text-sm text-stone-500">{v.capacity}</span>
+                  <h3 className="font-display text-2xl text-ink-900">{v.name}</h3>
+                  <span className="text-sm text-ink-9000">{v.capacity}</span>
                 </div>
-                {v.priceLabel && <p className="mb-3 text-sm font-semibold text-gold-400">{v.priceLabel}</p>}
-                {v.description && <p className="mb-5 text-sm leading-relaxed text-stone-400">{v.description}</p>}
+                {v.priceLabel && <p className="mb-3 text-sm font-semibold text-gold-600">{v.priceLabel}</p>}
+                {v.description && <p className="mb-5 text-sm leading-relaxed text-ink-500">{v.description}</p>}
                 {v.features.length > 0 && (
                   <div className="flex flex-wrap gap-2 mt-auto">
                     {v.features.map((f) => (
-                      <span key={f} className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg bg-volcanic-900 border border-stone-800/60 text-stone-300">
-                        <Icon icon={iconFor(f)} className="w-4 h-4 text-gold-400" />
+                      <span
+                        key={f}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg bg-paper border border-sand-200 text-ink-600"
+                      >
+                        <Icon icon={iconFor(f)} className="w-4 h-4 text-gold-600" />
                         {f}
                       </span>
                     ))}
@@ -101,7 +104,7 @@ export default function Showroom({ vehicles }: { vehicles: Vehicle[] }) {
           <button
             onClick={() => setIndex((i) => Math.max(0, i - 1))}
             disabled={clamped === 0}
-            className="flex items-center justify-center w-11 h-11 rounded-full border border-stone-700 text-stone-300 hover:border-gold-400 hover:text-gold-400 disabled:opacity-30 disabled:pointer-events-none transition-colors"
+            className="flex items-center justify-center w-11 h-11 rounded-full border border-sand-300 text-ink-600 hover:border-gold-400 hover:text-gold-600 disabled:opacity-30 disabled:pointer-events-none transition-colors"
           >
             <Icon icon="mdi:arrow-left" className="w-5 h-5" />
           </button>
@@ -110,14 +113,14 @@ export default function Showroom({ vehicles }: { vehicles: Vehicle[] }) {
               <button
                 key={i}
                 onClick={() => setIndex(i)}
-                className={`h-1.5 rounded-full transition-all duration-300 ${i === clamped ? "w-8 bg-gold-400" : "w-1.5 bg-stone-700 hover:bg-stone-600"}`}
+                className={`h-1.5 rounded-full transition-all duration-300 ${i === clamped ? "w-8 bg-gold-400" : "w-1.5 bg-sand-200 hover:bg-sand-300"}`}
               />
             ))}
           </div>
           <button
             onClick={() => setIndex((i) => Math.min(pages - 1, i + 1))}
             disabled={clamped >= pages - 1}
-            className="flex items-center justify-center w-11 h-11 rounded-full border border-stone-700 text-stone-300 hover:border-gold-400 hover:text-gold-400 disabled:opacity-30 disabled:pointer-events-none transition-colors"
+            className="flex items-center justify-center w-11 h-11 rounded-full border border-sand-300 text-ink-600 hover:border-gold-400 hover:text-gold-600 disabled:opacity-30 disabled:pointer-events-none transition-colors"
           >
             <Icon icon="mdi:arrow-right" className="w-5 h-5" />
           </button>

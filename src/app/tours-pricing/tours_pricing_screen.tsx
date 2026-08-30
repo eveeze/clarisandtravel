@@ -25,31 +25,31 @@ export default function ToursPricingScreen({ packages }: { packages: TourPackage
   const go = (slug: string) => router.push(`/tours-pricing/${slug}`);
 
   return (
-    <section className="min-h-screen bg-volcanic-900 pt-28 pb-28">
+    <section className="min-h-screen bg-paper pt-28 pb-28">
       <div className="px-6 mx-auto max-w-7xl lg:px-8">
         {/* Header */}
         <div className="mb-12 grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-end">
           <div>
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-gold-400">Paket Tour</p>
-            <h1 className="font-display text-5xl font-normal tracking-tight text-stone-50 md:text-7xl">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-gold-600">Paket Tour</p>
+            <h1 className="font-display text-5xl font-normal tracking-tight text-ink-900 md:text-7xl">
               Pilih
-              <span className="block italic text-gold-300">Petualanganmu</span>
+              <span className="block italic text-gold-600">Petualanganmu</span>
             </h1>
           </div>
-          <p className="lg:text-right text-stone-400 max-w-sm lg:ml-auto">
+          <p className="lg:text-right text-ink-500 max-w-sm lg:ml-auto">
             Harga transparan, armada bisa dipilih, itinerary custom sesuai ritme liburanmu.
           </p>
         </div>
 
         {/* Filters */}
         <div className="mb-16 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="inline-flex p-1 rounded-full bg-volcanic-800 border border-stone-800/60">
+          <div className="inline-flex p-1 rounded-full bg-white border border-sand-200">
             {(["local", "international"] as const).map((t) => (
               <button
                 key={t}
                 onClick={() => setType(t)}
                 className={`px-5 py-2 text-sm font-medium rounded-full transition-colors ${
-                  type === t ? "bg-gold-500 text-volcanic-900" : "text-stone-400 hover:text-stone-200"
+                  type === t ? "bg-gold-500 text-volcanic-900" : "text-ink-500 hover:text-ink-700"
                 }`}
               >
                 {t === "local" ? "Wisatawan Lokal" : "Wisatawan Asing"}
@@ -62,22 +62,28 @@ export default function ToursPricingScreen({ packages }: { packages: TourPackage
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Cari paket..."
-              className="w-full px-4 py-3 pl-11 rounded-full bg-volcanic-800 border border-stone-800/60 text-stone-200 placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-gold-400/50"
+              className="w-full px-4 py-3 pl-11 rounded-full bg-white border border-sand-200 text-ink-700 placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-gold-400/50"
             />
-            <Icon icon="mdi:magnify" className="absolute left-4 top-1/2 -translate-y-1/2 text-stone-500" />
+            <Icon icon="mdi:magnify" className="absolute left-4 top-1/2 -translate-y-1/2 text-ink-9000" />
           </div>
         </div>
 
         {filtered.length === 0 ? (
-          <p className="py-20 text-center text-stone-500">Tidak ada paket yang cocok.</p>
+          <p className="py-20 text-center text-ink-9000">Tidak ada paket yang cocok.</p>
         ) : (
           <AnimatePresence mode="wait">
-            <motion.div key={type + query} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}>
+            <motion.div
+              key={type + query}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            >
               {/* Featured package */}
               {featured && (
                 <button
                   onClick={() => go(featured.slug)}
-                  className="group mb-20 grid grid-cols-1 overflow-hidden rounded-3xl border border-stone-800/60 text-left lg:grid-cols-2"
+                  className="group mb-20 grid grid-cols-1 overflow-hidden rounded-3xl border border-sand-200 text-left lg:grid-cols-2"
                 >
                   <div className="relative h-72 lg:h-full min-h-[20rem] overflow-hidden">
                     <Image
@@ -90,14 +96,14 @@ export default function ToursPricingScreen({ packages }: { packages: TourPackage
                       Pilihan Populer
                     </span>
                   </div>
-                  <div className="flex flex-col justify-between p-8 bg-volcanic-800 lg:p-12">
+                  <div className="flex flex-col justify-between p-8 bg-white lg:p-12">
                     <div>
-                      <h2 className="mb-4 font-display text-3xl text-stone-50 md:text-5xl">{featured.name}</h2>
-                      <p className="mb-6 text-stone-400">{featured.description}</p>
+                      <h2 className="mb-4 font-display text-3xl text-ink-900 md:text-5xl">{featured.name}</h2>
+                      <p className="mb-6 text-ink-500">{featured.description}</p>
                       <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
                         {featured.features.slice(0, 4).map((f) => (
-                          <li key={f} className="flex items-center gap-2 text-sm text-stone-300">
-                            <Icon icon="mdi:check-circle" className="w-5 h-5 text-gold-400" />
+                          <li key={f} className="flex items-center gap-2 text-sm text-ink-600">
+                            <Icon icon="mdi:check-circle" className="w-5 h-5 text-gold-600" />
                             {f}
                           </li>
                         ))}
@@ -105,15 +111,18 @@ export default function ToursPricingScreen({ packages }: { packages: TourPackage
                     </div>
                     <div className="flex items-end justify-between">
                       <div>
-                        <p className="text-xs uppercase tracking-widest text-stone-500">Mulai dari</p>
-                        <p className="font-display text-4xl text-gold-400 md:text-5xl">
+                        <p className="text-xs uppercase tracking-widest text-ink-9000">Mulai dari</p>
+                        <p className="font-display text-4xl text-gold-600 md:text-5xl">
                           Rp {featured.basePrice.toLocaleString("id-ID")}
-                          <span className="ml-2 text-lg font-body text-stone-500">/{featured.duration}</span>
+                          <span className="ml-2 text-lg font-body text-ink-9000">/{featured.duration}</span>
                         </p>
                       </div>
                       <span className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold rounded-full bg-gold-500 text-volcanic-900 group-hover:bg-gold-400 transition-colors">
                         Lihat Detail
-                        <Icon icon="mdi:arrow-right" className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+                        <Icon
+                          icon="mdi:arrow-right"
+                          className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+                        />
                       </span>
                     </div>
                   </div>
@@ -121,29 +130,29 @@ export default function ToursPricingScreen({ packages }: { packages: TourPackage
               )}
 
               {/* Editorial list */}
-              <div className="divide-y divide-stone-800/60 border-y border-stone-800/60">
+              <div className="divide-y divide-stone-800/60 border-y border-sand-200">
                 {rest.map((pkg, i) => (
                   <button
                     key={pkg.id}
                     onClick={() => go(pkg.slug)}
-                    className="group grid grid-cols-1 gap-2 py-8 text-left sm:grid-cols-12 sm:items-center sm:gap-6 transition-colors hover:bg-volcanic-800/40 px-2 -mx-2 rounded-xl"
+                    className="group grid grid-cols-1 gap-2 py-8 text-left sm:grid-cols-12 sm:items-center sm:gap-6 transition-colors hover:bg-sand-100/60 px-2 -mx-2 rounded-xl"
                   >
-                    <span className="font-display text-3xl text-stone-700 transition-colors group-hover:text-gold-400 sm:col-span-1">
+                    <span className="font-display text-3xl text-ink-500 transition-colors group-hover:text-gold-600 sm:col-span-1">
                       {String(i + 2).padStart(2, "0")}
                     </span>
-                    <h3 className="font-display text-2xl text-stone-50 transition-colors group-hover:text-gold-300 sm:col-span-6 md:text-3xl">
+                    <h3 className="font-display text-2xl text-ink-900 transition-colors group-hover:text-gold-600 sm:col-span-6 md:text-3xl">
                       {pkg.name}
                     </h3>
                     <div className="flex items-center gap-3 sm:col-span-3 sm:justify-end">
-                      <span className="text-sm text-stone-500">{pkg.duration}</span>
-                      <span className="font-display text-2xl text-gold-400">
+                      <span className="text-sm text-ink-9000">{pkg.duration}</span>
+                      <span className="font-display text-2xl text-gold-600">
                         Rp {pkg.basePrice.toLocaleString("id-ID")}
                       </span>
                     </div>
                     <div className="sm:col-span-2 sm:flex sm:justify-end">
                       <Icon
                         icon="mdi:arrow-right"
-                        className="w-6 h-6 text-stone-600 transition-all duration-300 group-hover:text-gold-400 group-hover:translate-x-2"
+                        className="w-6 h-6 text-ink-400 transition-all duration-300 group-hover:text-gold-600 group-hover:translate-x-2"
                       />
                     </div>
                   </button>
