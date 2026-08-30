@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Icon } from "@iconify/react";
+import Button from "@/components/Button";
 import Reveal from "@/components/Reveal";
 
 export default function CTA() {
@@ -16,16 +16,9 @@ export default function CTA() {
             Konsultasi gratis, itinerary custom, dan pemandu lokal yang siap nemenin perjalananmu.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Link
-              href="/tours-pricing"
-              className="group inline-flex items-center gap-2 px-8 py-4 text-sm font-semibold rounded-full bg-gold-500 text-volcanic-900 hover:bg-gold-400 transition-colors duration-300"
-            >
+            <Button href="/tours-pricing" variant="onDark">
               Lihat Paket Tour
-              <Icon
-                icon="mdi:arrow-right"
-                className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
-              />
-            </Link>
+            </Button>
             <Link
               href="/profile"
               className="inline-flex items-center px-8 py-4 text-sm font-semibold rounded-full border border-sand-200/40 text-sand-100 hover:bg-sand-100/10 hover:border-sand-200 transition-colors duration-300"
