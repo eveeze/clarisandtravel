@@ -27,11 +27,11 @@ export default function Button({ href, children, variant = "primary", arrow = tr
     onDark: "bg-gold-500 text-volcanic-900",
   };
 
-  // fill yang naik dari bawah saat hover
+  // fill yang naik dari bawah saat hover — SELALU hijau volcanic, jangan volcanic-900 (keliatan hitam)
   const fill: Record<string, string> = {
-    primary: "bg-volcanic-900",
+    primary: "bg-volcanic-600",
     dark: "bg-gold-500",
-    ghost: "bg-volcanic-900",
+    ghost: "bg-volcanic-600",
     onDark: "bg-gold-400",
   };
 

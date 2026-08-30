@@ -53,3 +53,30 @@ Semua akses data lewat `src/lib/data.ts` — baca dari DB, **fallback ke hardcod
 - Form mutations via Server Actions (`"use server"`)
 - Auth di-middleware (`src/middleware.ts`), bukan di layout
 - Image: `next/image`, priority di hero, lazy loading default
+
+## 🎨 TEMA (WAJIB IKUTI — JANGAN GANTI TANPA PERSETUJUAN)
+
+> **Tema website: PUTIH + HIJAU + EMAS. BUKAN hitam.**
+> Klien (eveeze) suka tema ini. AI agent yang mengerjakan repo ini WAJIB
+> menjaga konsistensi tema di semua elemen baru/touched. DILARANG:
+>
+> - ❌ Pakai warna hitam/netral gelap (`bg-ink-900`, `bg-black`) untuk tombol/hover/fill
+> - ❌ Pakai `volcanic-900`/`volcanic-950` untuk elemen interaktif (keliatan hitam)
+
+Palet resmi (definisi di `tailwind.config.ts`):
+
+| Token                  | Hex                                   | Penggunaan                                |
+| ---------------------- | ------------------------------------- | ----------------------------------------- |
+| `paper` / `sand-*`     | putih/warm putih                      | background utama, surface                 |
+| `volcanic-500/600/700` | **hijau** (#1F3D2F, #1A3328, #152B22) | **teks gelap, hover fill, section gelap** |
+| `gold-400/500`         | **emas**                              | CTA, aksen, highlight                     |
+| `ink-*`                | abu gelap netral                      | hanya untuk teks kecil/body, BUKAN tombol |
+
+Aturan elemen interaktif (tombol, hover, fill, active):
+
+- Hover/fill tombol → **`volcanic-600`** (hijau) ATAU **`gold-400`** (emas), jangan volcanic-900.
+- Tombol utama → `bg-gold-500 text-volcanic-900` (teks hijau tua di emas).
+- Di section gelap (`bg-volcanic-900`) → pakai variant `onDark` (fill `gold-400`, bukan hijau) biar tombol gak blend dengan background.
+- Ganti tema = edit `tailwind.config.ts` (satu sumber), jangan hardcode hex di komponen.
+
+Referensi lengkap: `DESIGN_SYSTEM.md`
