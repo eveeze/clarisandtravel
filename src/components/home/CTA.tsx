@@ -1,4 +1,5 @@
-import Button from "@/components/Button";
+import Link from "next/link";
+import { Icon } from "@iconify/react";
 import Reveal from "@/components/Reveal";
 
 export default function CTA() {
@@ -11,14 +12,26 @@ export default function CTA() {
             Mulai Petualanganmu
             <span className="block italic text-gold-400">di Yogyakarta</span>
           </h2>
-          <p className="mx-auto mb-12 max-w-xl text-lg text-sand-300">
+          <p className="mx-auto mb-12 max-w-xl text-lg text-sand-200">
             Konsultasi gratis, itinerary custom, dan pemandu lokal yang siap nemenin perjalananmu.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Button href="/tours-pricing">Lihat Paket Tour</Button>
-            <Button href="/profile" variant="ghost" className="border-sand-300/50 text-sand-100 hover:bg-sand-100/10">
+            <Link
+              href="/tours-pricing"
+              className="group inline-flex items-center gap-2 px-8 py-4 text-sm font-semibold rounded-full bg-gold-500 text-volcanic-900 hover:bg-gold-400 transition-colors duration-300"
+            >
+              Lihat Paket Tour
+              <Icon
+                icon="mdi:arrow-right"
+                className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+              />
+            </Link>
+            <Link
+              href="/profile"
+              className="inline-flex items-center px-8 py-4 text-sm font-semibold rounded-full border border-sand-200/40 text-sand-100 hover:bg-sand-100/10 hover:border-sand-200 transition-colors duration-300"
+            >
               Hubungi Kami
-            </Button>
+            </Link>
           </div>
         </Reveal>
       </div>
