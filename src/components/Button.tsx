@@ -35,12 +35,13 @@ export default function Button({ href, children, variant = "primary", arrow = tr
     onDark: "bg-gold-400",
   };
 
-  // warna label saat fill muncul
+  // warna label saat fill muncul — pakai hover: (di elemen Link sendiri),
+  // bukan group-hover: (yang butuh elemen jadi anak .group)
   const labelHover: Record<string, string> = {
-    primary: "group-hover:text-sand-100",
-    dark: "group-hover:text-volcanic-900",
-    ghost: "group-hover:text-sand-100",
-    onDark: "group-hover:text-volcanic-900",
+    primary: "hover:text-sand-100",
+    dark: "hover:text-volcanic-900",
+    ghost: "hover:text-sand-100",
+    onDark: "hover:text-volcanic-900",
   };
 
   return (
