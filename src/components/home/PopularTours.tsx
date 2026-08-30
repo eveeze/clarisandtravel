@@ -45,7 +45,7 @@ export default async function PopularTours() {
                     className="object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-volcanic-900 via-transparent to-transparent" />
-                  <span className="absolute top-4 left-4 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider rounded-full bg-gold-500 text-volcanic-900">
+                  <span className="absolute top-4 left-4 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider rounded-full bg-gold-500 text-ink-900">
                     Populer
                   </span>
                 </div>

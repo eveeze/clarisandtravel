@@ -41,7 +41,7 @@ export default function TourDetailClient({ tour }: { tour: TourPackage }) {
                 onClick={() => setSelectedVehicle(vehicle)}
                 className={`text-left p-4 rounded-2xl border transition-colors ${
                   selectedVehicle?.id === vehicle.id
-                    ? "bg-gold-500 border-gold-500 text-volcanic-900"
+                    ? "bg-gold-500 border-gold-500 text-ink-900"
                     : "bg-white border-sand-200 hover:border-gold-400/40"
                 }`}
               >
@@ -49,14 +49,12 @@ export default function TourDetailClient({ tour }: { tour: TourPackage }) {
                   <Image src={vehicle.image} alt={vehicle.name} fill className="object-contain" />
                 </div>
                 <h3 className="font-semibold">{vehicle.name}</h3>
-                <p
-                  className={`text-sm ${selectedVehicle?.id === vehicle.id ? "text-volcanic-900/70" : "text-ink-500"}`}
-                >
+                <p className={`text-sm ${selectedVehicle?.id === vehicle.id ? "text-ink-900/70" : "text-ink-500"}`}>
                   {vehicle.capacity}
                 </p>
                 {vehicle.priceIncrement > 0 && (
                   <p
-                    className={`text-sm font-medium ${selectedVehicle?.id === vehicle.id ? "text-volcanic-900" : "text-gold-600"}`}
+                    className={`text-sm font-medium ${selectedVehicle?.id === vehicle.id ? "text-ink-900" : "text-gold-600"}`}
                   >
                     +Rp {vehicle.priceIncrement.toLocaleString("id-ID")}
                   </p>
