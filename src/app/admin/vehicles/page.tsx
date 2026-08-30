@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { updateVehicleMarketing } from "./actions";
+import Image from "next/image";
 
 export default async function AdminVehiclesPage() {
   const vehicles = await prisma.vehicle.findMany({
@@ -12,27 +13,23 @@ export default async function AdminVehiclesPage() {
   return (
     <div>
       <h1 className="mb-2 text-2xl font-bold text-slate-900">Armada</h1>
-      <p className="mb-8 text-slate-500">
-        Atur info marketing armada yang tampil di homepage & detail paket.
-      </p>
+      <p className="mb-8 text-slate-500">Atur info marketing armada yang tampil di homepage & detail paket.</p>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {vehicles.map((v) => (
-          <div
-            key={v.id}
-            className="p-6 rounded-xl bg-white border border-slate-200 shadow-sm"
-          >
+          <div key={v.id} className="p-6 rounded-xl bg-white border border-slate-200 shadow-sm">
             <div className="flex items-center gap-3 mb-4">
-              <img
+              <Image
                 src={v.image}
                 alt={v.name}
+                width={64}
+                height={48}
                 className="w-16 h-12 object-contain rounded-lg bg-slate-100"
               />
               <div>
                 <h2 className="font-semibold text-slate-900">{v.name}</h2>
                 <p className="text-xs text-slate-400">
-                  {v.capacity} · upgrade +Rp{" "}
-                  {v.priceIncrement.toLocaleString("id-ID")}
+                  {v.capacity} · upgrade +Rp {v.priceIncrement.toLocaleString("id-ID")}
                 </p>
               </div>
             </div>
@@ -40,9 +37,7 @@ export default async function AdminVehiclesPage() {
             <form action={updateVehicleMarketing} className="space-y-3">
               <input type="hidden" name="id" value={v.id} />
               <div>
-                <label className="block mb-1 text-xs font-medium text-slate-600">
-                  Label Harga
-                </label>
+                <label className="block mb-1 text-xs font-medium text-slate-600">Label Harga</label>
                 <input
                   className={inputClass}
                   name="priceLabel"
@@ -51,37 +46,17 @@ export default async function AdminVehiclesPage() {
                 />
               </div>
               <div>
-                <label className="block mb-1 text-xs font-medium text-slate-600">
-                  Deskripsi
-                </label>
-                <textarea
-                  className={inputClass}
-                  name="description"
-                  rows={2}
-                  defaultValue={v.description ?? ""}
-                />
+                <label className="block mb-1 text-xs font-medium text-slate-600">Deskripsi</label>
+                <textarea className={inputClass} name="description" rows={2} defaultValue={v.description ?? ""} />
               </div>
               <div>
-                <label className="block mb-1 text-xs font-medium text-slate-600">
-                  Features (pisahkan koma)
-                </label>
-                <input
-                  className={inputClass}
-                  name="features"
-                  defaultValue={v.features.join(", ")}
-                />
+                <label className="block mb-1 text-xs font-medium text-slate-600">Features (pisahkan koma)</label>
+                <input className={inputClass} name="features" defaultValue={v.features.join(", ")} />
               </div>
               <div className="flex items-end justify-between">
                 <div className="w-24">
-                  <label className="block mb-1 text-xs font-medium text-slate-600">
-                    Urutan
-                  </label>
-                  <input
-                    className={inputClass}
-                    name="sortOrder"
-                    type="number"
-                    defaultValue={v.sortOrder}
-                  />
+                  <label className="block mb-1 text-xs font-medium text-slate-600">Urutan</label>
+                  <input className={inputClass} name="sortOrder" type="number" defaultValue={v.sortOrder} />
                 </div>
                 <button
                   type="submit"

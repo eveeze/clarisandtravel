@@ -15,10 +15,9 @@ test("tours filter by local/international", async ({ page }) => {
 
 test("clicking a tour opens detail page", async ({ page }) => {
   await page.goto("/tours-pricing");
-  await page
-    .getByRole("button", { name: /Lihat Detail/i })
-    .first()
-    .click();
+  // featured package is a large clickable card; click the heading inside it
+  const featured = page.locator("button").filter({ hasText: "Lihat Detail" }).first();
+  await featured.click();
   await expect(page).toHaveURL(/\/tours-pricing\//);
 });
 

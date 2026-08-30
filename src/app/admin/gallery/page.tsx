@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
+import Image from "next/image";
 import { deleteGalleryItem } from "./actions";
 
 export default async function AdminGalleryPage() {
@@ -24,25 +25,15 @@ export default async function AdminGalleryPage() {
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {items.map((g) => (
-          <div
-            key={g.id}
-            className="overflow-hidden rounded-xl bg-white border border-slate-200 shadow-sm"
-          >
-            <img
-              src={g.image}
-              alt={g.title}
-              className="w-full h-40 object-cover"
-            />
+          <div key={g.id} className="overflow-hidden rounded-xl bg-white border border-slate-200 shadow-sm">
+            <Image src={g.image} alt={g.title} width={400} height={160} className="w-full h-40 object-cover" />
             <div className="p-4">
               <h2 className="font-semibold text-slate-900">{g.title}</h2>
               <p className="text-xs text-slate-400">
                 {g.category} · {g.location ?? "-"}
               </p>
               <div className="flex gap-3 mt-3">
-                <Link
-                  href={`/admin/gallery/${g.id}/edit`}
-                  className="text-sm text-blue-600 hover:underline"
-                >
+                <Link href={`/admin/gallery/${g.id}/edit`} className="text-sm text-blue-600 hover:underline">
                   Edit
                 </Link>
                 <form
@@ -51,10 +42,7 @@ export default async function AdminGalleryPage() {
                     await deleteGalleryItem(g.id);
                   }}
                 >
-                  <button
-                    type="submit"
-                    className="text-sm text-red-500 hover:underline"
-                  >
+                  <button type="submit" className="text-sm text-red-500 hover:underline">
                     Hapus
                   </button>
                 </form>

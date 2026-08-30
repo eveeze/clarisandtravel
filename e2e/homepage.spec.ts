@@ -17,6 +17,6 @@ test("navigation works between pages", async ({ page }) => {
 test("mobile menu opens", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
-  await page.getByRole("button", { name: /Toggle menu/i }).click();
+  await page.getByRole("button", { name: /Buka menu/i }).click();
   await expect(page.getByRole("link", { name: "Destinasi" }).first()).toBeVisible();
 });
