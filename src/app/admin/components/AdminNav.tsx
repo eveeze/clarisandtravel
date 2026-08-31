@@ -14,6 +14,9 @@ const links = [
   { href: "/admin/vehicles", label: "Armada", icon: "solar:car-bold" },
   { href: "/admin/content", label: "Konten Web", icon: "solar:widget-bold" },
   { href: "/admin/bookings", label: "Booking", icon: "solar:chat-round-dots-bold" },
+  { href: "/admin/reviews", label: "Review", icon: "solar:star-bold" },
+  { href: "/admin/earnings", label: "Earnings", icon: "solar:wallet-money-bold" },
+  { href: "/admin/drivers", label: "Driver", icon: "solar:user-id-bold" },
 ];
 
 export default function AdminNav({ email }: { email: string }) {
@@ -28,18 +31,13 @@ export default function AdminNav({ email }: { email: string }) {
 
       <nav className="flex-1 px-3 py-4 space-y-1">
         {links.map((link) => {
-          const active =
-            link.href === "/admin"
-              ? pathname === "/admin"
-              : pathname.startsWith(link.href);
+          const active = link.href === "/admin" ? pathname === "/admin" : pathname.startsWith(link.href);
           return (
             <Link
               key={link.href}
               href={link.href}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                active
-                  ? "bg-amber-500 text-slate-900"
-                  : "text-slate-300 hover:bg-slate-800"
+                active ? "bg-amber-500 text-slate-900" : "text-slate-300 hover:bg-slate-800"
               }`}
             >
               <Icon icon={link.icon} className="w-5 h-5" />

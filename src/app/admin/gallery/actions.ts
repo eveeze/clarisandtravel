@@ -3,14 +3,17 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
+import { getTenantFromHeaders } from "@/lib/tenant";
 
 export async function createGalleryItem(formData: FormData) {
   const session = await auth();
   if (!session) return;
 
+  const tenantId = await getTenantFromHeaders();
   const max = await prisma.galleryItem.aggregate({ _max: { sortOrder: true } });
   await prisma.galleryItem.create({
     data: {
+      tenantId,
       title: String(formData.get("title") ?? ""),
       category: String(formData.get("category") ?? ""),
       image: String(formData.get("image") ?? ""),

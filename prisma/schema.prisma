@@ -8,8 +8,32 @@ datasource db {
   directUrl  = env("DIRECT_URL")
 }
 
+// Tenant = 1 bisnis operator (Fase 3 multi-tenant SaaS)
+// Subdomain: jogja.xxx.com, malang.xxx.com, dst. Tanpa subdomain = default tenant.
+model Tenant {
+  id            Int      @id @default(autoincrement())
+  slug          String   @unique // subdomain, misal "jogja"
+  name          String
+  whatsappNumber String?  // WA admin tenant ini
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  tourPackages TourPackage[]
+  blogPosts    BlogPost[]
+  touristSpots TouristSpot[]
+  galleryItems GalleryItem[]
+  siteContent  SiteContent[]
+  vehicles     Vehicle[]
+  drivers      Driver[]
+  bookings     Booking[]
+  adminUsers   AdminUser[]
+}
+
 model TourPackage {
   id          Int      @id @default(autoincrement())
+  tenantId    Int
+  tenant      Tenant   @relation(fields: [tenantId], references: [id])
   slug        String   @unique
   name        String
   description String
@@ -24,10 +48,15 @@ model TourPackage {
   itinerary   Itinerary[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  @@unique([tenantId, slug])
+  @@index([tenantId])
 }
 
 model Vehicle {
   id             Int           @id @default(autoincrement())
+  tenantId       Int
+  tenant         Tenant        @relation(fields: [tenantId], references: [id])
   name           String
   capacity       String
   priceIncrement Int           @default(0)
@@ -37,6 +66,8 @@ model Vehicle {
   priceLabel     String?
   sortOrder      Int           @default(0)
   packages       TourPackage[] @relation("PackageVehicles")
+
+  @@index([tenantId])
 }
 
 model Itinerary {
@@ -59,6 +90,8 @@ model ItineraryDestination {
 
 model BlogPost {
   id         Int      @id @default(autoincrement())
+  tenantId   Int
+  tenant     Tenant   @relation(fields: [tenantId], references: [id])
   slug       String   @unique
   title      String
   excerpt    String
@@ -67,56 +100,169 @@ model BlogPost {
   date       DateTime
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+
+  @@unique([tenantId, slug])
+  @@index([tenantId])
 }
 
 model TouristSpot {
-  id          Int     @id @default(autoincrement())
-  slug        String  @unique
+  id          Int      @id @default(autoincrement())
+  tenantId    Int
+  tenant      Tenant   @relation(fields: [tenantId], references: [id])
+  slug        String   @unique
   name        String
   description String
   history     String?
   category    String?
   imageUrl    String
   location    String?
+
+  @@unique([tenantId, slug])
+  @@index([tenantId])
 }
 
 model Booking {
-  id          Int      @id @default(autoincrement())
-  name        String
-  phone       String
-  email       String?
-  packageSlug String?
-  vehicleName String?
-  tourDate    String?
-  pax         Int      @default(1)
-  message     String?
-  status      String   @default("baru")
-  createdAt   DateTime @default(now())
+  id               Int              @id @default(autoincrement())
+  tenantId         Int
+  tenant           Tenant           @relation(fields: [tenantId], references: [id])
+  bookingCode      String           @unique @default("") // kode unik buat customer, misal CLR-2026-0001
+  name             String
+  phone            String
+  email            String?
+  packageSlug      String?
+  packageName      String? // denormalisasi biar gak perlu join tiap kali
+  vehicleId        Int?
+  vehicleName      String?
+  tourDate         String?
+  tourTime         String? // waktu jemput, misal "08:00"
+  pickupLocation   String? // lokasi jemput
+  pax              Int              @default(1)
+  message          String?
+
+  // --- Status lifecycle ---
+  status           String           @default("baru")
+  // nilai: baru | menunggu_bayar | dibayar | dikonfirmasi |
+  //        driver_ditugaskan | berlangsung | selesai | batal | no_show
+  cancelReason     String? // alasan batal (admin/customer)
+  cancelledBy      String? // "admin" | "customer" | "system"
+  cancelledAt      DateTime?
+
+  // --- Payment ---
+  totalPrice       Int? // total harga akhir (base + upgrade)
+  paymentStatus    String           @default("belum")
+  // nilai: belum | menunggu | dibayar | refunded
+  paymentMethod    String? // QRIS | VA | e-wallet | transfer_manual | cash
+  paymentRef       String? // id transaksi gateway / no transfer manual
+  downPayment      Int?  // DP yang dibayar
+  remainingDue     Int?  // sisa bayar
+  paidAt           DateTime?
+  refundAmount     Int? // kalau refund
+  refundedAt       DateTime?
+
+  // --- Driver assignment ---
+  driverId         Int?
+  driver           Driver? @relation(fields: [driverId], references: [id])
+  driverAssignedAt DateTime?
+
+  // --- Commission (developer) ---
+  commission       Int              @default(15000)
+  commissionPaid   Boolean          @default(false)
+  commissionPaidAt DateTime?
+
+  // --- Audit ---
+  deletedAt       DateTime?
+  history          BookingHistory[]
+  review           Review?
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([tenantId])
+  @@index([status])
+  @@index([tourDate])
+  @@index([phone])
+}
+
+// Riwayat status — catat tiap perubahan (audit trail)
+model BookingHistory {
+  id        Int      @id @default(autoincrement())
+  bookingId Int
+  booking   Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  from      String?
+  to        String
+  note      String? // "admin ubah status", "payment webhook", dll
+  changedBy String   @default("system") // "admin" | "system" | "customer"
+  createdAt DateTime @default(now())
+
+  @@index([bookingId])
+}
+
+model Driver {
+  id            Int       @id @default(autoincrement())
+  tenantId      Int
+  tenant        Tenant    @relation(fields: [tenantId], references: [id])
+  name          String
+  phone         String
+  photo         String?
+  status        String    @default("tersedia") // tersedia | bertugas | cuti
+  notes         String?
+  bookings      Booking[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([tenantId])
+}
+
+model Review {
+  id          Int         @id @default(autoincrement())
+  bookingId   Int         @unique // 1 booking = 1 review
+  booking     Booking     @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  packageId   Int?
+  rating      Int // 1-5
+  comment     String
+  verified    Boolean     @default(true) // cuma dari booking selesai
+  createdAt   DateTime    @default(now())
+
+  @@index([packageId])
 }
 
 model AdminUser {
   id        Int      @id @default(autoincrement())
+  tenantId  Int
+  tenant    Tenant   @relation(fields: [tenantId], references: [id])
   email     String   @unique
   password  String
   name      String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([tenantId, email])
+  @@index([tenantId])
 }
 
 model SiteContent {
   id        Int      @id @default(autoincrement())
+  tenantId  Int
+  tenant    Tenant   @relation(fields: [tenantId], references: [id])
   key       String   @unique
   label     String
   content   Json
   updatedAt DateTime @updatedAt
+
+  @@unique([tenantId, key])
+  @@index([tenantId])
 }
 
 model GalleryItem {
   id          Int     @id @default(autoincrement())
+  tenantId    Int
+  tenant      Tenant  @relation(fields: [tenantId], references: [id])
   title       String
   category    String
   image       String
   location    String?
   description String?
   sortOrder   Int     @default(0)
+
+  @@index([tenantId])
 }

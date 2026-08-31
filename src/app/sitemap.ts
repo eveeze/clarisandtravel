@@ -1,13 +1,10 @@
 import type { MetadataRoute } from "next";
-import { getTourPackages, getBlogPosts } from "@/lib/data";
+import { getTourPackages, getBlogPosts, getTouristSpots } from "@/lib/data";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://clarisandtravel.vercel.app";
 
-  const [packages, blogs] = await Promise.all([
-    getTourPackages(),
-    getBlogPosts(),
-  ]);
+  const [packages, blogs, spots] = await Promise.all([getTourPackages(), getBlogPosts(), getTouristSpots()]);
 
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: baseUrl, lastModified: new Date(), changeFrequency: "weekly", priority: 1 },
@@ -15,6 +12,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/tourist-destination`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.8 },
     { url: `${baseUrl}/gallery`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.6 },
     { url: `${baseUrl}/blogs`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.7 },
+    { url: `${baseUrl}/cek-booking`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.5 },
     { url: `${baseUrl}/profile`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.5 },
   ];
 
@@ -32,5 +30,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  return [...staticRoutes, ...packageRoutes, ...blogRoutes];
+  const spotRoutes: MetadataRoute.Sitemap = spots.map((s) => ({
+    url: `${baseUrl}/tourist-destination/${s.id}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+
+  return [...staticRoutes, ...packageRoutes, ...blogRoutes, ...spotRoutes];
 }

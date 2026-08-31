@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { Icon } from "@iconify/react";
 import Image from "next/image";
+import Link from "next/link";
 import type { TouristSpot } from "@/lib/types/tourist_spots_data";
 
 export default function TouristDestinations({ spots }: { spots: TouristSpot[] }) {
@@ -47,31 +48,35 @@ export default function TouristDestinations({ spots }: { spots: TouristSpot[] })
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: (i % 6) * 0.05 }}
-              className="group overflow-hidden rounded-2xl bg-white border border-sand-200 hover:border-gold-400/30 transition-colors"
             >
-              <div className="relative h-56 overflow-hidden">
-                <Image
-                  src={spot.imageUrl}
-                  alt={spot.name}
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                {spot.category && (
-                  <span className="absolute top-4 left-4 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider rounded-full bg-volcanic-900/80 text-sand-50">
-                    {spot.category}
-                  </span>
-                )}
-              </div>
-              <div className="p-6">
-                <div className="flex items-center gap-1.5 mb-2 text-sm text-ink-500">
-                  <Icon icon="mdi:map-marker" className="w-4 h-4 text-gold-600" />
-                  {spot.location}
+              <Link
+                href={`/tourist-destination/${spot.id}`}
+                className="block group overflow-hidden rounded-2xl bg-white border border-sand-200 hover:border-gold-400/30 transition-colors"
+              >
+                <div className="relative h-56 overflow-hidden">
+                  <Image
+                    src={spot.imageUrl}
+                    alt={spot.name}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  {spot.category && (
+                    <span className="absolute top-4 left-4 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider rounded-full bg-volcanic-900/80 text-sand-50">
+                      {spot.category}
+                    </span>
+                  )}
                 </div>
-                <h2 className="mb-2 font-display text-2xl text-ink-900 group-hover:text-gold-600 transition-colors">
-                  {spot.name}
-                </h2>
-                <p className="text-sm leading-relaxed text-ink-500 line-clamp-3">{spot.description}</p>
-              </div>
+                <div className="p-6">
+                  <div className="flex items-center gap-1.5 mb-2 text-sm text-ink-500">
+                    <Icon icon="mdi:map-marker" className="w-4 h-4 text-gold-600" />
+                    {spot.location}
+                  </div>
+                  <h2 className="mb-2 font-display text-2xl text-ink-900 group-hover:text-gold-600 transition-colors">
+                    {spot.name}
+                  </h2>
+                  <p className="text-sm leading-relaxed text-ink-500 line-clamp-3">{spot.description}</p>
+                </div>
+              </Link>
             </motion.div>
           ))}
         </motion.div>

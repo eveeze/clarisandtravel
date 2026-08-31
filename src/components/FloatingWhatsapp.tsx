@@ -2,13 +2,12 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Icon } from "@iconify/react";
-
-const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "6285779536859";
+import { whatsappLink } from "@/lib/contact";
 
 export default function FloatingWhatsappButton() {
   return (
     <Link
-      href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Halo Claris & Travel, saya ingin bertanya tentang paket tour.")}`}
+      href={whatsappLink("Halo Claris & Travel, saya ingin bertanya tentang paket tour.")}
       target="_blank"
       rel="noreferrer noopener"
       aria-label="Chat WhatsApp"

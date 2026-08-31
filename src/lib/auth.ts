@@ -2,6 +2,8 @@ import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { prisma } from "./prisma";
+import { rateLimit } from "./rate-limit";
+import { getTenantFromHeaders } from "./tenant";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   session: { strategy: "jwt" },
@@ -18,7 +20,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const email = credentials.email as string;
         const password = credentials.password as string;
         if (!email || !password) return null;
-        const user = await prisma.adminUser.findUnique({ where: { email } });
+
+        const rl = await rateLimit(`login:${email}`, 5, 900_000);
+        if (rl.limited) {
+          return null;
+        }
+
+        const tenantId = await getTenantFromHeaders();
+        const user = await prisma.adminUser.findFirst({
+          where: { email, tenantId },
+        });
         if (!user) return null;
         const ok = await bcrypt.compare(password, user.password);
         if (!ok) return null;

@@ -3,13 +3,16 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
+import { getTenantFromHeaders } from "@/lib/tenant";
 
 export async function createBlog(formData: FormData) {
   const session = await auth();
   if (!session) return;
 
+  const tenantId = await getTenantFromHeaders();
   await prisma.blogPost.create({
     data: {
+      tenantId,
       slug: String(formData.get("slug") ?? ""),
       title: String(formData.get("title") ?? ""),
       excerpt: String(formData.get("excerpt") ?? ""),

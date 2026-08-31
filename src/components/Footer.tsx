@@ -6,6 +6,7 @@ import { getSiteContent } from "@/lib/data";
 const quickLinks = [
   { title: "Paket Tour", href: "/tours-pricing" },
   { title: "Destinasi", href: "/tourist-destination" },
+  { title: "Cek Booking", href: "/cek-booking" },
   { title: "Galeri", href: "/gallery" },
   { title: "Blog", href: "/blogs" },
   { title: "Tentang Kami", href: "/profile" },

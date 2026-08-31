@@ -1,4 +1,5 @@
 import { prisma } from "./prisma";
+import { getTenantFromHeaders } from "./tenant";
 import type { TourPackage } from "./types/tour_package";
 import type { BlogPost } from "./types/blog_data";
 import type { TouristSpot } from "./types/tourist_spots_data";
@@ -8,7 +9,9 @@ import { touristSpots as hardcodedSpots } from "./types/tourist_spots_data";
 
 export async function getTourPackages(): Promise<TourPackage[]> {
   try {
+    const tenantId = await getTenantFromHeaders();
     const rows = await prisma.tourPackage.findMany({
+      where: { tenantId },
       include: { vehicles: true, itinerary: { include: { destinations: true }, orderBy: { day: "asc" } } },
       orderBy: { id: "asc" },
     });
@@ -57,7 +60,8 @@ export async function getTourPackageBySlug(slug: string): Promise<TourPackage | 
 
 export async function getBlogPosts(): Promise<BlogPost[]> {
   try {
-    const rows = await prisma.blogPost.findMany({ orderBy: { date: "desc" } });
+    const tenantId = await getTenantFromHeaders();
+    const rows = await prisma.blogPost.findMany({ where: { tenantId }, orderBy: { date: "desc" } });
     if (rows.length === 0) return hardcodedBlogs;
     return rows.map((r) => ({
       slug: r.slug,
@@ -79,7 +83,8 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | undefi
 
 export async function getTouristSpots(): Promise<TouristSpot[]> {
   try {
-    const rows = await prisma.touristSpot.findMany({ orderBy: { name: "asc" } });
+    const tenantId = await getTenantFromHeaders();
+    const rows = await prisma.touristSpot.findMany({ where: { tenantId }, orderBy: { name: "asc" } });
     if (rows.length === 0) return hardcodedSpots;
     return rows.map((r) => ({
       id: r.slug,
@@ -106,7 +111,9 @@ export type GalleryItem = {
 
 export async function getGalleryItems(): Promise<GalleryItem[]> {
   try {
+    const tenantId = await getTenantFromHeaders();
     const rows = await prisma.galleryItem.findMany({
+      where: { tenantId },
       orderBy: { sortOrder: "asc" },
     });
     return rows.map((r) => ({
@@ -124,11 +131,10 @@ export async function getGalleryItems(): Promise<GalleryItem[]> {
 
 export type SiteContentKey = "hero" | "reason" | "pickup" | "promo" | "footer";
 
-export async function getSiteContent<T = unknown>(
-  key: SiteContentKey,
-): Promise<T | null> {
+export async function getSiteContent<T = unknown>(key: SiteContentKey): Promise<T | null> {
   try {
-    const row = await prisma.siteContent.findUnique({ where: { key } });
+    const tenantId = await getTenantFromHeaders();
+    const row = await prisma.siteContent.findFirst({ where: { tenantId, key } });
     return row ? (row.content as T) : null;
   } catch {
     return null;
@@ -137,7 +143,8 @@ export async function getSiteContent<T = unknown>(
 
 export async function getSiteContents() {
   try {
-    const rows = await prisma.siteContent.findMany();
+    const tenantId = await getTenantFromHeaders();
+    const rows = await prisma.siteContent.findMany({ where: { tenantId } });
     return rows;
   } catch {
     return [];
@@ -157,7 +164,9 @@ export type VehicleMarketing = {
 
 export async function getVehiclesMarketing(): Promise<VehicleMarketing[]> {
   try {
+    const tenantId = await getTenantFromHeaders();
     const rows = await prisma.vehicle.findMany({
+      where: { tenantId },
       orderBy: { sortOrder: "asc" },
     });
     return rows.map((v) => ({
@@ -173,4 +182,43 @@ export async function getVehiclesMarketing(): Promise<VehicleMarketing[]> {
   } catch {
     return [];
   }
+}
+
+export type PackageReview = {
+  id: number;
+  rating: number;
+  comment: string;
+  customerName: string;
+  createdAt: Date;
+};
+
+export async function getPackageReviews(packageId: number): Promise<PackageReview[]> {
+  try {
+    const rows = await prisma.review.findMany({
+      where: { packageId },
+      include: { booking: { select: { name: true } } },
+      orderBy: { createdAt: "desc" },
+    });
+    return rows.map((r) => ({
+      id: r.id,
+      rating: r.rating,
+      comment: r.comment,
+      customerName: r.booking.name,
+      createdAt: r.createdAt,
+    }));
+  } catch {
+    return [];
+  }
+}
+
+export async function getPackageReviewsWithSummary(packageId: number) {
+  const reviews = await getPackageReviews(packageId);
+  if (reviews.length === 0) {
+    return { reviews, summary: { count: 0, average: 0 } };
+  }
+  const average = reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length;
+  return {
+    reviews,
+    summary: { count: reviews.length, average: Math.round(average * 10) / 10 },
+  };
 }

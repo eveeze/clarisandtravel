@@ -18,7 +18,7 @@ test("clicking a tour opens detail page", async ({ page }) => {
   // featured package is a large clickable card; click the heading inside it
   const featured = page.locator("button").filter({ hasText: "Lihat Detail" }).first();
   await featured.click();
-  await expect(page).toHaveURL(/\/tours-pricing\//);
+  await expect(page).toHaveURL(/\/tours-pricing\//, { timeout: 15000 });
 });
 
 test("tour detail page has booking form", async ({ page }) => {

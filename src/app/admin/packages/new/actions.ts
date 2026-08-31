@@ -3,11 +3,13 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
+import { getTenantFromHeaders } from "@/lib/tenant";
 
 export async function createPackage(formData: FormData) {
   const session = await auth();
   if (!session) return;
 
+  const tenantId = await getTenantFromHeaders();
   const features = String(formData.get("features") ?? "")
     .split(",")
     .map((s) => s.trim())
@@ -15,6 +17,7 @@ export async function createPackage(formData: FormData) {
 
   await prisma.tourPackage.create({
     data: {
+      tenantId,
       slug: String(formData.get("slug") ?? ""),
       name: String(formData.get("name") ?? ""),
       description: String(formData.get("description") ?? ""),

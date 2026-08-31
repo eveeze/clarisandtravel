@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getTourPackages, getTourPackageBySlug } from "@/lib/data";
+import { getTourPackages, getTourPackageBySlug, getPackageReviewsWithSummary } from "@/lib/data";
 import TourDetailClient from "./tour_detail_client";
 
 type Params = Promise<{ slug: string }>;
@@ -10,9 +10,7 @@ export async function generateStaticParams() {
   return packages.map((p) => ({ slug: p.slug }));
 }
 
-export async function generateMetadata(props: {
-  params: Params;
-}): Promise<Metadata> {
+export async function generateMetadata(props: { params: Params }): Promise<Metadata> {
   const { slug } = await props.params;
   const tour = await getTourPackageBySlug(slug);
   if (!tour) return { title: "Paket Tidak Ditemukan" };
@@ -36,12 +34,15 @@ export async function generateMetadata(props: {
   };
 }
 
-export default async function TourPackageDetailPage(props: {
-  params: Params;
-}) {
+export default async function TourPackageDetailPage(props: { params: Params }) {
   const { slug } = await props.params;
   const tour = await getTourPackageBySlug(slug);
   if (!tour) notFound();
+
+  const [reviews, summary] = await (async () => {
+    const result = await getPackageReviewsWithSummary(tour.id);
+    return [result.reviews, result.summary] as const;
+  })();
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -50,6 +51,14 @@ export default async function TourPackageDetailPage(props: {
     description: tour.description,
     image: tour.thumbnail,
     brand: { "@type": "Brand", name: "Claris and City Tour Jogja" },
+    aggregateRating:
+      summary.count > 0
+        ? {
+            "@type": "AggregateRating",
+            ratingValue: summary.average,
+            reviewCount: summary.count,
+          }
+        : undefined,
     offers: {
       "@type": "Offer",
       price: tour.basePrice,
@@ -61,11 +70,8 @@ export default async function TourPackageDetailPage(props: {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
-      <TourDetailClient tour={tour} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <TourDetailClient tour={tour} reviews={reviews} summary={summary} />
     </>
   );
 }

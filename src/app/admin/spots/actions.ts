@@ -3,13 +3,16 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
+import { getTenantFromHeaders } from "@/lib/tenant";
 
 export async function createSpot(formData: FormData) {
   const session = await auth();
   if (!session) return;
 
+  const tenantId = await getTenantFromHeaders();
   await prisma.touristSpot.create({
     data: {
+      tenantId,
       slug: String(formData.get("slug") ?? ""),
       name: String(formData.get("name") ?? ""),
       description: String(formData.get("description") ?? ""),

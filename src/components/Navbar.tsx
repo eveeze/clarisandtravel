@@ -13,7 +13,8 @@ const navLinks = [
   { href: "/tourist-destination", label: "Destinasi", index: "03" },
   { href: "/gallery", label: "Galeri", index: "04" },
   { href: "/blogs", label: "Blog", index: "05" },
-  { href: "/profile", label: "Tentang", index: "06" },
+  { href: "/cek-booking", label: "Cek Booking", index: "06" },
+  { href: "/profile", label: "Tentang", index: "07" },
 ];
 
 export default function Navbar() {
@@ -61,6 +62,15 @@ export default function Navbar() {
           </Link>
 
           <div className="flex items-center gap-3">
+            {/* Cek booking — subtle link desktop */}
+            <Link
+              href="/cek-booking"
+              className="hidden lg:inline-flex items-center gap-1.5 px-3 py-3 text-sm font-medium text-ink-500 hover:text-gold-600 transition-colors"
+            >
+              <Icon icon="mdi:ticket-confirmation-outline" className="w-4 h-4" />
+              Cek Booking
+            </Link>
+
             {/* Book CTA — pake Button component biar 1 style */}
             <Link
               href="/tours-pricing"

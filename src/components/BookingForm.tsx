@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { createBooking } from "@/app/actions/booking";
+import { WHATSAPP_NUMBER } from "@/lib/contact";
 
 type BookingFormProps = {
   packageSlug?: string;
@@ -14,17 +16,41 @@ export default function BookingForm({
   packageSlug,
   packageName,
   vehicleOptions,
-  whatsappNumber = "6285779536859",
+  whatsappNumber = WHATSAPP_NUMBER,
 }: BookingFormProps) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [vehicle, setVehicle] = useState("");
   const [tourDate, setTourDate] = useState("");
+  const [tourTime, setTourTime] = useState("");
+  const [pickupLocation, setPickupLocation] = useState("");
   const [pax, setPax] = useState(1);
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "done" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  const [bookingCode, setBookingCode] = useState("");
+
+  const openWa = () => {
+    const text = [
+      "*Booking Baru — Claris & Travel*",
+      bookingCode ? `Kode: ${bookingCode}` : "",
+      `Nama: ${name}`,
+      `No. WA: ${phone}`,
+      email ? `Email: ${email}` : "",
+      packageName ? `Paket: ${packageName}` : "",
+      vehicle ? `Armada: ${vehicle}` : "",
+      tourDate ? `Tanggal: ${tourDate}` : "",
+      tourTime ? `Jam jemput: ${tourTime}` : "",
+      pickupLocation ? `Lokasi jemput: ${pickupLocation}` : "",
+      `Jumlah orang: ${pax}`,
+      message ? `Pesan: ${message}` : "",
+    ]
+      .filter(Boolean)
+      .join("\n");
+
+    window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`, "_blank");
+  };
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,6 +64,8 @@ export default function BookingForm({
       packageSlug,
       vehicleName: vehicle || undefined,
       tourDate,
+      tourTime: tourTime || undefined,
+      pickupLocation: pickupLocation || undefined,
       pax,
       message,
     });
@@ -48,22 +76,8 @@ export default function BookingForm({
       return;
     }
 
-    const text = [
-      "*Booking Baru — Claris & Travel*",
-      `Nama: ${name}`,
-      `No. WA: ${phone}`,
-      email ? `Email: ${email}` : "",
-      packageName ? `Paket: ${packageName}` : "",
-      vehicle ? `Armada: ${vehicle}` : "",
-      tourDate ? `Tanggal: ${tourDate}` : "",
-      `Jumlah orang: ${pax}`,
-      message ? `Pesan: ${message}` : "",
-    ]
-      .filter(Boolean)
-      .join("\n");
-
+    if (res?.bookingCode) setBookingCode(res.bookingCode);
     setStatus("done");
-    window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`, "_blank");
   };
 
   const inputClass =
@@ -125,6 +139,23 @@ export default function BookingForm({
           <input className={inputClass} type="date" value={tourDate} onChange={(e) => setTourDate(e.target.value)} />
         </div>
         <div>
+          <label className="block mb-1 text-sm font-medium text-ink-600">Jam Jemput</label>
+          <input className={inputClass} type="time" value={tourTime} onChange={(e) => setTourTime(e.target.value)} />
+        </div>
+      </div>
+
+      <div>
+        <label className="block mb-1 text-sm font-medium text-ink-600">Lokasi Jemput</label>
+        <input
+          className={inputClass}
+          value={pickupLocation}
+          onChange={(e) => setPickupLocation(e.target.value)}
+          placeholder="Hotel / penginapan / titik kumpul"
+        />
+      </div>
+
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div>
           <label className="block mb-1 text-sm font-medium text-ink-600">Jumlah Orang</label>
           <input
             className={inputClass}
@@ -152,16 +183,33 @@ export default function BookingForm({
       )}
 
       {status === "done" ? (
-        <p className="px-3 py-2 text-sm rounded-lg bg-green-500/10 border border-green-500/30 text-green-400">
-          Booking tersimpan! WhatsApp udah kebuka — tinggal kirim pesannya.
-        </p>
+        <div className="space-y-3">
+          <p className="px-3 py-2 text-sm rounded-lg bg-green-500/10 border border-green-500/30 text-green-400">
+            Booking tersimpan! Kode: <strong>{bookingCode}</strong>
+          </p>
+
+          <Link
+            href={`/payment/${bookingCode}`}
+            className="block w-full py-3 text-center rounded-lg bg-gold-500 text-volcanic-900 font-semibold hover:bg-gold-400 transition-colors"
+          >
+            Lanjut Bayar Sekarang
+          </Link>
+
+          <button
+            type="button"
+            onClick={openWa}
+            className="w-full py-3 rounded-lg bg-green-500 text-white font-semibold hover:bg-green-600 transition-colors"
+          >
+            Kirim ke WhatsApp (opsional)
+          </button>
+        </div>
       ) : (
         <button
           type="submit"
           disabled={status === "loading"}
-          className="w-full py-3 rounded-lg bg-green-500 text-white font-semibold hover:bg-green-600 disabled:opacity-50 transition-colors"
+          className="w-full py-3 rounded-lg bg-gold-500 text-volcanic-900 font-semibold hover:bg-gold-400 disabled:opacity-50 transition-colors"
         >
-          {status === "loading" ? "Menyimpan..." : "Booking via WhatsApp"}
+          {status === "loading" ? "Menyimpan..." : "Booking Sekarang"}
         </button>
       )}
     </form>
