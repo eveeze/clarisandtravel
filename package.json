@@ -15,6 +15,7 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
+    "worker": "tsx scripts/worker.ts",
     "postinstall": "prisma generate && prisma skills sync || exit 0",
     "prepare": "husky"
   },
@@ -30,10 +31,12 @@
   "dependencies": {
     "@prisma/client": "^6.19.3",
     "bcryptjs": "^3.0.3",
+    "bullmq": "^6.3.4",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "dotenv": "^17.4.2",
     "framer-motion": "^11.16.0",
+    "ioredis": "^6.0.0",
     "midtrans-client": "^1.4.3",
     "next": "^16.3.3",
     "next-auth": "^5.0.0-beta.32",

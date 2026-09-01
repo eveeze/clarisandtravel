@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
+import { scheduleReminder, removeScheduledReminder } from "@/lib/schedule-reminder";
 
 const VALID_STATUS = [
   "baru",
@@ -29,7 +30,7 @@ export async function updateBookingStatus(id: number, status: string, note?: str
 
   const existing = await prisma.booking.findUnique({
     where: { id },
-    select: { status: true, commissionPaid: true, paymentStatus: true },
+    select: { status: true, commissionPaid: true, paymentStatus: true, bookingCode: true, tourDate: true },
   });
   if (!existing) return { error: "Booking tidak ditemukan." };
 
@@ -60,6 +61,17 @@ export async function updateBookingStatus(id: number, status: string, note?: str
       changedBy: "admin",
     },
   });
+
+  // Schedule reminder H-1 (kalau status layak), hapus kalau batal/selesai
+  if (["dikonfirmasi", "driver_ditugaskan", "berlangsung", "dibayar"].includes(status)) {
+    await scheduleReminder({
+      bookingCode: existing.bookingCode,
+      tourDate: existing.tourDate,
+      status,
+    });
+  } else if (status === "batal" || status === "no_show" || status === "selesai") {
+    await removeScheduledReminder(existing.bookingCode);
+  }
 
   revalidatePath("/admin/bookings");
   revalidatePath("/admin/earnings");

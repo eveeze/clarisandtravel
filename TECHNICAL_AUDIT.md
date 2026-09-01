@@ -238,41 +238,42 @@ if (status === "selesai" && !existing.commissionPaid && paymentStatus === "dibay
 
 Seluruh gap P0-P2 sudah diperbaiki. Berikut env vars yang perlu di-set:
 
-| Env                                               | Wajib?      | Untuk                              |
-| ------------------------------------------------- | ----------- | ---------------------------------- |
-| `DATABASE_URL` / `DIRECT_URL`                     | ✅          | Database Supabase                  |
-| `AUTH_SECRET`                                     | ✅          | Session JWT                        |
-| `ADMIN_EMAIL` / `ADMIN_PASSWORD`                  | ✅          | Seed admin user                    |
-| `WHATSAPP_NUMBER` / `NEXT_PUBLIC_WHATSAPP_NUMBER` | ✅          | Nomor WA di semua komponen         |
-| `MIDTRANS_SERVER_KEY` / `MIDTRANS_CLIENT_KEY`     | ✅          | Payment gateway                    |
-| `MIDTRANS_IS_PRODUCTION`                          | ✅          | `false` (sandbox) / `true` (live)  |
-| `WHATSAPP_API_KEY`                                | ⏳ Opsional | Reminder WA otomatis (Fonnte/Meta) |
-| `WHATSAPP_PROVIDER`                               | ⏳ Opsional | `log` / `fonnte` / `meta`          |
-| `META_PHONE_NUMBER_ID`                            | ⏳ Opsional | Kalau pakai WhatsApp Cloud API     |
-| `CRON_SECRET`                                     | ⏳ Opsional | Proteksi endpoint cron             |
+| Env                                               | Wajib?      | Untuk                                                         |
+| ------------------------------------------------- | ----------- | ------------------------------------------------------------- |
+| `DATABASE_URL` / `DIRECT_URL`                     | ✅          | Database Supabase                                             |
+| `AUTH_SECRET`                                     | ✅          | Session JWT                                                   |
+| `ADMIN_EMAIL` / `ADMIN_PASSWORD`                  | ✅          | Seed admin user                                               |
+| `WHATSAPP_NUMBER` / `NEXT_PUBLIC_WHATSAPP_NUMBER` | ✅          | Nomor WA di semua komponen                                    |
+| `MIDTRANS_SERVER_KEY` / `MIDTRANS_CLIENT_KEY`     | ✅          | Payment gateway                                               |
+| `MIDTRANS_IS_PRODUCTION`                          | ✅          | `false` (sandbox) / `true` (live)                             |
+| `WHATSAPP_API_KEY`                                | ⏳ Opsional | Reminder WA otomatis (Fonnte/Meta)                            |
+| `WHATSAPP_PROVIDER`                               | ⏳ Opsional | `log` / `fonnte` / `meta`                                     |
+| `META_PHONE_NUMBER_ID`                            | ⏳ Opsional | Kalau pakai WhatsApp Cloud API                                |
+| `REDIS_URL`                                       | ⏳ Opsional | BullMQ queue (Upstash/Redis) — wajib kalau mau reminder jalan |
+| `CRON_SECRET`                                     | ⏳ Opsional | Proteksi endpoint cron                                        |
 
 **Yang sudah selesai di sesi ini:**
 
-| Item                                             | Status | Detail                                                  |
-| ------------------------------------------------ | ------ | ------------------------------------------------------- |
-| Booking code random (anti-race + anti-enumerate) | ✅     | `CLR-${nanoid(8)}`                                      |
-| Rate limit booking & login                       | ✅     | 5x/menit booking, 5x/15menit login                      |
-| totalPrice auto-computed                         | ✅     | `(basePrice + vehicleIncrement) × pax`                  |
-| Komisi hanya jika selesai + dibayar              | ✅     | Cek `paymentStatus` juga                                |
-| Satu sumber nomor WA                             | ✅     | `src/lib/contact.ts`                                    |
-| Payment gateway Midtrans (Core API)              | ✅     | QRIS, VA, e-wallet, refund, webhook                     |
-| Halaman payment custom (tanpa Snap)              | ✅     | `/payment/[code]` — branding Claris                     |
-| Cek booking by kode/nomor                        | ✅     | Exact match, tidak ada data leak                        |
-| Admin refund                                     | ✅     | Tombol refund di booking page                           |
-| Soft-delete booking                              | ✅     | `deletedAt`, filter query, audit trail                  |
-| Multi-tenant foundation                          | ✅     | Tenant model + tenantId + middleware + data layer       |
-| Subdomain resolution                             | ✅     | `proxy.ts` inject `x-tenant-id` header                  |
-| Reminder WA H-1                                  | ✅     | `/api/cron/reminder` + Vercel cron + sender abstraction |
-| Error boundary                                   | ✅     | `global-error.tsx`, `not-found.tsx`                     |
-| Input validation                                 | ✅     | createBooking validasi semua field                      |
-| Assign driver validasi status                    | ✅     | Tolak assign ke booking batal/selesai                   |
-| 30 unit test + 12 E2E                            | ✅     | Semua hijau                                             |
-| 82 halaman SSG build                             | ✅     | Lint + typecheck + build OK                             |
+| Item                                             | Status | Detail                                               |
+| ------------------------------------------------ | ------ | ---------------------------------------------------- |
+| Booking code random (anti-race + anti-enumerate) | ✅     | `CLR-${nanoid(8)}`                                   |
+| Rate limit booking & login                       | ✅     | 5x/menit booking, 5x/15menit login                   |
+| totalPrice auto-computed                         | ✅     | `(basePrice + vehicleIncrement) × pax`               |
+| Komisi hanya jika selesai + dibayar              | ✅     | Cek `paymentStatus` juga                             |
+| Satu sumber nomor WA                             | ✅     | `src/lib/contact.ts`                                 |
+| Payment gateway Midtrans (Core API)              | ✅     | QRIS, VA, e-wallet, refund, webhook                  |
+| Halaman payment custom (tanpa Snap)              | ✅     | `/payment/[code]` — branding Claris                  |
+| Cek booking by kode/nomor                        | ✅     | Exact match, tidak ada data leak                     |
+| Admin refund                                     | ✅     | Tombol refund di booking page                        |
+| Soft-delete booking                              | ✅     | `deletedAt`, filter query, audit trail               |
+| Multi-tenant foundation                          | ✅     | Tenant model + tenantId + middleware + data layer    |
+| Subdomain resolution                             | ✅     | `proxy.ts` inject `x-tenant-id` header               |
+| Reminder WA H-1                                  | ✅     | BullMQ queue + worker (`npm run worker`) + scheduler |
+| Error boundary                                   | ✅     | `global-error.tsx`, `not-found.tsx`                  |
+| Input validation                                 | ✅     | createBooking validasi semua field                   |
+| Assign driver validasi status                    | ✅     | Tolak assign ke booking batal/selesai                |
+| 30 unit test + 12 E2E                            | ✅     | Semua hijau                                          |
+| 82 halaman SSG build                             | ✅     | Lint + typecheck + build OK                          |
 
 **Sisa yang masih open (opsional / Fase 2):**
 
