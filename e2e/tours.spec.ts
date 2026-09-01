@@ -21,9 +21,9 @@ test("clicking a tour opens detail page", async ({ page }) => {
   await expect(page).toHaveURL(/\/tours-pricing\//, { timeout: 15000 });
 });
 
-test("tour detail page has booking form", async ({ page }) => {
+test("tour detail page shows booking form", async ({ page }) => {
   await page.goto("/tours-pricing/jogja-city-explore");
-  await expect(page.getByRole("heading", { name: /Booking/i })).toBeVisible();
   await expect(page.getByPlaceholder("Nama Anda")).toBeVisible();
   await expect(page.getByPlaceholder("08xxxxxxxxxx")).toBeVisible();
+  await expect(page.getByRole("button", { name: /Booking Sekarang/i })).toBeVisible();
 });
