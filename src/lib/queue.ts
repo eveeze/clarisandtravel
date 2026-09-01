@@ -1,25 +1,28 @@
 import { Queue } from "bullmq";
-import { redis, redisReady } from "./redis";
+import { getRedis } from "./redis";
 
-const globalForQueue = globalThis as unknown as {
-  reminderQueue?: Queue | null;
-};
+let _queue: Queue | null | undefined = undefined;
 
-export const reminderQueue: Queue | null = redisReady
-  ? (globalForQueue.reminderQueue ??
-    new Queue("reminders", {
-      connection: redis!,
-      defaultJobOptions: {
-        removeOnComplete: true,
-        removeOnFail: 100,
-        attempts: 3,
-        backoff: { type: "exponential", delay: 60_000 },
-      },
-    }))
-  : null;
+export function getReminderQueue(): Queue | null {
+  if (_queue !== undefined) return _queue;
 
-if (process.env.NODE_ENV !== "production" && reminderQueue) {
-  globalForQueue.reminderQueue = reminderQueue;
+  const redis = getRedis();
+  if (!redis) {
+    _queue = null;
+    return null;
+  }
+
+  _queue = new Queue("reminders", {
+    connection: redis,
+    defaultJobOptions: {
+      removeOnComplete: true,
+      removeOnFail: 100,
+      attempts: 3,
+      backoff: { type: "exponential", delay: 60_000 },
+    },
+  });
+
+  return _queue;
 }
 
-export { redisReady };
+export { getRedis, redisReady as getRedisReady } from "./redis";

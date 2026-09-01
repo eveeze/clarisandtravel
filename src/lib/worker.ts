@@ -1,7 +1,7 @@
 import { Worker, type Job } from "bullmq";
 import { prisma } from "./prisma";
 import { sendWhatsApp } from "./whatsapp";
-import { redis, redisReady } from "./redis";
+import { getRedis } from "./redis";
 
 type ReminderJobData = { bookingCode: string };
 
@@ -55,7 +55,8 @@ async function processReminder(job: Job<ReminderJobData>) {
 }
 
 export function startReminderWorker() {
-  if (!redisReady || !redis) {
+  const redis = getRedis();
+  if (!redis) {
     console.warn("[ReminderWorker] REDIS_URL tidak di-set — worker tidak jalan.");
     return null;
   }

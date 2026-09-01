@@ -1,25 +1,29 @@
 import { Redis } from "ioredis";
 
-const globalForRedis = globalThis as unknown as { redis?: Redis | null };
+let _redis: Redis | null | undefined = undefined;
 
-function createRedis(): Redis | null {
+// Lazy singleton — dipanggil dari queue/worker.
+// Langsung dibuat saat pertama dipakai (bukan saat import),
+// jadi env REDIS_URL sudah pasti ke-load.
+export function getRedis(): Redis | null {
+  if (_redis !== undefined) return _redis;
+
   const url = process.env.REDIS_URL;
-  if (!url) return null;
+  if (!url) {
+    _redis = null;
+    return null;
+  }
+
   try {
-    return new Redis(url, {
+    _redis = new Redis(url, {
       maxRetriesPerRequest: null,
       enableOfflineQueue: false,
       lazyConnect: true,
     });
   } catch {
-    return null;
+    _redis = null;
   }
+  return _redis;
 }
 
-export const redis = globalForRedis.redis ?? createRedis();
-
-if (process.env.NODE_ENV !== "production") {
-  globalForRedis.redis = redis;
-}
-
-export const redisReady = redis !== null;
+export const redisReady = (): boolean => getRedis() !== null;
