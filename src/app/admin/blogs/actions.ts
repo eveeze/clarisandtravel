@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { getTenantFromHeaders } from "@/lib/tenant";
+import { invalidateSiteCache } from "@/lib/cache";
 
 export async function createBlog(formData: FormData) {
   const session = await auth();
@@ -22,6 +23,7 @@ export async function createBlog(formData: FormData) {
     },
   });
 
+  await invalidateSiteCache(tenantId);
   revalidatePath("/admin/blogs");
   revalidatePath("/blogs");
 }
@@ -42,6 +44,7 @@ export async function updateBlog(formData: FormData) {
     },
   });
 
+  await invalidateSiteCache(await getTenantFromHeaders());
   revalidatePath("/admin/blogs");
   revalidatePath("/blogs");
 }
@@ -50,6 +53,7 @@ export async function deleteBlog(id: number) {
   const session = await auth();
   if (!session) return;
   await prisma.blogPost.delete({ where: { id } });
+  await invalidateSiteCache(await getTenantFromHeaders());
   revalidatePath("/admin/blogs");
   revalidatePath("/blogs");
 }

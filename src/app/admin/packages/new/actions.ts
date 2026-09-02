@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { getTenantFromHeaders } from "@/lib/tenant";
+import { invalidateSiteCache } from "@/lib/cache";
 
 export async function createPackage(formData: FormData) {
   const session = await auth();
@@ -30,6 +31,7 @@ export async function createPackage(formData: FormData) {
     },
   });
 
+  await invalidateSiteCache(tenantId);
   revalidatePath("/admin/packages");
   revalidatePath("/tours-pricing");
 }

@@ -3,11 +3,14 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
+import { getTenantFromHeaders } from "@/lib/tenant";
+import { invalidateSiteCache } from "@/lib/cache";
 
 export async function upsertReview(formData: FormData) {
   const session = await auth();
   if (!session) return;
 
+  const tenantId = await getTenantFromHeaders();
   const bookingId = Number(formData.get("bookingId"));
   const rating = Number(formData.get("rating"));
   const comment = String(formData.get("comment") || "").trim();
@@ -21,8 +24,8 @@ export async function upsertReview(formData: FormData) {
   if (!booking) return;
 
   const pkg = booking.packageSlug
-    ? await prisma.tourPackage.findUnique({
-        where: { slug: booking.packageSlug },
+    ? await prisma.tourPackage.findFirst({
+        where: { slug: booking.packageSlug, tenantId },
         select: { id: true },
       })
     : null;
@@ -39,6 +42,7 @@ export async function upsertReview(formData: FormData) {
     },
   });
 
+  await invalidateSiteCache(tenantId);
   revalidatePath("/admin/reviews");
 }
 
@@ -46,5 +50,6 @@ export async function deleteReview(id: number) {
   const session = await auth();
   if (!session) return;
   await prisma.review.delete({ where: { id } });
+  await invalidateSiteCache(await getTenantFromHeaders());
   revalidatePath("/admin/reviews");
 }

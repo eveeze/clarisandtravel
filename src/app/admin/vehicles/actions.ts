@@ -3,6 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
+import { getTenantFromHeaders } from "@/lib/tenant";
+import { invalidateSiteCache } from "@/lib/cache";
 
 export async function updateVehicleMarketing(formData: FormData) {
   const session = await auth();
@@ -22,5 +24,6 @@ export async function updateVehicleMarketing(formData: FormData) {
     },
   });
 
+  await invalidateSiteCache(await getTenantFromHeaders());
   revalidatePath("/admin/vehicles");
 }

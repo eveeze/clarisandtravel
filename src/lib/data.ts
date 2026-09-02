@@ -1,5 +1,6 @@
 import { prisma } from "./prisma";
 import { getTenantFromHeaders } from "./tenant";
+import { cacheGet, cacheSet, cacheKey } from "./cache";
 import type { TourPackage } from "./types/tour_package";
 import type { BlogPost } from "./types/blog_data";
 import type { TouristSpot } from "./types/tourist_spots_data";
@@ -10,13 +11,16 @@ import { touristSpots as hardcodedSpots } from "./types/tourist_spots_data";
 export async function getTourPackages(): Promise<TourPackage[]> {
   try {
     const tenantId = await getTenantFromHeaders();
+    const ck = cacheKey(tenantId, "tours");
+    const cached = await cacheGet<TourPackage[]>(ck);
+    if (cached) return cached;
     const rows = await prisma.tourPackage.findMany({
       where: { tenantId },
       include: { vehicles: true, itinerary: { include: { destinations: true }, orderBy: { day: "asc" } } },
       orderBy: { id: "asc" },
     });
     if (rows.length === 0) return hardcodedPackages;
-    return rows.map((r) => ({
+    const mapped = rows.map((r) => ({
       id: r.id,
       slug: r.slug,
       name: r.name,
@@ -48,6 +52,8 @@ export async function getTourPackages(): Promise<TourPackage[]> {
         })),
       })),
     }));
+    await cacheSet(ck, mapped);
+    return mapped;
   } catch {
     return hardcodedPackages;
   }
@@ -61,9 +67,12 @@ export async function getTourPackageBySlug(slug: string): Promise<TourPackage | 
 export async function getBlogPosts(): Promise<BlogPost[]> {
   try {
     const tenantId = await getTenantFromHeaders();
+    const ck = cacheKey(tenantId, "blogs");
+    const cached = await cacheGet<BlogPost[]>(ck);
+    if (cached) return cached;
     const rows = await prisma.blogPost.findMany({ where: { tenantId }, orderBy: { date: "desc" } });
     if (rows.length === 0) return hardcodedBlogs;
-    return rows.map((r) => ({
+    const mapped = rows.map((r) => ({
       slug: r.slug,
       title: r.title,
       excerpt: r.excerpt,
@@ -71,6 +80,8 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
       coverImage: r.coverImage,
       content: r.contentMd,
     }));
+    await cacheSet(ck, mapped);
+    return mapped;
   } catch {
     return hardcodedBlogs;
   }
@@ -84,9 +95,12 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | undefi
 export async function getTouristSpots(): Promise<TouristSpot[]> {
   try {
     const tenantId = await getTenantFromHeaders();
+    const ck = cacheKey(tenantId, "spots");
+    const cached = await cacheGet<TouristSpot[]>(ck);
+    if (cached) return cached;
     const rows = await prisma.touristSpot.findMany({ where: { tenantId }, orderBy: { name: "asc" } });
     if (rows.length === 0) return hardcodedSpots;
-    return rows.map((r) => ({
+    const mapped = rows.map((r) => ({
       id: r.slug,
       name: r.name,
       description: r.description,
@@ -95,6 +109,8 @@ export async function getTouristSpots(): Promise<TouristSpot[]> {
       location: r.location ?? "",
       category: r.category ?? "",
     }));
+    await cacheSet(ck, mapped);
+    return mapped;
   } catch {
     return hardcodedSpots;
   }
@@ -112,11 +128,14 @@ export type GalleryItem = {
 export async function getGalleryItems(): Promise<GalleryItem[]> {
   try {
     const tenantId = await getTenantFromHeaders();
+    const ck = cacheKey(tenantId, "gallery");
+    const cached = await cacheGet<GalleryItem[]>(ck);
+    if (cached) return cached;
     const rows = await prisma.galleryItem.findMany({
       where: { tenantId },
       orderBy: { sortOrder: "asc" },
     });
-    return rows.map((r) => ({
+    const mapped = rows.map((r) => ({
       id: r.id,
       title: r.title,
       category: r.category,
@@ -124,6 +143,8 @@ export async function getGalleryItems(): Promise<GalleryItem[]> {
       location: r.location ?? "",
       description: r.description ?? "",
     }));
+    await cacheSet(ck, mapped);
+    return mapped;
   } catch {
     return [];
   }
@@ -134,8 +155,13 @@ export type SiteContentKey = "hero" | "reason" | "pickup" | "promo" | "footer";
 export async function getSiteContent<T = unknown>(key: SiteContentKey): Promise<T | null> {
   try {
     const tenantId = await getTenantFromHeaders();
+    const ck = cacheKey(tenantId, `content:${key}`);
+    const cached = await cacheGet<T>(ck);
+    if (cached) return cached;
     const row = await prisma.siteContent.findFirst({ where: { tenantId, key } });
-    return row ? (row.content as T) : null;
+    const result = row ? (row.content as T) : null;
+    if (result) await cacheSet(ck, result);
+    return result;
   } catch {
     return null;
   }
@@ -144,7 +170,11 @@ export async function getSiteContent<T = unknown>(key: SiteContentKey): Promise<
 export async function getSiteContents() {
   try {
     const tenantId = await getTenantFromHeaders();
+    const ck = cacheKey(tenantId, "content:all");
+    const cached = await cacheGet(ck);
+    if (cached) return cached;
     const rows = await prisma.siteContent.findMany({ where: { tenantId } });
+    await cacheSet(ck, rows);
     return rows;
   } catch {
     return [];
@@ -165,11 +195,14 @@ export type VehicleMarketing = {
 export async function getVehiclesMarketing(): Promise<VehicleMarketing[]> {
   try {
     const tenantId = await getTenantFromHeaders();
+    const ck = cacheKey(tenantId, "vehicles");
+    const cached = await cacheGet<VehicleMarketing[]>(ck);
+    if (cached) return cached;
     const rows = await prisma.vehicle.findMany({
       where: { tenantId },
       orderBy: { sortOrder: "asc" },
     });
-    return rows.map((v) => ({
+    const mapped = rows.map((v) => ({
       id: v.id,
       name: v.name,
       capacity: v.capacity,
@@ -179,6 +212,8 @@ export async function getVehiclesMarketing(): Promise<VehicleMarketing[]> {
       priceLabel: v.priceLabel ?? "",
       sortOrder: v.sortOrder,
     }));
+    await cacheSet(ck, mapped);
+    return mapped;
   } catch {
     return [];
   }
@@ -193,6 +228,8 @@ export type PackageReview = {
 };
 
 export async function getPackageReviews(packageId: number): Promise<PackageReview[]> {
+  // GAK di-cache — berisi field Date (createdAt) yang rusak saat JSON round-trip,
+  // dan review jarang diakses. Selalu baca DB fresh biar aman & konsisten.
   try {
     const rows = await prisma.review.findMany({
       where: { packageId },
