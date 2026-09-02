@@ -1,5 +1,5 @@
 import { prisma } from "./prisma";
-import { getTenantFromHeaders } from "./tenant";
+import { DEFAULT_TENANT_ID } from "./tenant";
 import { cacheGet, cacheSet, cacheKey } from "./cache";
 import type { TourPackage } from "./types/tour_package";
 import type { BlogPost } from "./types/blog_data";
@@ -10,7 +10,7 @@ import { touristSpots as hardcodedSpots } from "./types/tourist_spots_data";
 
 export async function getTourPackages(): Promise<TourPackage[]> {
   try {
-    const tenantId = await getTenantFromHeaders();
+    const tenantId = DEFAULT_TENANT_ID;
     const ck = cacheKey(tenantId, "tours");
     const cached = await cacheGet<TourPackage[]>(ck);
     if (cached) return cached;
@@ -61,7 +61,7 @@ export async function getTourPackages(): Promise<TourPackage[]> {
 
 export async function getTourPackageBySlug(slug: string): Promise<TourPackage | undefined> {
   try {
-    const tenantId = await getTenantFromHeaders();
+    const tenantId = DEFAULT_TENANT_ID;
     const row = await prisma.tourPackage.findFirst({
       where: { tenantId, slug },
       include: { vehicles: true, itinerary: { include: { destinations: true }, orderBy: { day: "asc" } } },
@@ -107,7 +107,7 @@ export async function getTourPackageBySlug(slug: string): Promise<TourPackage | 
 
 export async function getBlogPosts(): Promise<BlogPost[]> {
   try {
-    const tenantId = await getTenantFromHeaders();
+    const tenantId = DEFAULT_TENANT_ID;
     const ck = cacheKey(tenantId, "blogs");
     const cached = await cacheGet<BlogPost[]>(ck);
     if (cached) return cached;
@@ -130,7 +130,7 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
 
 export async function getBlogPostBySlug(slug: string): Promise<BlogPost | undefined> {
   try {
-    const tenantId = await getTenantFromHeaders();
+    const tenantId = DEFAULT_TENANT_ID;
     const row = await prisma.blogPost.findFirst({
       where: { tenantId, slug },
     });
@@ -151,7 +151,7 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | undefi
 
 export async function getTouristSpots(): Promise<TouristSpot[]> {
   try {
-    const tenantId = await getTenantFromHeaders();
+    const tenantId = DEFAULT_TENANT_ID;
     const ck = cacheKey(tenantId, "spots");
     const cached = await cacheGet<TouristSpot[]>(ck);
     if (cached) return cached;
@@ -184,7 +184,7 @@ export type GalleryItem = {
 
 export async function getGalleryItems(): Promise<GalleryItem[]> {
   try {
-    const tenantId = await getTenantFromHeaders();
+    const tenantId = DEFAULT_TENANT_ID;
     const ck = cacheKey(tenantId, "gallery");
     const cached = await cacheGet<GalleryItem[]>(ck);
     if (cached) return cached;
@@ -211,7 +211,7 @@ export type SiteContentKey = "hero" | "reason" | "pickup" | "promo" | "footer";
 
 export async function getSiteContent<T = unknown>(key: SiteContentKey): Promise<T | null> {
   try {
-    const tenantId = await getTenantFromHeaders();
+    const tenantId = DEFAULT_TENANT_ID;
     const ck = cacheKey(tenantId, `content:${key}`);
     const cached = await cacheGet<T>(ck);
     if (cached) return cached;
@@ -226,7 +226,7 @@ export async function getSiteContent<T = unknown>(key: SiteContentKey): Promise<
 
 export async function getSiteContents() {
   try {
-    const tenantId = await getTenantFromHeaders();
+    const tenantId = DEFAULT_TENANT_ID;
     const ck = cacheKey(tenantId, "content:all");
     const cached = await cacheGet(ck);
     if (cached) return cached;
@@ -251,7 +251,7 @@ export type VehicleMarketing = {
 
 export async function getVehiclesMarketing(): Promise<VehicleMarketing[]> {
   try {
-    const tenantId = await getTenantFromHeaders();
+    const tenantId = DEFAULT_TENANT_ID;
     const ck = cacheKey(tenantId, "vehicles");
     const cached = await cacheGet<VehicleMarketing[]>(ck);
     if (cached) return cached;
