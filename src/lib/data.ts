@@ -60,8 +60,49 @@ export async function getTourPackages(): Promise<TourPackage[]> {
 }
 
 export async function getTourPackageBySlug(slug: string): Promise<TourPackage | undefined> {
-  const all = await getTourPackages();
-  return all.find((p) => p.slug === slug);
+  try {
+    const tenantId = await getTenantFromHeaders();
+    const row = await prisma.tourPackage.findFirst({
+      where: { tenantId, slug },
+      include: { vehicles: true, itinerary: { include: { destinations: true }, orderBy: { day: "asc" } } },
+    });
+    if (!row) return (await getTourPackages()).find((p) => p.slug === slug) ?? undefined;
+    return {
+      id: row.id,
+      slug: row.slug,
+      name: row.name,
+      basePrice: row.basePrice,
+      duration: row.duration,
+      features: row.features,
+      isPopular: row.isPopular,
+      description: row.description,
+      thumbnail: row.thumbnail,
+      images: row.images,
+      touristType: row.touristType as "local" | "international",
+      vehicles: row.vehicles.map((v) => ({
+        id: v.id,
+        name: v.name,
+        capacity: v.capacity,
+        priceIncrement: v.priceIncrement,
+        image: v.image,
+        description: v.description ?? undefined,
+        features: v.features ?? [],
+        priceLabel: v.priceLabel ?? undefined,
+      })),
+      itinerary: row.itinerary.map((d) => ({
+        day: d.day,
+        title: d.title,
+        destinations: d.destinations.map((x) => ({
+          name: x.name,
+          description: x.description,
+          time: x.time,
+        })),
+      })),
+    };
+  } catch {
+    const all = await getTourPackages();
+    return all.find((p) => p.slug === slug);
+  }
 }
 
 export async function getBlogPosts(): Promise<BlogPost[]> {
@@ -88,8 +129,24 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
 }
 
 export async function getBlogPostBySlug(slug: string): Promise<BlogPost | undefined> {
-  const all = await getBlogPosts();
-  return all.find((b) => b.slug === slug);
+  try {
+    const tenantId = await getTenantFromHeaders();
+    const row = await prisma.blogPost.findFirst({
+      where: { tenantId, slug },
+    });
+    if (!row) return (await getBlogPosts()).find((b) => b.slug === slug) ?? undefined;
+    return {
+      slug: row.slug,
+      title: row.title,
+      excerpt: row.excerpt,
+      date: row.date.toISOString().split("T")[0],
+      coverImage: row.coverImage,
+      content: row.contentMd,
+    };
+  } catch {
+    const all = await getBlogPosts();
+    return all.find((b) => b.slug === slug);
+  }
 }
 
 export async function getTouristSpots(): Promise<TouristSpot[]> {

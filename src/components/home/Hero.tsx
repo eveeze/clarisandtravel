@@ -8,43 +8,57 @@ import Button from "@/components/Button";
 const ease = [0.22, 1, 0.36, 1] as const;
 
 export default function Hero() {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const imgY = useTransform(scrollYProgress, [0, 1], [0, 100]);
-  const fade = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+  const imgY = useTransform(scrollYProgress, [0, 1], [0, 120]);
+  const fade = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
 
   return (
-    <section ref={ref} className="relative min-h-screen overflow-hidden bg-paper">
+    <section ref={ref} className="relative min-h-screen overflow-hidden bg-volcanic-900">
+      {/* Full-bleed background */}
+      <motion.div style={{ y: imgY, scale }} className="absolute inset-0">
+        <Image
+          src="/images/borobudur.jpg"
+          alt="Borobudur, Yogyakarta"
+          fill
+          priority
+          className="object-cover object-[center_35%] opacity-60"
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-volcanic-950/60 via-volcanic-900/30 to-volcanic-950" />
+      </motion.div>
+
+      {/* Editorial content — full bleed */}
       <motion.div
         style={{ opacity: fade }}
-        className="relative z-10 grid grid-cols-1 lg:grid-cols-2 items-center min-h-screen px-6 lg:px-12 max-w-7xl mx-auto"
+        className="relative z-10 flex min-h-screen items-end px-6 pb-24 pt-40 lg:px-12"
       >
-        {/* Text */}
-        <div className="py-28 lg:py-0">
+        <div className="mx-auto w-full max-w-[1400px]">
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease }}
-            className="mb-5 text-xs font-semibold uppercase tracking-[0.35em] text-gold-600"
+            className="mb-6 text-xs font-semibold uppercase tracking-[0.35em] text-gold-300"
           >
-            Tour & Travel Yogyakarta
+            Tour &amp; Travel Yogyakarta
           </motion.p>
 
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.15, ease }}
-            className="font-display text-6xl md:text-7xl lg:text-8xl leading-[0.95] tracking-tight text-ink-900"
+            className="max-w-5xl font-display text-6xl font-normal leading-[0.95] tracking-tight text-sand-50 md:text-8xl lg:text-[9rem]"
           >
             Jelajahi
-            <span className="block italic text-gold-600">Yogyakarta</span>
+            <span className="block italic text-gold-400">Yogyakarta</span>
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3, ease }}
-            className="mt-7 max-w-md text-lg leading-relaxed text-ink-500"
+            className="mt-8 max-w-lg text-lg leading-relaxed text-sand-100/90"
           >
             Tur budaya, candi megah, dan hidden gems — ditemani pemandu lokal yang bikin perjalananmu terasa seperti
             teman lama.
@@ -56,38 +70,30 @@ export default function Hero() {
             transition={{ duration: 0.7, delay: 0.45, ease }}
             className="mt-10 flex flex-wrap gap-4"
           >
-            <Button href="/tours-pricing">Lihat Paket Tour</Button>
-            <Button href="/tourist-destination" variant="ghost">
+            <Button href="/tours-pricing" variant="onDark">
+              Lihat Paket Tour
+            </Button>
+            <Button href="/tourist-destination" variant="onDarkGhost">
               Jelajah Destinasi
             </Button>
           </motion.div>
         </div>
+      </motion.div>
 
-        {/* Arch image */}
-        <motion.div style={{ y: imgY }} className="relative hidden lg:flex items-center justify-center">
-          <motion.div
-            initial={{ clipPath: "inset(0 100% 0 0)" }}
-            animate={{ clipPath: "inset(0 0% 0 0)" }}
-            transition={{ duration: 1.2, delay: 0.3, ease }}
-            className="relative w-[26rem] h-[36rem]"
-            style={{
-              borderTopLeftRadius: "13rem",
-              borderTopRightRadius: "13rem",
-              overflow: "hidden",
-              border: "1px solid rgba(200,150,44,0.4)",
-            }}
-          >
-            <Image
-              src="/images/borobudur.jpg"
-              alt="Borobudur, Yogyakarta"
-              fill
-              priority
-              className="object-cover object-[center_30%]"
-              sizes="416px"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-ink-900/20 to-transparent" />
-          </motion.div>
-        </motion.div>
+      {/* Scroll hint */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2, duration: 1 }}
+        style={{ opacity: fade }}
+        className="absolute bottom-8 right-6 z-10 hidden lg:block"
+      >
+        <span className="text-xs uppercase tracking-[0.3em] text-sand-100/60">Scroll</span>
+        <motion.div
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          className="mt-2 h-12 w-px bg-gold-400/60"
+        />
       </motion.div>
     </section>
   );
