@@ -8,7 +8,7 @@ html {
 
 body {
   background: #fafaf7;
-  color: #14191a;
+  color: #201c18;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -81,7 +81,7 @@ body {
 .prose-blog h2,
 .prose-blog h3 {
   font-family: "Instrument Serif", serif;
-  color: #14191a;
+  color: #201c18;
   margin: 1.6em 0 0.6em;
   font-weight: 400;
   letter-spacing: -0.01em;
